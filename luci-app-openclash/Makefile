@@ -2,7 +2,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=luci-app-openclash
 PKG_VERSION:=0.38.4
-PKG_RELEASE:=beta
+PKG_RELEASE:=beta-xiaoqingfengMod
 PKG_MAINTAINER:=vernesong <https://github.com/vernesong/OpenClash>
 
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)
@@ -12,9 +12,9 @@ include $(INCLUDE_DIR)/package.mk
 define Package/$(PKG_NAME)
 	CATEGORY:=LuCI
 	SUBMENU:=3. Applications
-	TITLE:=LuCI support for clash
-	PKGARCH:=all
-	DEPENDS:=+iptables +dnsmasq-full +coreutils +coreutils-nohup +bash +curl +jsonfilter +ca-certificates +ipset +ip-full +iptables-mod-tproxy
+	TITLE:=Clash luci for HomeLede firmware.
+	PKGARCH:=x86_64
+	DEPENDS:=@TARGET_x86_64 +iptables +dnsmasq-full +coreutils +coreutils-nohup +bash +curl +jsonfilter +ca-certificates +ipset +ip-full +iptables-mod-tproxy
 	MAINTAINER:=vernesong
 endef
 
@@ -202,8 +202,12 @@ endef
 
 define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/i18n
+	$(INSTALL_DIR) $(1)/etc/openclash/core
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/*.*.lmo $(1)/usr/lib/lua/luci/i18n/
 	$(CP) $(PKG_BUILD_DIR)/files/* $(1)/
+	$(INSTALL_BIN) $(CURDIR)/x86_64/core/clash $(1)/etc/openclash/core/
+	$(INSTALL_BIN) $(CURDIR)/x86_64/core/clash_game $(1)/etc/openclash/core/
+	$(INSTALL_BIN) $(CURDIR)/x86_64/core/clash_tun $(1)/etc/openclash/core/
 endef
 
 $(eval $(call BuildPackage,$(PKG_NAME)))

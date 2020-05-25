@@ -20,6 +20,21 @@ if [ "$2" != 0 ]; then
    PayPal=$(uci get openclash.config.PayPal 2>/dev/null)
    Domestic=$(uci get openclash.config.Domestic 2>/dev/null)
    Others=$(uci get openclash.config.Others 2>/dev/null)
+
+   CNSites=$(uci get openclash.config.CNSites 2>/dev/null)
+   CNSitesMedia=$(uci get openclash.config.CNSitesMedia 2>/dev/null)
+   CNSitesMediaNeteaseMusic=$(uci get openclash.config.CNSitesMediaNeteaseMusic 2>/dev/null)
+   CNSitesApple=$(uci get openclash.config.CNSitesApple 2>/dev/null)
+   OverseasSitesApple=$(uci get openclash.config.OverseasSitesApple 2>/dev/null)
+   OverseasSitesSteam=$(uci get openclash.config.OverseasSitesSteam 2>/dev/null)
+   OverseasSitesMicrosoft=$(uci get openclash.config.OverseasSitesMicrosoft 2>/dev/null)
+   OverseasSitesPayPal=$(uci get openclash.config.OverseasSitesPayPal 2>/dev/null)
+   OverseasSitesSpeedtest=$(uci get openclash.config.OverseasSitesSpeedtest 2>/dev/null)
+   OverseasSitesMediaNetflix=$(uci get openclash.config.OverseasSitesMediaNetflix 2>/dev/null)
+   OverseasSitesMedia=$(uci get openclash.config.OverseasSitesMedia 2>/dev/null)
+   OverseasSitesBlocked=$(uci get openclash.config.OverseasSitesBlocked 2>/dev/null)
+   DefaultRoute=$(uci get openclash.config.DefaultRoute 2>/dev/null)
+
    if [ "$2" = "ConnersHua_return" ]; then
 	    if [ -z "$(grep "$Proxy" /tmp/Proxy_Group)" ]\
 	 || [ -z "$(grep "$Others" /tmp/Proxy_Group)" ];then
@@ -56,6 +71,23 @@ if [ "$2" != 0 ]; then
          echo "${1} Warning: Because of The Different Porxy-Group's Name, Stop Setting The Other Rules!" >>/tmp/openclash.log
          exit 0
        fi
+   elif [ "$2" = "homeclash" ]; then
+       if [ -z "$(grep "$CNSites" /tmp/Proxy_Group)" ]\
+	 || [ -z "$(grep "$CNSitesMedia" /tmp/Proxy_Group)" ]\
+	 || [ -z "$(grep "$CNSitesMediaNeteaseMusic" /tmp/Proxy_Group)" ]\
+	 || [ -z "$(grep "$CNSitesApple" /tmp/Proxy_Group)" ]\
+	 || [ -z "$(grep "$OverseasSitesApple" /tmp/Proxy_Group)" ]\
+	 || [ -z "$(grep "$OverseasSitesSteam" /tmp/Proxy_Group)" ]\
+	 || [ -z "$(grep "$OverseasSitesMicrosoft" /tmp/Proxy_Group)" ]\
+	 || [ -z "$(grep "$OverseasSitesPayPal" /tmp/Proxy_Group)" ]\
+	 || [ -z "$(grep "$OverseasSitesSpeedtest" /tmp/Proxy_Group)" ]\
+	 || [ -z "$(grep "$OverseasSitesMediaNetflix" /tmp/Proxy_Group)" ]\
+   || [ -z "$(grep "$OverseasSitesMedia" /tmp/Proxy_Group)" ]\
+   || [ -z "$(grep "$OverseasSitesBlocked" /tmp/Proxy_Group)" ]\
+   || [ -z "$(grep "$DefaultRoute" /tmp/Proxy_Group)" ]; then
+         echo "${1} Warning: Because of The Different Porxy-Group's Name, Stop Setting The Other Rules!" >>/tmp/openclash.log
+         exit 0
+       fi
    fi
    if [ "$Proxy" = "读取错误，配置文件异常！" ]; then
       echo "${1} Warning: Can not Get The Porxy-Group's Name, Stop Setting The Other Rules!" >>/tmp/openclash.log
@@ -65,7 +97,7 @@ if [ "$2" != 0 ]; then
     [ "$rulesource" != "$2" ] && {
        check_def=1
     	}
-    
+
     [ "$check_def" -ne 1 ] && {
     	grep "^##updated$" /etc/openclash/"$2".yaml 1>/dev/null
     	[ "$?" -eq "0" ] && {
@@ -162,6 +194,8 @@ if [ "$2" != 0 ]; then
             -e "s/,DIRECT$/,${Domestic}#d/g" -e "/rules:/a\##Domestic:${Domestic}"\
             -e "s/,Final$/,${Others}#d/g" -e "/rules:/a\##Others:${Others}"\
             -e "s/#d//g" "$4"
+       elif [ "$2" = "homeclash" ]; then
+            cat /etc/openclash/homeclash.yaml >> "$4"
        else
             sed -i '/^rules:/,$d' "$4"
             cat /etc/openclash/ConnersHua_return.yaml >> "$4"
@@ -194,7 +228,7 @@ fi
       sed -i '/- DOMAIN-KEYWORD,tracker,DIRECT/d' "$4" 2>/dev/null
       sed -i '/- DOMAIN-KEYWORD,announce,DIRECT/d' "$4" 2>/dev/null
       sed -i '/- DOMAIN-KEYWORD,torrent,DIRECT/d' "$4" 2>/dev/null
-      
+
       if [ -z "$(grep '^ \{0,\}- IP-CIDR,198.18.0.1/16,REJECT,no-resolve' "$4")" ] && [ "$6" = "fake-ip" ]; then
          if [ ! -z "$(grep "^ \{0,\}- IP-CIDR,198.18.0.1/16" "$4")" ]; then
             sed -i "/^ \{0,\}- IP-CIDR,198.18.0.1\/16/c\- IP-CIDR,198.18.0.1\/16,REJECT,no-resolve" "$4" 2>/dev/null
@@ -204,7 +238,7 @@ fi
             || sed -i '1,/^ \{0,\}- FINAL/{/^ \{0,\}- FINAL/s/^ \{0,\}- FINAL/- IP-CIDR,198.18.0.1\/16,REJECT,no-resolve\n&/}' "$4" 2>/dev/null
          fi
       fi
-      
+
       if [ "$7" = 1 ]; then
          sed -i '1,/^ \{0,\}- GEOIP/{/^ \{0,\}- GEOIP/s/^ \{0,\}- GEOIP/- DOMAIN-KEYWORD,tracker,DIRECT\n&/}' "$4" 2>/dev/null\
          || sed -i '1,/^ \{0,\}- MATCH/{/^ \{0,\}- MATCH/s/^ \{0,\}- MATCH/- DOMAIN-KEYWORD,tracker,DIRECT\n&/}' "$4" 2>/dev/null\
@@ -224,7 +258,7 @@ fi
             sed -i "s/###- FINAL,/- FINAL,/" "$4" 2>/dev/null
          fi
       fi
-      
+
       if [ "$3" = 1 ]; then
          sed -i '/^rules:/a\##Custom Rules End##' "$4" 2>/dev/null
          sed -i '/^rules:/a\##Custom Rules##' "$4" 2>/dev/null
@@ -235,7 +269,7 @@ fi
          sed -i '/^##Custom Rules 2##/a\##Custom Rules 2 End##' "$4" 2>/dev/null
          sed -i '/^##Custom Rules 2##/r/etc/openclash/custom/openclash_custom_rules_2.list' "$4" 2>/dev/null
       fi
-      
+
       if [ "$5" = 1 ] || [ "$3" = 1 ] || [ "$7" = 1 ] || [ -z "$(grep '- IP-CIDR,198.18.0.1/16,REJECT,no-resolve' "$4")" ]; then
          sed -i "s/^ \{0,\}-/-/" "$4" 2>/dev/null #修改参数空格
          sed -i "s/^\t\{0,\}-/-/" "$4" 2>/dev/null #修改参数tab

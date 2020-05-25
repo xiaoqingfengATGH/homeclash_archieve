@@ -162,9 +162,4 @@ o.write = function()
   SYS.call("/etc/init.d/openclash stop >/dev/null 2>&1 &")
 end
 
-d = Map("openclash")
-d.title = translate("Technical Support")
-d.pageaction = false
-d:section(SimpleSection).template  = "openclash/developer"
-
-return m, form, s, ap, d
+return m, form, s, ap

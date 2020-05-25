@@ -59,6 +59,10 @@ local function mode()
 	return luci.sys.exec("uci get openclash.config.en_mode 2>/dev/null")
 end
 
+local function homeclash()
+	return os.date("%Y-%m-%d %H:%M:%S",fs.mtime("/etc/openclash/homeclash.yaml"))
+end
+
 local function ipdb()
 	return os.date("%Y-%m-%d %H:%M:%S",fs.mtime("/etc/openclash/Country.mmdb"))
 end
@@ -231,6 +235,7 @@ end
 function action_state()
 	luci.http.prepare_content("application/json")
 	luci.http.write_json({
+		homeclash = homeclash(),
 		lhie1 = lhie1(),
 		ConnersHua = ConnersHua(),
 		ConnersHua_return = ConnersHua_return(),

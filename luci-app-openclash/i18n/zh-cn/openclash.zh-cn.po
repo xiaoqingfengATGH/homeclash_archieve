@@ -3,10 +3,10 @@
 "Language: zh_CN\n"
 
 msgid "OpenClash"
-msgstr "OpenClash"
+msgstr "HomeClash"
 
 msgid "A Clash Client For OpenWrt"
-msgstr "一个运行在OpenWrt上的Clash客户端，兼容Shadowsocks、Vmess、Trojan、Snell等协议，根据灵活的规则配置实现策略代理"
+msgstr "一款为HomeLede定制的Clash客户端，基于OpenClash构建。全能策略代理，兼容Shadowsocks、Vmess、Trojan、Snell等协议。"
 
 msgid "Global Settings(Will Modify The Config File Or Subscribe According To The Settings On This Page)"
 msgstr "全局设置（将按照本页设置自动修改配置文件和获取订阅）"
@@ -378,6 +378,9 @@ msgstr "选择并启用第三方规则后将覆盖配置文件内的所有规则
 
 msgid "Disable Other Rules"
 msgstr "不使用第三方规则"
+
+msgid "HomeClash Rules"
+msgstr "HomeClash 规则"
 
 msgid "lhie1 Rules"
 msgstr "lhie1 规则"
@@ -760,7 +763,7 @@ msgid "Edit Proxy-Provider"
 msgstr "编辑代理集配置"
 
 msgid "Provider Type"
-msgstr "代理集类型
+msgstr "代理集类型"
 
 msgid "Choose The Provider Type"
 msgstr "选择代理集的类型"
