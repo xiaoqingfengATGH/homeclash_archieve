@@ -24,7 +24,7 @@ o = a:option(Button, "Apply")
 o.inputtitle = translate("Back Configurations")
 o.inputstyle = "apply"
 o.write = function()
-  HTTP.redirect(DISP.build_url("admin", "services", "openclash", "game-settings"))
+  HTTP.redirect(DISP.build_url("admin", "vpn", "openclash", "game-settings"))
 end
 
 if not NXFS.access("/tmp/rules_name") then
@@ -83,7 +83,7 @@ Button.render(e,t,a)
 end
 btnrm.write=function(a,t)
 fs.unlink("/etc/openclash/game_rules/"..e[t].filename)
-HTTP.redirect(DISP.build_url("admin", "services", "openclash", "game-rules-manage"))
+HTTP.redirect(DISP.build_url("admin", "vpn", "openclash", "game-rules-manage"))
 end
 
 return m, form

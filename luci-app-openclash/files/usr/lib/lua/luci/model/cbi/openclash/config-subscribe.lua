@@ -140,7 +140,7 @@ o.write = function()
 			end
 		end)
   SYS.call("/usr/share/openclash/openclash.sh >/dev/null 2>&1 &")
-  HTTP.redirect(DISP.build_url("admin", "services", "openclash"))
+  HTTP.redirect(DISP.build_url("admin", "vpn", "openclash"))
 end
 
 return m

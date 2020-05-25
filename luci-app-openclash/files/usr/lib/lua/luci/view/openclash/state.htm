@@ -33,7 +33,7 @@
 	var lhie1 = document.getElementById('_lhie1');
 	var ConnersHua = document.getElementById('_ConnersHua');
 	var ConnersHua_return = document.getElementById('_ConnersHua_return');
-	XHR.get('<%=luci.dispatcher.build_url("admin", "services", "openclash", "state")%>', null, function(x, status) {
+	XHR.get('<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "state")%>', null, function(x, status) {
 		if ( x && x.status == 200 ) {
 			homeclash.innerHTML = status.homeclash ? "<b><font color=green>"+status.homeclash+"</font></b>" : "<b><font color=red>"+"<%:File Not Exist%>"+"</font></b>";
 			ipdb.innerHTML = status.ipdb ? "<b><font color=green>"+status.ipdb+"</font></b>" : "<b><font color=red>"+"<%:File Not Exist%>"+"</font></b>";
@@ -42,7 +42,7 @@
 			ConnersHua_return.innerHTML = status.ConnersHua_return ? "<b><font color=green>"+status.ConnersHua_return+"</font></b>" : "<b><font color=red>"+"<%:File Not Exist%>"+"</font></b>";
 		}
 	});
-	XHR.poll(10, '<%=luci.dispatcher.build_url("admin", "services", "openclash", "state")%>', null, function(x, status) {
+	XHR.poll(10, '<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "state")%>', null, function(x, status) {
 		if ( x && x.status == 200 ) {
 			ipdb.innerHTML = status.ipdb ? "<b><font color=green>"+status.ipdb+"</font></b>" : "<b><font color=red>"+"<%:File Not Exist%>"+"</font></b>";
 			lhie1.innerHTML = status.lhie1 ? "<b><font color=green>"+status.lhie1+"</font></b>" : "<b><font color=red>"+"<%:File Not Exist%>"+"</font></b>";

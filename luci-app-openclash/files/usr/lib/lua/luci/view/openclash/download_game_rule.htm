@@ -5,7 +5,7 @@
 	{
 		btn.disabled = true;
 		btn.value    = '<%:正在下载规则...%> ';
-		XHR.get('<%=luci.dispatcher.build_url("admin", "services", "openclash","download_game_rule")%>',
+		XHR.get('<%=luci.dispatcher.build_url("admin", "vpn", "openclash","download_game_rule")%>',
 			{
 				filename: filename
 			},

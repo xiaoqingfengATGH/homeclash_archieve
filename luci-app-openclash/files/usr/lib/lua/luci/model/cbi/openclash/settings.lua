@@ -87,7 +87,7 @@ o.inputtitle = translate("Switch Mode")
 o.inputstyle = "reload"
 o.write = function()
 	m.uci:commit("openclash")
-  HTTP.redirect(DISP.build_url("admin", "services", "openclash", "settings"))
+  HTTP.redirect(DISP.build_url("admin", "vpn", "openclash", "settings"))
 end
 
 ---- General Settings
@@ -193,7 +193,7 @@ o.write = function()
   m.uci:set("openclash", "config", "enable", 1)
   m.uci:commit("openclash")
   SYS.call("/usr/share/openclash/openclash_fake_filter.sh >/dev/null 2>&1 && /etc/init.d/openclash restart >/dev/null 2>&1 &")
-  HTTP.redirect(DISP.build_url("admin", "services", "openclash"))
+  HTTP.redirect(DISP.build_url("admin", "vpn", "openclash"))
 end
 
 custom_fake_black = s:taboption("dns", Value, "custom_fake_filter")
@@ -398,7 +398,7 @@ end
 --  m.uci:set("openclash", "config", "enable", 1)
 --  m.uci:commit("openclash")
 --  SYS.call("/usr/share/openclash/openclash_rule.sh >/dev/null 2>&1 &")
---  HTTP.redirect(DISP.build_url("admin", "services", "openclash"))
+--  HTTP.redirect(DISP.build_url("admin", "vpn", "openclash"))
 --end
 
 o = s:taboption("geo_update", ListValue, "geo_auto_update", translate("Auto Update"))
@@ -432,7 +432,7 @@ o.write = function()
   m.uci:set("openclash", "config", "enable", 1)
   m.uci:commit("openclash")
   SYS.call("/usr/share/openclash/openclash_ipdb.sh >/dev/null 2>&1 &")
-  HTTP.redirect(DISP.build_url("admin", "services", "openclash"))
+  HTTP.redirect(DISP.build_url("admin", "vpn", "openclash"))
 end
 
 ---- Dashboard Settings
@@ -621,7 +621,7 @@ o.write = function()
   m.uci:set("openclash", "config", "enable", 1)
   m.uci:commit("openclash")
   SYS.call("/etc/init.d/openclash restart >/dev/null 2>&1 &")
-  HTTP.redirect(DISP.build_url("admin", "services", "openclash"))
+  HTTP.redirect(DISP.build_url("admin", "vpn", "openclash"))
 end
 return m
 

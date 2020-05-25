@@ -113,7 +113,7 @@ o = rmg:option(Button, "rule_mg")
 o.inputtitle = translate("Game Rules Manage")
 o.inputstyle = "reload"
 o.write = function()
-  HTTP.redirect(DISP.build_url("admin", "services", "openclash", "game-rules-manage"))
+  HTTP.redirect(DISP.build_url("admin", "vpn", "openclash", "game-rules-manage"))
 end
 
 local t = {
@@ -136,7 +136,7 @@ o.write = function()
   m.uci:set("openclash", "config", "enable", 1)
   m.uci:commit("openclash")
   SYS.call("/etc/init.d/openclash restart >/dev/null 2>&1 &")
-  HTTP.redirect(DISP.build_url("admin", "services", "openclash"))
+  HTTP.redirect(DISP.build_url("admin", "vpn", "openclash"))
 end
 
 return m

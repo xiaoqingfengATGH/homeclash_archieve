@@ -32,7 +32,7 @@
 	var dapo = document.getElementById('_dapo');
 	var clashversion = document.getElementById('_clashversion');
 
-	XHR.poll(5, '<%=luci.dispatcher.build_url("admin", "services", "openclash", "status")%>', null, function(x, status) {
+	XHR.poll(5, '<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "status")%>', null, function(x, status) {
 		if ( x && x.status == 200 ) {
 			clash.innerHTML = status.clash ? '<b><font color=green><%:RUNNING%></font></b>' : '<b><font color=red><%:NOT RUNNING%></font></b>';
 			if ( status.mode == "fake-ip\n" )
@@ -78,7 +78,7 @@
 	  
 	  function ycad_dashboard(btn)
     {
-        XHR.get('<%=luci.dispatcher.build_url("admin", "services", "openclash", "status")%>', status.cn_port, function(x, status) {
+        XHR.get('<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "status")%>', status.cn_port, function(x, status) {
         btn.disabled = true;
         btn.value    = '<%:打开控制面板%>';
         url1='<%="http://'+window.location.hostname+status.uh_port+'/luci-static/openclash?hostname='+ status.daip + '&port=' + status.cn_port + '&secret=' + status.dase +'"%>';
@@ -88,7 +88,7 @@
     }
     function net_dashboard(btn)
     {
-        XHR.get('<%=luci.dispatcher.build_url("admin", "services", "openclash", "status")%>', status.cn_port, function(x, status) {
+        XHR.get('<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "status")%>', status.cn_port, function(x, status) {
         btn.disabled = true;
         btn.value    = '<%:打开控制面板%>';
         url2='http://'+window.location.hostname+':'+status.cn_port+'/ui';
@@ -122,7 +122,7 @@
     }
     
 
-	  XHR.get('<%=luci.dispatcher.build_url("admin", "services", "openclash", "currentversion")%>', status.currentversion, function(x, status) {
+	  XHR.get('<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "currentversion")%>', status.currentversion, function(x, status) {
 	     if ( x && x.status == 200 ) {
 	        clashversion.innerHTML = '<img id="currenntver" src="'+status.currentversion+'" alt="currentversion" width="200px" onload="return clashversion_check()" onclick="return go_update()">';
 	     }
@@ -130,7 +130,7 @@
 
     function clashversion_check()
     {
-    XHR.get('<%=luci.dispatcher.build_url("admin", "services", "openclash", "lastversion")%>', status.lastversion, function(x, status) {
+    XHR.get('<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "lastversion")%>', status.lastversion, function(x, status) {
        if ( x && x.status == 200 ) {
           if ( status.lastversion != "\n" && status.lastversion != "" )
           {
@@ -142,7 +142,7 @@
 
     function clashversion_error()
     {
-       XHR.get('<%=luci.dispatcher.build_url("admin", "services", "openclash", "currentversion")%>', status.currentversion, function(x, status) {
+       XHR.get('<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "currentversion")%>', status.currentversion, function(x, status) {
 	        if ( x && x.status == 200 ) {
              clashversion.innerHTML = '<img id="currenntver" src="'+status.currentversion+'" alt="currentversion" width="200px" onclick="return go_update()">';
 	        }
@@ -162,7 +162,7 @@
     }
     
 	var startlog = document.getElementById('_clashstart');
-	XHR.poll(6, '<%=luci.dispatcher.build_url("admin", "services", "openclash", "startlog")%>', status.startlog, function(x, status) {
+	XHR.poll(6, '<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "startlog")%>', status.startlog, function(x, status) {
 	  if ( x && x.status == 200 ) {
 		   if ( status.startlog == "\n" || status.startlog == "" ) {
           var rdmdl=Math.floor(Math.random()*12)+1;
@@ -217,7 +217,7 @@
        }
 	  }
 	});
-	XHR.poll(1, '<%=luci.dispatcher.build_url("admin", "services", "openclash", "startlog")%>', status.startlog, function(x, status) {
+	XHR.poll(1, '<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "startlog")%>', status.startlog, function(x, status) {
 	  if ( x && x.status == 200 ) {
 		   if ( status.startlog != "\n" && status.startlog != "" ) {
 	     startlog.innerHTML = '<b><font color="green">'+status.startlog+'</font></b>';
