@@ -1,7 +1,7 @@
 #!/bin/bash /etc/rc.common
 # Copyright (c) 2019 vernesong
 
-START=99
+START=17
 STOP=15
 
 LOGTIME=$(date "+%Y-%m-%d %H:%M:%S")
