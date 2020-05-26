@@ -50,7 +50,7 @@ s.anonymous = true
 s.addremove = true
 s.sortable = true
 s.template = "cbi/tblsection"
-s.extedit = luci.dispatcher.build_url("admin/services/openclash/groups-config/%s")
+s.extedit = luci.dispatcher.build_url("admin/vpn/openclash/groups-config/%s")
 function s.create(...)
 	local sid = TypedSection.create(...)
 	if sid then
@@ -80,7 +80,7 @@ s.anonymous = true
 s.addremove = true
 s.sortable = true
 s.template = "cbi/tblsection"
-s.extedit = luci.dispatcher.build_url("admin/services/openclash/proxy-provider-config/%s")
+s.extedit = luci.dispatcher.build_url("admin/vpn/openclash/proxy-provider-config/%s")
 function s.create(...)
 	local sid = TypedSection.create(...)
 	if sid then
@@ -117,7 +117,7 @@ s.anonymous = true
 s.addremove = true
 s.sortable = true
 s.template = "cbi/tblsection"
-s.extedit = luci.dispatcher.build_url("admin/services/openclash/servers-config/%s")
+s.extedit = luci.dispatcher.build_url("admin/vpn/openclash/servers-config/%s")
 function s.create(...)
 	local sid = TypedSection.create(...)
 	if sid then

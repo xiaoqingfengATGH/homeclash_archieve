@@ -23,14 +23,7 @@ external-ui: "/usr/share/openclash/dashboard"
 secret: "123456"
 
 hosts:
-##Custom HOSTS##
-#  experimental hosts, support wildcard (e.g. *.clash.dev Even *.foo.*.example.com)
-#  static domain has a higher priority than wildcard domain (foo.example.com > *.example.com)
-#  NOTE: hosts don't work with `fake-ip`
 
-#  '*.clash.dev': 127.0.0.1
-#  'alpha.clash.dev': '::1'
-##Custom HOSTS END##
 dns:
   enable: true
   ipv6: false
@@ -47,20 +40,8 @@ dns:
       
 #===================== OpenClash-General-Settings =====================#
 proxies: 
-- name: "FAKE_PROXY_PLEASE_DELETE_IT"
-  type: socks5
-  server: 172.17.0.2
-  port: 3129
-  skip-cert-verify: true
-  udp: true
 
 proxy-groups:
-- name: "auto"
-  type: fallback
-  proxies:
-    - FAKE_PROXY_PLEASE_DELETE_IT
-  url: 'http://www.gstatic.com/generate_204'
-  interval: 300
       
 rules: 
 - MATCH,DIRECT
