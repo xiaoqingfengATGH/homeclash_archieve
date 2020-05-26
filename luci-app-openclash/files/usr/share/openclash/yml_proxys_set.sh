@@ -1013,6 +1013,31 @@ EOF
   - CNSites
   - DIRECT
   - Proxy
+EOF
+  cat /tmp/Proxy_Server >>$SERVER_FILE 2>/dev/null
+  if [ -f "/tmp/Proxy_Provider" ]; then
+    cat >>"$SERVER_FILE" <<-EOF
+  use:
+EOF
+  fi
+  cat /tmp/Proxy_Provider >>$SERVER_FILE 2>/dev/null
+  cat >>"$SERVER_FILE" <<-EOF
+# 大陆站点-谷歌中国
+- name: CNSitesGoogle
+  type: select
+  proxies:
+  - CNSites
+  - DIRECT
+  - Proxy
+EOF
+  cat /tmp/Proxy_Server >>$SERVER_FILE 2>/dev/null
+  if [ -f "/tmp/Proxy_Provider" ]; then
+    cat >>"$SERVER_FILE" <<-EOF
+  use:
+EOF
+  fi
+  cat /tmp/Proxy_Provider >>$SERVER_FILE 2>/dev/null
+  cat >>"$SERVER_FILE" <<-EOF
 # 海外站点-苹果
 - name: OverseasSitesApple
   type: select
@@ -1148,6 +1173,7 @@ EOF
   ${UCI_SET}CNSitesMedia="CNSitesMedia"
   ${UCI_SET}CNSitesMediaNeteaseMusic="CNSitesMediaNeteaseMusic"
   ${UCI_SET}CNSitesApple="CNSitesApple"
+  ${UCI_SET}CNSitesGoogle="CNSitesGoogle"
   ${UCI_SET}OverseasSitesApple="OverseasSitesApple"
   ${UCI_SET}OverseasSitesSteam="OverseasSitesSteam"
   ${UCI_SET}OverseasSitesMicrosoft="OverseasSitesMicrosoft"
@@ -1168,6 +1194,7 @@ EOF
     ${UCI_DEL_LIST}="CNSitesMedia" >/dev/null 2>&1 && ${UCI_ADD_LIST}="CNSitesMedia" >/dev/null 2>&1
     ${UCI_DEL_LIST}="CNSitesMediaNeteaseMusic" >/dev/null 2>&1 && ${UCI_ADD_LIST}="CNSitesMediaNeteaseMusic" >/dev/null 2>&1
     ${UCI_DEL_LIST}="CNSitesApple" >/dev/null 2>&1 && ${UCI_ADD_LIST}="CNSitesApple" >/dev/null 2>&1
+	${UCI_DEL_LIST}="CNSitesGoogle" >/dev/null 2>&1 && ${UCI_ADD_LIST}="CNSitesGoogle" >/dev/null 2>&1
     ${UCI_DEL_LIST}="OverseasSitesSteam" >/dev/null 2>&1 && ${UCI_ADD_LIST}="OverseasSitesSteam" >/dev/null 2>&1
     ${UCI_DEL_LIST}="OverseasSitesMicrosoft" >/dev/null 2>&1 && ${UCI_ADD_LIST}="OverseasSitesMicrosoft" >/dev/null 2>&1
     ${UCI_DEL_LIST}="OverseasSitesPayPal" >/dev/null 2>&1 && ${UCI_ADD_LIST}="OverseasSitesPayPal" >/dev/null 2>&1

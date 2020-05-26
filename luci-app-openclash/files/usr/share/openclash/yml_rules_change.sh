@@ -25,6 +25,7 @@ if [ "$2" != 0 ]; then
    CNSitesMedia=$(uci get openclash.config.CNSitesMedia 2>/dev/null)
    CNSitesMediaNeteaseMusic=$(uci get openclash.config.CNSitesMediaNeteaseMusic 2>/dev/null)
    CNSitesApple=$(uci get openclash.config.CNSitesApple 2>/dev/null)
+   CNSitesGoogle=$(uci get openclash.config.CNSitesGoogle 2>/dev/null)
    OverseasSitesApple=$(uci get openclash.config.OverseasSitesApple 2>/dev/null)
    OverseasSitesSteam=$(uci get openclash.config.OverseasSitesSteam 2>/dev/null)
    OverseasSitesMicrosoft=$(uci get openclash.config.OverseasSitesMicrosoft 2>/dev/null)
@@ -76,6 +77,7 @@ if [ "$2" != 0 ]; then
 	 || [ -z "$(grep "$CNSitesMedia" /tmp/Proxy_Group)" ]\
 	 || [ -z "$(grep "$CNSitesMediaNeteaseMusic" /tmp/Proxy_Group)" ]\
 	 || [ -z "$(grep "$CNSitesApple" /tmp/Proxy_Group)" ]\
+	 || [ -z "$(grep "$CNSitesGoogle" /tmp/Proxy_Group)" ]\
 	 || [ -z "$(grep "$OverseasSitesApple" /tmp/Proxy_Group)" ]\
 	 || [ -z "$(grep "$OverseasSitesSteam" /tmp/Proxy_Group)" ]\
 	 || [ -z "$(grep "$OverseasSitesMicrosoft" /tmp/Proxy_Group)" ]\
