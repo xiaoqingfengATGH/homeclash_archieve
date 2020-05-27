@@ -51,6 +51,14 @@ del_cron()
 
 change_dns() {
    if [ "$1" -ne "0" ]; then
+	  LAST_UPSTREAM=$(uci get dhcp.@dnsmasq[-1].server)  >/dev/null 2>&1
+	  if [ ! -z "$LAST_UPSTREAM" ]; then
+		echo $LAST_UPSTREAM >> /etc/openclash/LAST_UPSTREAM
+	  fi
+	  LAST_NORESOLV=$(uci get dhcp.@dnsmasq[0].noresolv) >/dev/null 2>&1
+	  if [ ! -z "$LAST_NORESOLV" ]; then
+		echo $LAST_NORESOLV >> /etc/openclash/LAST_NORESOLV
+	  fi
       uci del dhcp.@dnsmasq[-1].server >/dev/null 2>&1
       uci add_list dhcp.@dnsmasq[0].server=127.0.0.1#"$dns_port"
       uci delete dhcp.@dnsmasq[0].resolvfile
@@ -71,13 +79,29 @@ change_dns() {
 
 revert_dns() {
    uci del_list dhcp.@dnsmasq[0].server=127.0.0.1#"$3" >/dev/null 2>&1
+   if [ -s "/etc/openclash/LAST_UPSTREAM" ]; then
+	  LAST_UPSTREAM=$(cat /etc/openclash/LAST_UPSTREAM)
+	  uci add_list dhcp.@dnsmasq[0].server=$LAST_UPSTREAM
+	  rm -rf /etc/openclash/LAST_UPSTREAM
+   fi
    [ "$1" = "1" ] && {
-   	  if [ -s "/tmp/resolv.conf.d/resolv.conf.auto" ]; then
-         uci set dhcp.@dnsmasq[0].resolvfile=/tmp/resolv.conf.d/resolv.conf.auto >/dev/null 2>&1
-      elif [ -s "/tmp/resolv.conf.auto" ]; then
-         uci set dhcp.@dnsmasq[0].resolvfile=/tmp/resolv.conf.auto >/dev/null 2>&1
+       LAST_NORESOLV=0
+       if [ -s "/etc/openclash/LAST_NORESOLV" ]; then
+	     LAST_NORESOLV=$(cat /etc/openclash/LAST_NORESOLV)
+		 rm -rf /etc/openclash/LAST_NORESOLV
       fi
-      uci set dhcp.@dnsmasq[0].noresolv=0 >/dev/null 2>&1
+	  if [ "$LAST_NORESOLV" = "0"]; then
+		  if [ -s "/tmp/resolv.conf.d/resolv.conf.auto" ]; then
+			 uci set dhcp.@dnsmasq[0].resolvfile=/tmp/resolv.conf.d/resolv.conf.auto >/dev/null 2>&1
+			 uci set dhcp.@dnsmasq[0].noresolv=0 >/dev/null 2>&1
+		  elif [ -s "/tmp/resolv.conf.auto" ]; then
+			 uci set dhcp.@dnsmasq[0].resolvfile=/tmp/resolv.conf.auto >/dev/null 2>&1
+			 uci set dhcp.@dnsmasq[0].noresolv=0 >/dev/null 2>&1
+		  fi
+	  else
+	     uci delete dhcp.@dnsmasq[0].resolvfile >/dev/null 2>&1
+		 uci set dhcp.@dnsmasq[0].noresolv=1
+	  fi
    }
    [ "$2" = "1" ] && {
       uci delete dhcp.@dnsmasq[0].cachesize >/dev/null 2>&1
