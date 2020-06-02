@@ -25,13 +25,13 @@ s:tab("op_mode", translate("Operation Mode"))
 s:tab("settings", translate("General Settings"))
 s:tab("dns", translate("DNS Setting"))
 s:tab("lan_ac", translate("Access Control"))
---if op_mode == "fake-ip" then
---s:tab("rules", translate("Rules Setting(Access Control)"))
---else
---s:tab("rules", translate("Rules Setting"))
---end
+if op_mode == "fake-ip" then
+s:tab("rules", translate("Rules Setting(Access Control)"))
+else
+s:tab("rules", translate("Rules Setting"))
+end
 s:tab("dashboard", translate("Dashboard Settings"))
---s:tab("rules_update", translate("Rules Update"))
+s:tab("rules_update", translate("Rules Update"))
 s:tab("geo_update", translate("GEOIP Update"))
 s:tab("version_update", translate("Version Update"))
 s:tab("debug", translate("Debug Logs"))
@@ -242,164 +242,165 @@ end)
 end
 
 ---- Rules Settings
---if op_mode == "fake-ip" then
---o = s:taboption("rules", ListValue, "enable_custom_clash_rules", font_red..bold_on..translate("Custom Clash Rules(Access Control)")..bold_off..font_off)
---else
---o = s:taboption("rules", ListValue, "enable_custom_clash_rules", font_red..bold_on..translate("Custom Clash Rules")..bold_off..font_off)
---end
---o.description = translate("Use Custom Rules")
---o:value("0", translate("Disable"))
---o:value("1", translate("Enable"))
---o.default = 0
---
---o = s:taboption("rules", ListValue, "rule_source", translate("Enable Other Rules"))
---o.description = translate("Use Other Rules")
---o:value("0", translate("Disable Other Rules"))
---o:value("lhie1", translate("lhie1 Rules"))
---o:value("ConnersHua", translate("ConnersHua Rules"))
---o:value("ConnersHua_return", translate("ConnersHua Return Rules"))
---
---if not fs.isfile("/tmp/Proxy_Group") then
---SYS.call("/usr/share/openclash/yml_groups_name_get.sh 2>/dev/null")
---end
---file = io.open("/tmp/Proxy_Group", "r");
---
---o = s:taboption("rules", ListValue, "GlobalTV", translate("GlobalTV"))
---o:depends("rule_source", "lhie1")
---o:depends("rule_source", "ConnersHua")
--- for l in file:lines() do
---   o:value(l)
---   end
---   file:seek("set")
---o = s:taboption("rules", ListValue, "AsianTV", translate("AsianTV"))
---o:depends("rule_source", "lhie1")
---o:depends("rule_source", "ConnersHua")
--- for l in file:lines() do
---   o:value(l)
---   end
---   file:seek("set")
---o = s:taboption("rules", ListValue, "Proxy", translate("Proxy"))
---o:depends("rule_source", "lhie1")
---o:depends("rule_source", "ConnersHua")
---o:depends("rule_source", "ConnersHua_return")
--- for l in file:lines() do
---   o:value(l)
---   end
---   file:seek("set")
---o = s:taboption("rules", ListValue, "Apple", translate("Apple"))
---o:depends("rule_source", "lhie1")
---o:depends("rule_source", "ConnersHua")
--- for l in file:lines() do
---   o:value(l)
---   end
---   file:seek("set")
---o = s:taboption("rules", ListValue, "Microsoft", translate("Microsoft"))
---o:depends("rule_source", "lhie1")
--- for l in file:lines() do
---   o:value(l)
---   end
---   file:seek("set")
---o = s:taboption("rules", ListValue, "Netflix", translate("Netflix"))
---o:depends("rule_source", "lhie1")
--- for l in file:lines() do
---   o:value(l)
---   end
---   file:seek("set")
---o = s:taboption("rules", ListValue, "Spotify", translate("Spotify"))
---o:depends("rule_source", "lhie1")
--- for l in file:lines() do
---   o:value(l)
---   end
---   file:seek("set")
---o = s:taboption("rules", ListValue, "Steam", translate("Steam"))
---o:depends("rule_source", "lhie1")
--- for l in file:lines() do
---   o:value(l)
---   end
---   file:seek("set")
---o = s:taboption("rules", ListValue, "Speedtest", translate("Speedtest"))
---o:depends("rule_source", "lhie1")
--- for l in file:lines() do
---   o:value(l)
---   end
---   file:seek("set")
---o = s:taboption("rules", ListValue, "Telegram", translate("Telegram"))
---o:depends("rule_source", "lhie1")
--- for l in file:lines() do
---   o:value(l)
---   end
---   file:seek("set")
---o = s:taboption("rules", ListValue, "PayPal", translate("PayPal"))
---o:depends("rule_source", "lhie1")
--- for l in file:lines() do
---   o:value(l)
---   end
---   file:seek("set")
---o = s:taboption("rules", ListValue, "Netease_Music", translate("Netease Music"))
---o:depends("rule_source", "lhie1")
--- for l in file:lines() do
---   o:value(l)
---   end
---   file:seek("set")
---o = s:taboption("rules", ListValue, "AdBlock", translate("AdBlock"))
---o:depends("rule_source", "lhie1")
---o:depends("rule_source", "ConnersHua")
--- for l in file:lines() do
---   o:value(l)
---   end
---   file:seek("set")
---o = s:taboption("rules", ListValue, "Domestic", translate("Domestic"))
---o:depends("rule_source", "lhie1")
---o:depends("rule_source", "ConnersHua")
--- for l in file:lines() do
---   o:value(l)
---   end
---   file:seek("set")
---o = s:taboption("rules", ListValue, "Others", translate("Others"))
---o:depends("rule_source", "lhie1")
---o:depends("rule_source", "ConnersHua")
---o:depends("rule_source", "ConnersHua_return")
---o.description = translate("Choose Proxy Group, Base On Your Servers Group in config.yaml")
--- for l in file:lines() do
---   o:value(l)
---   end
---   file:close()
+if op_mode == "fake-ip" then
+o = s:taboption("rules", ListValue, "enable_custom_clash_rules", font_red..bold_on..translate("Custom Clash Rules(Access Control)")..bold_off..font_off)
+else
+o = s:taboption("rules", ListValue, "enable_custom_clash_rules", font_red..bold_on..translate("Custom Clash Rules")..bold_off..font_off)
+end
+o.description = translate("Use Custom Rules")
+o:value("0", translate("Disable"))
+o:value("1", translate("Enable"))
+o.default = 0
+
+o = s:taboption("rules", ListValue, "rule_source", translate("Enable Other Rules"))
+o.description = translate("Use Other Rules")
+o:value("0", translate("Disable Other Rules"))
+o:value("homeclash", translate("HomeClash Rules"))
+o:value("lhie1", translate("lhie1 Rules"))
+o:value("ConnersHua", translate("ConnersHua Rules"))
+o:value("ConnersHua_return", translate("ConnersHua Return Rules"))
+
+if not fs.isfile("/tmp/Proxy_Group") then
+SYS.call("/usr/share/openclash/yml_groups_name_get.sh 2>/dev/null")
+end
+file = io.open("/tmp/Proxy_Group", "r");
+
+o = s:taboption("rules", ListValue, "GlobalTV", translate("GlobalTV"))
+o:depends("rule_source", "lhie1")
+o:depends("rule_source", "ConnersHua")
+ for l in file:lines() do
+   o:value(l)
+   end
+   file:seek("set")
+o = s:taboption("rules", ListValue, "AsianTV", translate("AsianTV"))
+o:depends("rule_source", "lhie1")
+o:depends("rule_source", "ConnersHua")
+ for l in file:lines() do
+   o:value(l)
+   end
+   file:seek("set")
+o = s:taboption("rules", ListValue, "Proxy", translate("Proxy"))
+o:depends("rule_source", "lhie1")
+o:depends("rule_source", "ConnersHua")
+o:depends("rule_source", "ConnersHua_return")
+ for l in file:lines() do
+   o:value(l)
+   end
+   file:seek("set")
+o = s:taboption("rules", ListValue, "Apple", translate("Apple"))
+o:depends("rule_source", "lhie1")
+o:depends("rule_source", "ConnersHua")
+ for l in file:lines() do
+   o:value(l)
+   end
+   file:seek("set")
+o = s:taboption("rules", ListValue, "Microsoft", translate("Microsoft"))
+o:depends("rule_source", "lhie1")
+ for l in file:lines() do
+   o:value(l)
+   end
+   file:seek("set")
+o = s:taboption("rules", ListValue, "Netflix", translate("Netflix"))
+o:depends("rule_source", "lhie1")
+ for l in file:lines() do
+   o:value(l)
+   end
+   file:seek("set")
+o = s:taboption("rules", ListValue, "Spotify", translate("Spotify"))
+o:depends("rule_source", "lhie1")
+ for l in file:lines() do
+   o:value(l)
+   end
+   file:seek("set")
+o = s:taboption("rules", ListValue, "Steam", translate("Steam"))
+o:depends("rule_source", "lhie1")
+ for l in file:lines() do
+   o:value(l)
+   end
+   file:seek("set")
+o = s:taboption("rules", ListValue, "Speedtest", translate("Speedtest"))
+o:depends("rule_source", "lhie1")
+ for l in file:lines() do
+   o:value(l)
+   end
+   file:seek("set")
+o = s:taboption("rules", ListValue, "Telegram", translate("Telegram"))
+o:depends("rule_source", "lhie1")
+ for l in file:lines() do
+   o:value(l)
+   end
+   file:seek("set")
+o = s:taboption("rules", ListValue, "PayPal", translate("PayPal"))
+o:depends("rule_source", "lhie1")
+ for l in file:lines() do
+   o:value(l)
+   end
+   file:seek("set")
+o = s:taboption("rules", ListValue, "Netease_Music", translate("Netease Music"))
+o:depends("rule_source", "lhie1")
+ for l in file:lines() do
+   o:value(l)
+   end
+   file:seek("set")
+o = s:taboption("rules", ListValue, "AdBlock", translate("AdBlock"))
+o:depends("rule_source", "lhie1")
+o:depends("rule_source", "ConnersHua")
+ for l in file:lines() do
+   o:value(l)
+   end
+   file:seek("set")
+o = s:taboption("rules", ListValue, "Domestic", translate("Domestic"))
+o:depends("rule_source", "lhie1")
+o:depends("rule_source", "ConnersHua")
+ for l in file:lines() do
+   o:value(l)
+   end
+   file:seek("set")
+o = s:taboption("rules", ListValue, "Others", translate("Others"))
+o:depends("rule_source", "lhie1")
+o:depends("rule_source", "ConnersHua")
+o:depends("rule_source", "ConnersHua_return")
+o.description = translate("Choose Proxy Group, Base On Your Servers Group in config.yaml")
+ for l in file:lines() do
+   o:value(l)
+   end
+   file:close()
 
 ---- update Settings
---o = s:taboption("rules_update", ListValue, "other_rule_auto_update", translate("Auto Update"))
---o.description = font_red..bold_on..translate("Auto Update Other Rules")..bold_off..font_off
---o:value("0", translate("Disable"))
---o:value("1", translate("Enable"))
---o.default=0
---
---o = s:taboption("rules_update", ListValue, "other_rule_update_week_time", translate("Update Time (Every Week)"))
---o:value("*", translate("Every Day"))
---o:value("1", translate("Every Monday"))
---o:value("2", translate("Every Tuesday"))
---o:value("3", translate("Every Wednesday"))
---o:value("4", translate("Every Thursday"))
---o:value("5", translate("Every Friday"))
---o:value("6", translate("Every Saturday"))
---o:value("0", translate("Every Sunday"))
---o.default=1
---
---o = s:taboption("rules_update", ListValue, "other_rule_update_day_time", translate("Update time (every day)"))
---for t = 0,23 do
---o:value(t, t..":00")
---end
---o.default=0
---
---o = s:taboption("rules_update", Button, translate("Other Rules Update"))
---o.title = translate("Update Other Rules")
---o.inputtitle = translate("Check And Update")
---o.description = translate("Other Rules Update(Only in Use)")
---o.inputstyle = "reload"
---o.write = function()
---  m.uci:set("openclash", "config", "enable", 1)
---  m.uci:commit("openclash")
---  SYS.call("/usr/share/openclash/openclash_rule.sh >/dev/null 2>&1 &")
---  HTTP.redirect(DISP.build_url("admin", "vpn", "openclash"))
---end
+o = s:taboption("rules_update", ListValue, "other_rule_auto_update", translate("Auto Update"))
+o.description = font_red..bold_on..translate("Auto Update Other Rules")..bold_off..font_off
+o:value("0", translate("Disable"))
+o:value("1", translate("Enable"))
+o.default=0
+
+o = s:taboption("rules_update", ListValue, "other_rule_update_week_time", translate("Update Time (Every Week)"))
+o:value("*", translate("Every Day"))
+o:value("1", translate("Every Monday"))
+o:value("2", translate("Every Tuesday"))
+o:value("3", translate("Every Wednesday"))
+o:value("4", translate("Every Thursday"))
+o:value("5", translate("Every Friday"))
+o:value("6", translate("Every Saturday"))
+o:value("0", translate("Every Sunday"))
+o.default=1
+
+o = s:taboption("rules_update", ListValue, "other_rule_update_day_time", translate("Update time (every day)"))
+for t = 0,23 do
+o:value(t, t..":00")
+end
+o.default=0
+
+o = s:taboption("rules_update", Button, translate("Other Rules Update")) 
+o.title = translate("Update Other Rules")
+o.inputtitle = translate("Check And Update")
+o.description = translate("Other Rules Update(Only in Use)")
+o.inputstyle = "reload"
+o.write = function()
+  m.uci:set("openclash", "config", "enable", 1)
+  m.uci:commit("openclash")
+  SYS.call("/usr/share/openclash/openclash_rule.sh >/dev/null 2>&1 &")
+  HTTP.redirect(DISP.build_url("admin", "vpn", "openclash"))
+end
 
 o = s:taboption("geo_update", ListValue, "geo_auto_update", translate("Auto Update"))
 o.description = translate("Auto Update GEOIP Database")
@@ -624,5 +625,3 @@ o.write = function()
   HTTP.redirect(DISP.build_url("admin", "vpn", "openclash"))
 end
 return m
-
-
