@@ -236,6 +236,8 @@ if [ "$2" != 0 ]; then
             sed -i "s/,Final,no-resolve$/,${Others},no-resolve#d/g" "$4" 2>/dev/null
             sed -i "/rules:/a\##Others:${Others}" "$4" 2>/dev/null
             sed -i "s/#d//g" "$4" 2>/dev/null
+	   elif [ "$2" = "homeclash" ]; then
+            cat /etc/openclash/homeclash.yaml >> "$4"
        else
             sed -i '/^rules:/,$d' "$4"
             cat /etc/openclash/ConnersHua_return.yaml >> "$4"
