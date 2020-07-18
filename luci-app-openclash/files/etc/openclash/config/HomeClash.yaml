@@ -1,0 +1,47 @@
+# Copyright (c) 2018 Dreamacro
+# 本文件是用于启动Clash而预置的，仅配置了DNS分流解析，并未配置任何策略及代理服务器
+# 如有访问海外需求时，请重新配置，否则直接留用即可。
+
+port: 7890
+
+socks-port: 7891
+
+redir-port: 7892
+
+allow-lan: true
+bind-address: "*"
+
+
+mode: Direct
+
+log-level: silent
+
+external-controller: 0.0.0.0:9090
+
+external-ui: "/usr/share/openclash/dashboard"
+
+secret: "123456"
+
+hosts:
+
+dns:
+  enable: true
+  ipv6: false
+  listen: 127.0.0.1:7874
+  enhanced-mode: redir-host
+  nameserver:
+  - 127.0.0.1:6053
+  fallback:
+  - 127.0.0.1:7053
+  fallback-filter:
+    geoip: true
+    ipcidr:
+      - 240.0.0.0/4
+      
+#===================== OpenClash-General-Settings =====================#
+proxies: 
+
+proxy-groups:
+      
+rules: 
+- MATCH,DIRECT

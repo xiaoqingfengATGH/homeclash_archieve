@@ -7,36 +7,36 @@ function index()
 
 	local page
 	
-	page = entry({"admin", "services", "openclash"}, alias("admin", "services", "openclash", "client"), _("OpenClash"), 50)
+	page = entry({"admin", "vpn", "openclash"}, alias("admin", "vpn", "openclash", "client"), _("OpenClash"), 50)
 	page.dependent = true
 	page.acl_depends = { "luci-app-openclash" }
-	entry({"admin", "services", "openclash", "client"},cbi("openclash/client"),_("Overviews"), 20).leaf = true
-	entry({"admin", "services", "openclash", "status"},call("action_status")).leaf=true
-	entry({"admin", "services", "openclash", "state"},call("action_state")).leaf=true
-	entry({"admin", "services", "openclash", "startlog"},call("action_start")).leaf=true
-	entry({"admin", "services", "openclash", "currentversion"},call("action_currentversion"))
-	entry({"admin", "services", "openclash", "lastversion"},call("action_lastversion"))
-	entry({"admin", "services", "openclash", "update"},call("action_update"))
-	entry({"admin", "services", "openclash", "update_ma"},call("action_update_ma"))
-	entry({"admin", "services", "openclash", "opupdate"},call("action_opupdate"))
-	entry({"admin", "services", "openclash", "coreupdate"},call("action_coreupdate"))
-	entry({"admin", "services", "openclash", "coretunupdate"},call("action_core_tun_update"))
-	entry({"admin", "services", "openclash", "coregameupdate"},call("action_core_game_update"))
-	entry({"admin", "services", "openclash", "ping"}, call("act_ping"))
-	entry({"admin", "services", "openclash", "download_rule"}, call("action_download_rule"))
-	entry({"admin", "services", "openclash", "restore"}, call("action_restore_config"))
-	entry({"admin", "services", "openclash", "settings"},cbi("openclash/settings"),_("Global Settings"), 30).leaf = true
-	entry({"admin", "services", "openclash", "servers"},cbi("openclash/servers"),_("Severs and Groups"), 40).leaf = true
-	entry({"admin", "services", "openclash", "rule-providers-settings"},cbi("openclash/rule-providers-settings"),_("Rule Providers and Groups"), 50).leaf = true
-	entry({"admin", "services", "openclash", "game-rules-manage"},form("openclash/game-rules-manage"), nil).leaf = true
-	entry({"admin", "services", "openclash", "rule-providers-manage"},form("openclash/rule-providers-manage"), nil).leaf = true
-	entry({"admin", "services", "openclash", "config-subscribe"},cbi("openclash/config-subscribe"),_("Config Update"), 60).leaf = true
-	entry({"admin", "services", "openclash", "servers-config"},cbi("openclash/servers-config"), nil).leaf = true
-	entry({"admin", "services", "openclash", "groups-config"},cbi("openclash/groups-config"), nil).leaf = true
-	entry({"admin", "services", "openclash", "proxy-provider-config"},cbi("openclash/proxy-provider-config"), nil).leaf = true
-	entry({"admin", "services", "openclash", "rule-providers-config"},cbi("openclash/rule-providers-config"), nil).leaf = true
-	entry({"admin", "services", "openclash", "config"},form("openclash/config"),_("Config Manage"), 70).leaf = true
-	entry({"admin", "services", "openclash", "log"},cbi("openclash/log"),_("Server Logs"), 80).leaf = true
+	entry({"admin", "vpn", "openclash", "client"},cbi("openclash/client"),_("Overviews"), 20).leaf = true
+	entry({"admin", "vpn", "openclash", "status"},call("action_status")).leaf=true
+	entry({"admin", "vpn", "openclash", "state"},call("action_state")).leaf=true
+	entry({"admin", "vpn", "openclash", "startlog"},call("action_start")).leaf=true
+	entry({"admin", "vpn", "openclash", "currentversion"},call("action_currentversion"))
+	entry({"admin", "vpn", "openclash", "lastversion"},call("action_lastversion"))
+	entry({"admin", "vpn", "openclash", "update"},call("action_update"))
+	entry({"admin", "vpn", "openclash", "update_ma"},call("action_update_ma"))
+	entry({"admin", "vpn", "openclash", "opupdate"},call("action_opupdate"))
+	entry({"admin", "vpn", "openclash", "coreupdate"},call("action_coreupdate"))
+	entry({"admin", "vpn", "openclash", "coretunupdate"},call("action_core_tun_update"))
+	entry({"admin", "vpn", "openclash", "coregameupdate"},call("action_core_game_update"))
+	entry({"admin", "vpn", "openclash", "ping"}, call("act_ping"))
+	entry({"admin", "vpn", "openclash", "download_rule"}, call("action_download_rule"))
+	entry({"admin", "vpn", "openclash", "restore"}, call("action_restore_config"))
+	entry({"admin", "vpn", "openclash", "settings"},cbi("openclash/settings"),_("Global Settings"), 30).leaf = true
+	entry({"admin", "vpn", "openclash", "servers"},cbi("openclash/servers"),_("Severs and Groups"), 40).leaf = true
+	entry({"admin", "vpn", "openclash", "rule-providers-settings"},cbi("openclash/rule-providers-settings"),_("Rule Providers and Groups"), 50).leaf = true
+	entry({"admin", "vpn", "openclash", "game-rules-manage"},form("openclash/game-rules-manage"), nil).leaf = true
+	entry({"admin", "vpn", "openclash", "rule-providers-manage"},form("openclash/rule-providers-manage"), nil).leaf = true
+	entry({"admin", "vpn", "openclash", "config-subscribe"},cbi("openclash/config-subscribe"),_("Config Update"), 60).leaf = true
+	entry({"admin", "vpn", "openclash", "servers-config"},cbi("openclash/servers-config"), nil).leaf = true
+	entry({"admin", "vpn", "openclash", "groups-config"},cbi("openclash/groups-config"), nil).leaf = true
+	entry({"admin", "vpn", "openclash", "proxy-provider-config"},cbi("openclash/proxy-provider-config"), nil).leaf = true
+	entry({"admin", "vpn", "openclash", "rule-providers-config"},cbi("openclash/rule-providers-config"), nil).leaf = true
+	entry({"admin", "vpn", "openclash", "config"},form("openclash/config"),_("Config Manage"), 70).leaf = true
+	entry({"admin", "vpn", "openclash", "log"},cbi("openclash/log"),_("Server Logs"), 80).leaf = true
 
 end
 local fs = require "luci.openclash"
@@ -59,6 +59,10 @@ end
 
 local function mode()
 	return luci.sys.exec("uci get openclash.config.en_mode 2>/dev/null")
+end
+
+local function homeclash()
+	return os.date("%Y-%m-%d %H:%M:%S",fs.mtime("/etc/openclash/homeclash.yaml"))
 end
 
 local function ipdb()
@@ -232,6 +236,7 @@ end
 function action_state()
 	luci.http.prepare_content("application/json")
 	luci.http.write_json({
+		homeclash = homeclash(),
 		lhie1 = lhie1(),
 		ConnersHua = ConnersHua(),
 		ConnersHua_return = ConnersHua_return(),

@@ -213,7 +213,7 @@ btnis.write=function(a,t)
 fs.unlink("/tmp/Proxy_Group")
 luci.sys.exec(string.format('uci set openclash.config.config_path="/etc/openclash/config/%s"',e[t].name))
 uci:commit("openclash")
-HTTP.redirect(luci.dispatcher.build_url("admin", "services", "openclash", "config"))
+HTTP.redirect(luci.dispatcher.build_url("admin", "vpn", "openclash", "config"))
 end
 
 btndl = tb:option(Button,"download",translate("Download Configurations")) 
@@ -458,7 +458,7 @@ o.write = function()
   uci:set("openclash", "config", "enable", 1)
   uci:commit("openclash")
   SYS.call("/etc/init.d/openclash restart >/dev/null 2>&1 &")
-  HTTP.redirect(DISP.build_url("admin", "services", "openclash"))
+  HTTP.redirect(DISP.build_url("admin", "vpn", "openclash"))
 end
 
 return ful , form , proxy_form , rule_form , m

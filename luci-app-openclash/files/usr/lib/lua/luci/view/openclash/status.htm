@@ -9,22 +9,9 @@
 	  		   <b><%:Collecting data...%></b>
 	  		</p>
 	   </td></tr>
-	   <tr><td colspan="4" width="100%">
-     	  <p align="center">
-    	     <img id="wiki" src="https://img.shields.io/badge/Tutorials--lightgrey?logo=Wikipedia&style=social" loading="lazy" alt="Wiki" width="75px" height="20px" onerror="return imgerrorfuns(this,this.src)" onclick="return wikipage()" />
-    	     &nbsp;&nbsp;&nbsp;
-    	     <img id="star" src="https://img.shields.io/badge/Star--lightgrey?logo=github&style=social" loading="lazy" alt="star" width="50px" height="20px" onerror="return imgerrorfuns(this,this.src)" onclick="return homepage()" />
-    	     &nbsp;&nbsp;&nbsp;
-    	     <!--
-    	     <img id="telegram" src="https://img.shields.io/badge/Telegram--lightgrey?logo=Telegram&style=social" loading="lazy" alt="Telegram" onerror="return imgerrorfuns(this,this.src)" onclick="return telegrampage()" />
-    	     &nbsp;&nbsp;&nbsp;
-    	     -->
-    	     <img id="sponsor" src="https://img.shields.io/badge/Sponsor--lightgrey?logo=ko-fi&style=social" loading="lazy" alt="Sponsor" width="73px" height="20px" onerror="return imgerrorfuns(this,this.src)" onclick="return sponsorpage()" />
-        </p>
-     </td></tr>
 	  <tr><td width="100%" colspan="4">
 	  	<p align="center" id="_clashstart">
-	  		<b> Tip: OpenClash 成功启动后请耐心等待下方网站访问检查连接正常后再使用 </b>
+	  		<b> Tip: HomeClash 成功启动后请耐心等待下方网站访问检查连接正常后再使用 </b>
 	  	</p>
 	  </td></tr>
 		<tr><td width="25%"> OpenClash 主程序 </td><td  width="25%" align="left" id="_clash"><%:Collecting data...%></td><td width="25%"> 控制面板登录IP </td><td width="25%" align="left" id="_daip"><%:Collecting data...%></td></tr>
@@ -45,7 +32,7 @@
 	var dapo = document.getElementById('_dapo');
 	var clashversion = document.getElementById('_clashversion');
 
-	XHR.poll(5, '<%=luci.dispatcher.build_url("admin", "services", "openclash", "status")%>', null, function(x, status) {
+	XHR.poll(5, '<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "status")%>', null, function(x, status) {
 		if ( x && x.status == 200 ) {
 			clash.innerHTML = status.clash ? '<b><font color=green><%:RUNNING%></font></b>' : '<b><font color=red><%:NOT RUNNING%></font></b>';
 			if ( status.mode == "fake-ip\n" )
@@ -91,7 +78,7 @@
 	  
 	  function ycad_dashboard(btn)
     {
-        XHR.get('<%=luci.dispatcher.build_url("admin", "services", "openclash", "status")%>', status.cn_port, function(x, status) {
+        XHR.get('<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "status")%>', status.cn_port, function(x, status) {
         btn.disabled = true;
         btn.value    = '<%:打开控制面板%>';
         url1='<%="http://'+window.location.hostname+status.uh_port+'/luci-static/openclash?hostname='+ status.daip + '&port=' + status.cn_port + '&secret=' + status.dase +'"%>';
@@ -101,7 +88,7 @@
     }
     function net_dashboard(btn)
     {
-        XHR.get('<%=luci.dispatcher.build_url("admin", "services", "openclash", "status")%>', status.cn_port, function(x, status) {
+        XHR.get('<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "status")%>', status.cn_port, function(x, status) {
         btn.disabled = true;
         btn.value    = '<%:打开控制面板%>';
         url2='http://'+window.location.hostname+':'+status.cn_port+'/ui';
@@ -135,7 +122,7 @@
     }
     
 
-	  XHR.get('<%=luci.dispatcher.build_url("admin", "services", "openclash", "currentversion")%>', status.currentversion, function(x, status) {
+	  XHR.get('<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "currentversion")%>', status.currentversion, function(x, status) {
 	     if ( x && x.status == 200 ) {
 	        clashversion.innerHTML = '<img id="currenntver" src="'+status.currentversion+'" alt="currentversion" width="200px" onload="return clashversion_check()" onclick="return go_update()">';
 	     }
@@ -143,7 +130,7 @@
 
     function clashversion_check()
     {
-    XHR.get('<%=luci.dispatcher.build_url("admin", "services", "openclash", "lastversion")%>', status.lastversion, function(x, status) {
+    XHR.get('<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "lastversion")%>', status.lastversion, function(x, status) {
        if ( x && x.status == 200 ) {
           if ( status.lastversion != "\n" && status.lastversion != "" )
           {
@@ -155,7 +142,7 @@
 
     function clashversion_error()
     {
-       XHR.get('<%=luci.dispatcher.build_url("admin", "services", "openclash", "currentversion")%>', status.currentversion, function(x, status) {
+       XHR.get('<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "currentversion")%>', status.currentversion, function(x, status) {
 	        if ( x && x.status == 200 ) {
              clashversion.innerHTML = '<img id="currenntver" src="'+status.currentversion+'" alt="currentversion" width="200px" onclick="return go_update()">';
 	        }
@@ -175,7 +162,7 @@
     }
     
 	var startlog = document.getElementById('_clashstart');
-	XHR.poll(6, '<%=luci.dispatcher.build_url("admin", "services", "openclash", "startlog")%>', status.startlog, function(x, status) {
+	XHR.poll(6, '<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "startlog")%>', status.startlog, function(x, status) {
 	  if ( x && x.status == 200 ) {
 		   if ( status.startlog == "\n" || status.startlog == "" ) {
           var rdmdl=Math.floor(Math.random()*12)+1;
@@ -230,7 +217,7 @@
        }
 	  }
 	});
-	XHR.poll(1, '<%=luci.dispatcher.build_url("admin", "services", "openclash", "startlog")%>', status.startlog, function(x, status) {
+	XHR.poll(1, '<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "startlog")%>', status.startlog, function(x, status) {
 	  if ( x && x.status == 200 ) {
 		   if ( status.startlog != "\n" && status.startlog != "" ) {
 	     startlog.innerHTML = '<b><font color="green">'+status.startlog+'</font></b>';
