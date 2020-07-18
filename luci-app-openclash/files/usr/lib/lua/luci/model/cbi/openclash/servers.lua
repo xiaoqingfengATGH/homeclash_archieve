@@ -24,7 +24,7 @@ o.default=0
 o = s:option(ListValue, "rule_sources", translate("Choose Template For Create Config"))
 o.description = translate("Use Other Rules To Create Config")
 o:depends("create_config", 1)
-o:value("homeclash", translate("HomeClash Rules"))
+-- o:value("homeclash", translate("HomeClash Rules"))
 o:value("lhie1", translate("lhie1 Rules"))
 o:value("ConnersHua", translate("ConnersHua(Provider-type) Rules"))
 o:value("ConnersHua_return", translate("ConnersHua Return Rules"))
