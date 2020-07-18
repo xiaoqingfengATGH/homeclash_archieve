@@ -512,7 +512,7 @@ fi
 
 #一键创建配置文件
 if [ "$rule_sources" = "ConnersHua" ] && [ "$servers_if_update" != "1" ] && [ -z "$if_game_proxy" ]; then
-echo "使用ConnersHua规则创建中..." >$START_LOG
+echo "使用ConnersHua(规则集)规则创建中..." >$START_LOG
 echo "proxy-groups:" >>$SERVER_FILE
 cat >> "$SERVER_FILE" <<-EOF
 - name: Auto - UrlTest
@@ -558,17 +558,6 @@ cat >> "$SERVER_FILE" <<-EOF
   - Proxy
   - DIRECT
   - Domestic
-- name: AdBlock
-  type: select
-  proxies:
-  - REJECT
-  - DIRECT
-  - Proxy
-- name: Apple
-  type: select
-  proxies:
-  - DIRECT
-  - Proxy
 - name: AsianTV
   type: select
   proxies:
@@ -600,7 +589,6 @@ ${UCI_SET}rule_source="ConnersHua"
 ${UCI_SET}GlobalTV="GlobalTV"
 ${UCI_SET}AsianTV="AsianTV"
 ${UCI_SET}Proxy="Proxy"
-${UCI_SET}Apple="Apple"
 ${UCI_SET}AdBlock="AdBlock"
 ${UCI_SET}Domestic="Domestic"
 ${UCI_SET}Others="Others"

@@ -1,12 +1,6 @@
 #!/bin/sh
    status=$(ps|grep -c /usr/share/openclash/openclash_rule.sh)
    [ "$status" -gt 3 ] && exit 0
-   status=$(ps|grep -c /etc/init.d/openclash)
-   while ( [ "$status" -gt 1 ] )
-   do
-      sleep 5
-      status=$(ps|grep -c /etc/init.d/openclash)
-   done
    
    START_LOG="/tmp/openclash_start.log"
    LOGTIME=$(date "+%Y-%m-%d %H:%M:%S")
@@ -29,25 +23,16 @@
          sed -i '1i rules:' /tmp/rules.yaml
       elif [ "$RUlE_SOURCE" = "ConnersHua" ]; then
       	 if pidof clash >/dev/null; then
-            curl -sL --connect-timeout 10 --retry 2 -x http://$PROXY_ADDR:$HTTP_PORT -U "$PROXY_AUTH" https://raw.githubusercontent.com/ConnersHua/Profiles/master/Clash/Pro.yaml -o /tmp/rules.yaml >/dev/null 2>&1
+            curl -sL --connect-timeout 10 --retry 2 -x http://$PROXY_ADDR:$HTTP_PORT -U "$PROXY_AUTH" https://raw.githubusercontent.com/DivineEngine/Profiles/master/Clash/Global.yaml -o /tmp/rules.yaml >/dev/null 2>&1
       	 else
-            curl -sL --connect-timeout 10 --retry 2 https://raw.githubusercontent.com/ConnersHua/Profiles/master/Clash/Pro.yaml -o /tmp/rules.yaml >/dev/null 2>&1
+            curl -sL --connect-timeout 10 --retry 2 https://raw.githubusercontent.com/DivineEngine/Profiles/master/Clash/Global.yaml -o /tmp/rules.yaml >/dev/null 2>&1
          fi
-         sed -i '/^ \{0,\}# Clash for Windows/,/^ \{0,\}cfw-latency-timeout:/d' /tmp/rules.yaml 2>/dev/null
-         sed -i "/^Rule:/c\rules:" /tmp/rules.yaml 2>/dev/null
-         sed -i -n '/^rules:/,$p' /tmp/rules.yaml 2>/dev/null
+         sed -i -n '/^rule-providers:/,$p' /tmp/rules.yaml 2>/dev/null
       elif [ "$RUlE_SOURCE" = "ConnersHua_return" ]; then
       	 if pidof clash >/dev/null; then
-            curl -sL --connect-timeout 10 --retry 2 -x http://$PROXY_ADDR:$HTTP_PORT -U "$PROXY_AUTH" https://raw.githubusercontent.com/ConnersHua/Profiles/master/Clash/BacktoCN.yaml -o /tmp/rules.yaml >/dev/null 2>&1
+            curl -sL --connect-timeout 10 --retry 2 -x http://$PROXY_ADDR:$HTTP_PORT -U "$PROXY_AUTH" https://raw.githubusercontent.com/ConnersHua/Profiles/master/Clash/China.yaml -o /tmp/rules.yaml >/dev/null 2>&1
       	 else
-            curl -sL --connect-timeout 10 --retry 2 https://raw.githubusercontent.com/ConnersHua/Profiles/master/Clash/BacktoCN.yaml -o /tmp/rules.yaml >/dev/null 2>&1
-         fi
-         sed -i "/^Rule:/c\rules:" /tmp/rules.yaml 2>/dev/null && sed -i -n '/^rules:/,$p' /tmp/rules.yaml 2>/dev/null
-      elif [ "$RUlE_SOURCE" = "homeclash" ]; then
-      	 if pidof clash >/dev/null; then
-            curl -sL --connect-timeout 10 --retry 2 -x http://$PROXY_ADDR:$HTTP_PORT -U "$PROXY_AUTH" https://raw.githubusercontent.com/xiaoqingfengATGH/homeclash/master/luci-app-openclash/files/etc/openclash/homeclash.yaml -o /tmp/rules.yaml >/dev/null 2>&1
-      	 else
-            curl -sL --connect-timeout 10 --retry 2 https://raw.githubusercontent.com/xiaoqingfengATGH/homeclash/master/luci-app-openclash/files/etc/openclash/homeclash.yaml -o /tmp/rules.yaml >/dev/null 2>&1
+            curl -sL --connect-timeout 10 --retry 2 https://raw.githubusercontent.com/ConnersHua/Profiles/master/Clash/China.yaml -o /tmp/rules.yaml >/dev/null 2>&1
          fi
          sed -i -n '/^rules:/,$p' /tmp/rules.yaml 2>/dev/null
       fi
@@ -61,6 +46,12 @@
          mv /tmp/rules.yaml /etc/openclash/"$RUlE_SOURCE".yaml >/dev/null 2>&1
          sed -i '/^rules:/a\##updated' /etc/openclash/"$RUlE_SOURCE".yaml >/dev/null 2>&1
          echo "替换成功，重新加载 OpenClash 应用新规则..." >$START_LOG
+         status=$(ps |grep -v openclash_watchdog |grep -c openclash.sh)
+         while ( [ "$status" -gt 1 ] )
+         do
+            sleep 5
+            status=$(ps |grep -v openclash_watchdog |grep -c openclash.sh)
+         done
          /etc/init.d/openclash restart 2>/dev/null
          echo "${LOGTIME} Other Rules 【$RUlE_SOURCE】 Update Successful" >>$LOG_FILE
       else
@@ -83,4 +74,3 @@
       sleep 10
       echo "" >$START_LOG
    fi
-   sed ':label;N;s/\n//;b label' /etc/openclash/lhie1.yaml

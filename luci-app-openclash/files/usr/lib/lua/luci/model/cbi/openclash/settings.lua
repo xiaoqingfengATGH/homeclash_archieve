@@ -75,11 +75,11 @@ o.default = "system"
 
 o = s:taboption("op_mode", ListValue, "proxy_mode", font_red..bold_on..translate("Proxy Mode")..bold_off..font_off)
 o.description = translate("Select Proxy Mode")
-o:value("Rule", translate("Rule Proxy Mode"))
-o:value("Global", translate("Global Proxy Mode"))
-o:value("Direct", translate("Direct Proxy Mode"))
-o:value("Script", translate("Script Proxy Mode (Tun Core Only)"))
-o.default = "Rule"
+o:value("rule", translate("Rule Proxy Mode"))
+o:value("global", translate("Global Proxy Mode"))
+o:value("direct", translate("Direct Proxy Mode"))
+o:value("script", translate("Script Proxy Mode (Tun Core Only)"))
+o.default = "rule"
 
 o = s:taboption("op_mode", Button, translate("Switch Operation Mode")) 
 o.title = translate("Switch Operation Mode")
@@ -255,9 +255,9 @@ o.default = 0
 o = s:taboption("rules", ListValue, "rule_source", translate("Enable Other Rules"))
 o.description = translate("Use Other Rules")
 o:value("0", translate("Disable Other Rules"))
-o:value("homeclash", translate("HomeClash Rules"))
+---- o:value("homeclash", translate("HomeClash Rules"))
 o:value("lhie1", translate("lhie1 Rules"))
-o:value("ConnersHua", translate("ConnersHua Rules"))
+o:value("ConnersHua", translate("ConnersHua(Provider-type) Rules"))
 o:value("ConnersHua_return", translate("ConnersHua Return Rules"))
 
 if not fs.isfile("/tmp/Proxy_Group") then
@@ -289,7 +289,6 @@ o:depends("rule_source", "ConnersHua_return")
    file:seek("set")
 o = s:taboption("rules", ListValue, "Apple", translate("Apple"))
 o:depends("rule_source", "lhie1")
-o:depends("rule_source", "ConnersHua")
  for l in file:lines() do
    o:value(l)
    end
@@ -344,7 +343,6 @@ o:depends("rule_source", "lhie1")
    file:seek("set")
 o = s:taboption("rules", ListValue, "AdBlock", translate("AdBlock"))
 o:depends("rule_source", "lhie1")
-o:depends("rule_source", "ConnersHua")
  for l in file:lines() do
    o:value(l)
    end
@@ -625,3 +623,5 @@ o.write = function()
   HTTP.redirect(DISP.build_url("admin", "vpn", "openclash"))
 end
 return m
+
+

@@ -23,16 +23,18 @@ function index()
 	entry({"admin", "vpn", "openclash", "coretunupdate"},call("action_core_tun_update"))
 	entry({"admin", "vpn", "openclash", "coregameupdate"},call("action_core_game_update"))
 	entry({"admin", "vpn", "openclash", "ping"}, call("act_ping"))
-	entry({"admin", "vpn", "openclash", "download_game_rule"}, call("action_download_rule"))
+	entry({"admin", "vpn", "openclash", "download_rule"}, call("action_download_rule"))
 	entry({"admin", "vpn", "openclash", "restore"}, call("action_restore_config"))
 	entry({"admin", "vpn", "openclash", "settings"},cbi("openclash/settings"),_("Global Settings"), 30).leaf = true
 	entry({"admin", "vpn", "openclash", "servers"},cbi("openclash/servers"),_("Severs and Groups"), 40).leaf = true
-	entry({"admin", "vpn", "openclash", "game-settings"},cbi("openclash/game-settings"),_("Game Rules and Groups"), 50).leaf = true
+	entry({"admin", "vpn", "openclash", "rule-providers-settings"},cbi("openclash/rule-providers-settings"),_("Rule Providers and Groups"), 50).leaf = true
 	entry({"admin", "vpn", "openclash", "game-rules-manage"},form("openclash/game-rules-manage"), nil).leaf = true
+	entry({"admin", "vpn", "openclash", "rule-providers-manage"},form("openclash/rule-providers-manage"), nil).leaf = true
 	entry({"admin", "vpn", "openclash", "config-subscribe"},cbi("openclash/config-subscribe"),_("Config Update"), 60).leaf = true
 	entry({"admin", "vpn", "openclash", "servers-config"},cbi("openclash/servers-config"), nil).leaf = true
 	entry({"admin", "vpn", "openclash", "groups-config"},cbi("openclash/groups-config"), nil).leaf = true
 	entry({"admin", "vpn", "openclash", "proxy-provider-config"},cbi("openclash/proxy-provider-config"), nil).leaf = true
+	entry({"admin", "vpn", "openclash", "rule-providers-config"},cbi("openclash/rule-providers-config"), nil).leaf = true
 	entry({"admin", "vpn", "openclash", "config"},form("openclash/config"),_("Config Manage"), 70).leaf = true
 	entry({"admin", "vpn", "openclash", "log"},cbi("openclash/log"),_("Server Logs"), 80).leaf = true
 
@@ -204,8 +206,7 @@ end
 
 function download_rule()
 	local filename = luci.http.formvalue("filename")
-	local rule_file_dir="/etc/openclash/game_rules/" .. filename
-  local state = luci.sys.call(string.format('/usr/share/openclash/openclash_game_rule.sh "%s" >/dev/null 2>&1',filename))
+  local state = luci.sys.call(string.format('/usr/share/openclash/openclash_download_rule_list.sh "%s" >/dev/null 2>&1',filename))
   return state
 end
 
@@ -327,6 +328,6 @@ end
 function action_download_rule()
 	luci.http.prepare_content("application/json")
 	luci.http.write_json({
-		game_rule_download_status = download_rule();
+		rule_download_status = download_rule();
 	})
 end
