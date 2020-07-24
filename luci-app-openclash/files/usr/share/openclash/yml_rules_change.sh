@@ -24,9 +24,6 @@ yml_other_set()
             if [ -z "$(grep '^- IP-CIDR,198.18.0.1/16,REJECT,no-resolve' "$4")" ]; then
                sed -i '1,/^ \{0,\}- MATCH/{/^ \{0,\}- MATCH/s/^ \{0,\}- MATCH/- IP-CIDR,198.18.0.1\/16,REJECT,no-resolve\n&/}' "$4" 2>/dev/null
             fi
-            if [ -z "$(grep '^- IP-CIDR,198.18.0.1/16,REJECT,no-resolve' "$4")" ]; then
-               sed -i '1,/^ \{0,\}- FINAL/{/^ \{0,\}- FINAL/s/^ \{0,\}- FINAL/- IP-CIDR,198.18.0.1\/16,REJECT,no-resolve\n&/}' "$4" 2>/dev/null
-            fi
          fi
       fi
       
@@ -265,10 +262,10 @@ if [ "$2" != 0 ]; then
                sed -i "/rules:/a\##Proxy:${Proxy}" "/tmp/other_rule.yaml" 2>/dev/null
                sed -i "s/,China,DIRECT$/,China,${Domestic}#d/g" "/tmp/other_rule.yaml" 2>/dev/null
                sed -i "s/,China,DIRECT,no-resolve$/,China,${Domestic},no-resolve#d/g" "/tmp/other_rule.yaml" 2>/dev/null
-               sed -i "s/,ChinaIP,DIRECT$/,China,${Domestic}#d/g" "/tmp/other_rule.yaml" 2>/dev/null
-               sed -i "s/,ChinaIP,DIRECT,no-resolve$/,China,${Domestic},no-resolve#d/g" "/tmp/other_rule.yaml" 2>/dev/null
-               sed -i "s/,CN,DIRECT$/,China,${Domestic}#d/g" "/tmp/other_rule.yaml" 2>/dev/null
-               sed -i "s/,CN,DIRECT,no-resolve$/,China,${Domestic},no-resolve#d/g" "/tmp/other_rule.yaml" 2>/dev/null
+               sed -i "s/,ChinaIP,DIRECT$/,ChinaIP,${Domestic}#d/g" "/tmp/other_rule.yaml" 2>/dev/null
+               sed -i "s/,ChinaIP,DIRECT,no-resolve$/,ChinaIP,${Domestic},no-resolve#d/g" "/tmp/other_rule.yaml" 2>/dev/null
+               sed -i "s/,CN,DIRECT$/,CN,${Domestic}#d/g" "/tmp/other_rule.yaml" 2>/dev/null
+               sed -i "s/,CN,DIRECT,no-resolve$/,CN,${Domestic},no-resolve#d/g" "/tmp/other_rule.yaml" 2>/dev/null
                sed -i "/rules:/a\##Domestic:${Domestic}" "/tmp/other_rule.yaml" 2>/dev/null
                sed -i "s/,MATCH$/,${Others}#d/g" "/tmp/other_rule.yaml" 2>/dev/null
                sed -i "s/,MATCH,no-resolve$/,${Others},no-resolve#d/g" "/tmp/other_rule.yaml" 2>/dev/null
