@@ -181,12 +181,7 @@
 	  
 	function core_update(btn)
     {
-<<<<<<< HEAD
-    
-        XHR.get('<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "coreupdate")%>', null, function(x, status) {
-=======
-        XHR.get('<%=luci.dispatcher.build_url("admin", "services", "openclash", "coreupdate")%>', null, function(x, status) {
->>>>>>> master
+		XHR.get('<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "coreupdate")%>', null, function(x, status) {
         btn.value    = '<%:检查并更新%>';
         btn.disabled = false;
         return false;
@@ -195,7 +190,6 @@
     
 	function core_tun_update(btn)
     {
-    
         XHR.get('<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "coretunupdate")%>', null, function(x, status) {
         btn.value    = '<%:检查并更新%>';
         btn.disabled = false;
@@ -205,7 +199,6 @@
     
 	function core_game_update(btn)
     {
-
         XHR.get('<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "coregameupdate")%>', null, function(x, status) {
         btn.value    = '<%:检查并更新%>';
         btn.disabled = false;
