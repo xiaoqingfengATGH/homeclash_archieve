@@ -250,7 +250,7 @@ btnrm.write=function(a,t)
 	local a=fs.unlink("/etc/openclash/config/"..fs.basename(e[t].name))
 	default_config_set(fs.basename(e[t].name))
 	if a then table.remove(e,t)end
-	HTTP.redirect(DISP.build_url("admin", "services", "openclash","config"))
+	HTTP.redirect(DISP.build_url("admin", "vpn", "openclash","config"))
 end
 
 p = SimpleForm("provider_file_manage",translate("Provider File Manage"))
@@ -267,14 +267,14 @@ o = promg:option(Button, "proxy_mg")
 o.inputtitle = translate("Proxy Provider File List")
 o.inputstyle = "reload"
 o.write = function()
-  HTTP.redirect(DISP.build_url("admin", "services", "openclash", "proxy-provider-file-manage"))
+  HTTP.redirect(DISP.build_url("admin", "vpn", "openclash", "proxy-provider-file-manage"))
 end
 
 o = promg:option(Button, "rule_mg")
 o.inputtitle = translate("Rule Providers File List")
 o.inputstyle = "reload"
 o.write = function()
-  HTTP.redirect(DISP.build_url("admin", "services", "openclash", "rule-providers-file-manage"))
+  HTTP.redirect(DISP.build_url("admin", "vpn", "openclash", "rule-providers-file-manage"))
 end
 
 m = SimpleForm("openclash",translate("Config File Edit"))

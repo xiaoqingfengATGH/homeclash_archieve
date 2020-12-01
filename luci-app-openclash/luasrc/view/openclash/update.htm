@@ -31,6 +31,7 @@
 		<tr><td width="25%"><%:Update Core%></td><td width="25%" align="left" id="core_game_up"><%:Collecting data...%></td><td width="25%"><%:Download Latest Core%></td><td width="25%" align="left" id="ma_core_game_up"><%:Collecting data...%></td></tr>
 	</table>
 </fieldset>
+<!--
 <fieldset class="cbi-section">
 	<table>
 		<tr><td width="100%" colspan="4">
@@ -42,6 +43,7 @@
 	  <tr><td width="25%"><%:Update Client%></td><td width="25%" align="left" id="op_up"><%:Collecting data...%></td><td width="25%"><%:Download Latest Client%></td><td width="25%" align="left" id="ma_op_up"><%:Collecting data...%></td></tr>
 	</table>
 </fieldset>
+ -->
 <fieldset class="cbi-section">
 	<table width="100%">
 	  <tr><td width="50%" colspan="2">
@@ -68,12 +70,12 @@
 	var core_tun_lv = document.getElementById('CORE_TUN_LV');
 	var core_game_cv = document.getElementById('CORE_GAME_CV');
 	var core_game_lv = document.getElementById('CORE_GAME_LV');
-	var op_cv = document.getElementById('OP_CV');
+	//var op_cv = document.getElementById('OP_CV');
 	var op_lv = document.getElementById('OP_LV');
 	var core_up = document.getElementById('core_up');
 	var core_tun_up = document.getElementById('core_tun_up');
 	var core_game_up = document.getElementById('core_game_up');
-	var op_up = document.getElementById('op_up');
+	//var op_up = document.getElementById('op_up');
 	var update_tip = document.getElementById('update_tip');
 	var ma_core_up  = document.getElementById('ma_core_up');
 	var ma_core_tun_up  = document.getElementById('ma_core_tun_up');
@@ -82,7 +84,7 @@
 	var restore  = document.getElementById('restore');
 	var one_key_update  = document.getElementById('one_key_update');
   
-	XHR.poll(6, '<%=luci.dispatcher.build_url("admin", "services", "openclash", "update")%>', null, function(x, status) {
+	XHR.poll(6, '<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "update")%>', null, function(x, status) {
 		if ( x && x.status == 200 ) {
 		  var cpu_models = status.coremodel;
 			var arr_model = cpu_models.split(",");
@@ -165,7 +167,7 @@
       var arr_op = oplv.split(",");
       var oplvis = arr_op[0];
       var new_op = arr_op[1];
-			op_cv.innerHTML = status.opcv ? "<b><font color=green>"+status.opcv+"</font></b>" : "<b><font color=red><%:Unknown%></font></b>";
+			//op_cv.innerHTML = status.opcv ? "<b><font color=green>"+status.opcv+"</font></b>" : "<b><font color=red><%:Unknown%></font></b>";
 			if ( new_op == "2" ) {
 			   op_lv.innerHTML = "<b><font color=green>"+oplvis+"<%:<New>%></font></b>";
 			}
@@ -181,7 +183,7 @@
 	core_up.innerHTML = '<input type="button" class="cbi-button cbi-button-reload" value="<%:Check And Update%>" onclick="return core_update(this)"/>';
 	core_tun_up.innerHTML = '<input type="button" class="cbi-button cbi-button-reload" value="<%:Check And Update%>" onclick="return core_tun_update(this)"/>';
 	core_game_up.innerHTML = '<input type="button" class="cbi-button cbi-button-reload" value="<%:Check And Update%>" onclick="return core_game_update(this)"/>';
-	op_up.innerHTML = '<input type="button" class="cbi-button cbi-button-reload" value="<%:Check And Update%>" onclick="return op_update(this)"/>';
+	//op_up.innerHTML = '<input type="button" class="cbi-button cbi-button-reload" value="<%:Check And Update%>" onclick="return op_update(this)"/>';
 	ma_core_up.innerHTML = '<input type="button" class="cbi-button cbi-button-reload" value="<%:Download%>" onclick="return ma_core_update(this)"/>';
 	ma_core_tun_up.innerHTML = '<input type="button" class="cbi-button cbi-button-reload" value="<%:Download%>" onclick="return ma_core_tun_update(this)"/>';
 	ma_core_game_up.innerHTML = '<input type="button" class="cbi-button cbi-button-reload" value="<%:Download%>" onclick="return ma_core_game_update(this)"/>';
@@ -199,7 +201,7 @@
 	  
 	function core_update(btn)
     {
-        XHR.get('<%=luci.dispatcher.build_url("admin", "services", "openclash", "coreupdate")%>', null, function(x, status) {
+        XHR.get('<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "coreupdate")%>', null, function(x, status) {
         btn.value    = '<%:Check And Update%>';
         btn.disabled = false;
         return false;
@@ -208,7 +210,7 @@
     
 	function core_tun_update(btn)
     {
-        XHR.get('<%=luci.dispatcher.build_url("admin", "services", "openclash", "coretunupdate")%>', null, function(x, status) {
+        XHR.get('<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "coretunupdate")%>', null, function(x, status) {
         btn.value    = '<%:Check And Update%>';
         btn.disabled = false;
         return false;
@@ -217,7 +219,7 @@
     
 	function core_game_update(btn)
     {
-        XHR.get('<%=luci.dispatcher.build_url("admin", "services", "openclash", "coregameupdate")%>', null, function(x, status) {
+        XHR.get('<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "coregameupdate")%>', null, function(x, status) {
         btn.value    = '<%:Check And Update%>';
         btn.disabled = false;
         return false;
@@ -227,7 +229,7 @@
 	function op_update(btn)
     {
 
-        XHR.get('<%=luci.dispatcher.build_url("admin", "services", "openclash", "opupdate")%>', null, function(x, status) {
+        XHR.get('<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "opupdate")%>', null, function(x, status) {
         btn.value    = '<%:Check And Update%>';
         btn.disabled = false;
         return false;
@@ -238,7 +240,7 @@
     {
         btn.value    = '<%:Download%>';
         btn.disabled = false;
-        XHR.get('<%=luci.dispatcher.build_url("admin", "services", "openclash", "update_ma")%>', status.corever, function(x, status) {
+        XHR.get('<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "update_ma")%>', status.corever, function(x, status) {
         if ( x && x.status == 200 ) {
            if ( status.corever != "0\n" ) {
               url1='https://github.com/vernesong/OpenClash/releases/download/Clash/clash-'+status.corever+'.tar.gz';
@@ -256,7 +258,7 @@
     {
         btn.value    = '<%:Download%>';
         btn.disabled = false;
-        XHR.get('<%=luci.dispatcher.build_url("admin", "services", "openclash", "update_ma")%>', null, function(x, status) {
+        XHR.get('<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "update_ma")%>', null, function(x, status) {
         if ( x && x.status == 200 ) {
         	 var corelv = status.corelv;
            var arr_core = corelv.split(",");
@@ -280,7 +282,7 @@
     {
         btn.value    = '<%:Download%>';
         btn.disabled = false;
-        XHR.get('<%=luci.dispatcher.build_url("admin", "services", "openclash", "update_ma")%>', status.corever, function(x, status) {
+        XHR.get('<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "update_ma")%>', status.corever, function(x, status) {
         if ( x && x.status == 200 ) {
            if ( status.corever != "0\n" ) {
               url4='https://github.com/vernesong/OpenClash/releases/download/TUN/clash-'+status.corever+'.tar.gz';
@@ -298,7 +300,7 @@
     {
         btn.value    = '<%:Download%>';
         btn.disabled = false;
-        XHR.get('<%=luci.dispatcher.build_url("admin", "services", "openclash", "update_ma")%>', status.oplv, function(x, status) {
+        XHR.get('<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "update_ma")%>', status.oplv, function(x, status) {
         if ( x && x.status == 200 ) {
            var oplv = status.oplv;
            var oplvis = oplv.substring(oplv.indexOf("v") + 1,oplv.indexOf(","));
@@ -320,7 +322,7 @@
         btn.disabled = true;
         var r = confirm("<%:Are you sure want to restore the default configuration?%>")
         if (r == true) {
-        XHR.get('<%=luci.dispatcher.build_url("admin", "services", "openclash", "restore")%>', null, function(x, status) {
+        XHR.get('<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "restore")%>', null, function(x, status) {
         	if ( x && x.status == 200 ) {
         		alert('<%:Restore succeeded!%>')
         		window.location.href='<%="settings"%>';
@@ -342,10 +344,10 @@
         btn.disabled = true;
         var r = confirm("<%:Check and update all Cores and plug-ins?%>")
         if (r == true) {
-        XHR.get('<%=luci.dispatcher.build_url("admin", "services", "openclash", "one_key_update_check")%>', null, function(x, status) {
+        XHR.get('<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "one_key_update_check")%>', null, function(x, status) {
         	if ( x && x.status == 200 ) {
         		if ( status.corever != "0\n" ) {
-        			XHR.get('<%=luci.dispatcher.build_url("admin", "services", "openclash", "one_key_update")%>', null, function(x, status) {
+        			XHR.get('<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "one_key_update")%>', null, function(x, status) {
               	if ( x && x.status != 200 ) {
             			alert('<%:Check failed, Please try again later!%>')
            			}
@@ -366,7 +368,7 @@
         return false; 
     }
     
-    XHR.poll(7, '<%=luci.dispatcher.build_url("admin", "services", "openclash", "startlog")%>', status.startlog, function(x, status) {
+    XHR.poll(7, '<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "startlog")%>', status.startlog, function(x, status) {
 	  if ( x && x.status == 200 ) {
 		   if ( status.startlog == "\n" || status.startlog == "" ) {
 		      var rdmdl=Math.floor(Math.random()*2)+1;
@@ -382,7 +384,7 @@
     }
 	});
 	
-	XHR.poll(2, '<%=luci.dispatcher.build_url("admin", "services", "openclash", "startlog")%>', status.startlog, function(x, status) {
+	XHR.poll(2, '<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "startlog")%>', status.startlog, function(x, status) {
 	  if ( x && x.status == 200 ) {
 		   if ( status.startlog != "\n" && status.startlog != "" ) {
 	     update_tip.innerHTML = '<b><font color="green">'+status.startlog+'</font></b>';

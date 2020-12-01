@@ -22,7 +22,7 @@ m.description=translate("Convert Subscribe function of Online is Supported By su
 <br/>如需自定义外部配置文件(订阅转换模板)，请按照说明编写后上传至外部网络可访问的位置，并在使用时正确填写地址 \
 <br/> \
 <br/>如您有值得推荐的外部配置文件(订阅转换模板)，可以按照 /usr/share/openclash/res/sub_ini.list 的文件格式修改后提交PR")
-m.redirect = luci.dispatcher.build_url("admin/services/openclash/config-subscribe")
+m.redirect = luci.dispatcher.build_url("admin/vpn/openclash/config-subscribe")
 if m.uci:get(openclash, sid) ~= "config_subscribe" then
 	luci.http.redirect(m.redirect)
 	return

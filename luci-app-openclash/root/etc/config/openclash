@@ -4,6 +4,7 @@ config openclash 'config'
 	option mixed_port '7893'
 	option socks_port '7891'
 	option http_port '7890'
+	option dns_port '7874'
 	option enable '0'
 	option update '0'
 	option en_mode '0'
@@ -16,7 +17,7 @@ config openclash 'config'
 	option ipv6_enable '0'
 	option enable_custom_clash_rules '0'
 	option other_rule_auto_update '0'
-	option core_version '0'
+	option core_version 'linux-amd64'
 	option en_mode 'redir-host'
 	option enable_redirect_dns '1'
 	option dns_advanced_setting '0'
@@ -28,77 +29,23 @@ config openclash 'config'
 	option intranet_allowed '0'
 	option enable_udp_proxy '1'
 	option lan_ac_mode '0'
-	option operation_mode 'redir-host'
+	option operation_mode 'fake-ip'
 	option enable_rule_proxy '0'
 	option redirect_dns '0'
 	option small_flash_memory '0'
 	option interface_name '0'
+	option config_path '/etc/openclash/config/HomeClash.yaml'
 	
 config dns_servers
+	option enabled '1'
 	option group 'nameserver'
 	option type 'udp'
-	option ip '114.114.114.114'
-	option enabled '1'
+	option ip '127.0.0.1'
+	option port '6053'
 
 config dns_servers
-	option group 'nameserver'
+	option enabled '1'
 	option type 'udp'
-	option ip '119.29.29.29'
-	option enabled '1'
-
-config dns_servers
-	option group 'nameserver'
-	option type 'udp'
-	option ip '119.28.28.28'
-	option enabled '1'
-
-config dns_servers
-	option group 'nameserver'
-	option type 'udp'
-	option ip '223.5.5.5'
-	option enabled '1'
-
-config dns_servers
-	option enabled '1'
-	option group 'nameserver'
-	option ip 'doh.rixcloud.dev/dns-query'
-	option type 'https'
-
-config dns_servers
-	option type 'https'
 	option group 'fallback'
-	option enabled '1'
-	option ip 'cloudflare-dns.com/dns-query'
-
-config dns_servers
-	option group 'fallback'
-	option enabled '1'
-	option ip 'dns.google/dns-query'
-	option type 'https'
-
-config dns_servers
-	option enabled '1'
-	option group 'fallback'
-	option ip 'dns.google'
-	option port '853'
-	option type 'tls'
-
-config dns_servers
-	option enabled '1'
-	option group 'fallback'
-	option type 'https'
-	option ip '1.1.1.1/dns-query'
-
-config dns_servers
-	option enabled '1'
-	option group 'fallback'
-	option ip '1.1.1.1'
-	option port '853'
-	option type 'tls'
-
-config dns_servers
-	option enabled '1'
-	option group 'fallback'
-	option ip '8.8.8.8'
-	option port '853'
-	option type 'tls'
+	option ip '127.0.0.1'
+	option port '7053'

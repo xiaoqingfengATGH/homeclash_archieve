@@ -50,6 +50,7 @@
 	  		   <b><%:Collecting data...%></b>
 	  		</p>
 	   </td></tr>
+	   <!--
 	   <tr><td colspan="4" width="100%">
      	  <p align="center">
     	     <img id="wiki" src="https://img.shields.io/badge/Tutorials--lightgrey?logo=Wikipedia&style=social" loading="lazy" alt="Wiki" width="75px" height="20px" onerror="return imgerrorfuns(this,this.src)" onclick="return wikipage()" />
@@ -61,6 +62,7 @@
     	     <img id="sponsor" src="https://img.shields.io/badge/Sponsor--lightgrey?logo=ko-fi&style=social" loading="lazy" alt="Sponsor" width="73px" height="20px" onerror="return imgerrorfuns(this,this.src)" onclick="return sponsorpage()" />
         </p>
      </td></tr>
+	  -->
 	  <tr><td width="100%" colspan="4">
 	  	<p align="center" id="_clashstart">
 	  		<b><%:Tip: after started, please wait patiently until the connection is normal%></b>
@@ -154,7 +156,7 @@
 		}
 	}
 	
-	XHR.get('<%=luci.dispatcher.build_url("admin", "services", "openclash", "state")%>', null, function(x, status) {
+	XHR.get('<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "state")%>', null, function(x, status) {
 		if ( x && x.status == 200 ) {
 			ipdb.innerHTML = status.ipdb ? "<b><font color=green>"+status.ipdb+"</font></b>" : "<b><font color=red>"+"<%:File Not Exist%>"+"</font></b>";
 			lhie1.innerHTML = status.lhie1 ? "<b><font color=green>"+status.lhie1+"</font></b>" : "<b><font color=red>"+"<%:File Not Exist%>"+"</font></b>";
@@ -169,7 +171,7 @@
 		  }
 		}
 	});
-	XHR.poll(2, '<%=luci.dispatcher.build_url("admin", "services", "openclash", "status")%>', null, function(x, status) {
+	XHR.poll(2, '<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "status")%>', null, function(x, status) {
 		if ( x && x.status == 200 ) {
 			if ( status.restricted_mode != "1" )
 			{
@@ -227,7 +229,7 @@
 			update_geoip.innerHTML = '<input type="button" class="cbi-button cbi-button-reload" value="<%:Check GEOIP Data Update%>" onclick="return b_update_geoip(this)"/>';
 		}
 	});
-	XHR.poll(5, '<%=luci.dispatcher.build_url("admin", "services", "openclash", "state")%>', null, function(x, status) {
+	XHR.poll(5, '<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "state")%>', null, function(x, status) {
 		if ( x && x.status == 200 ) {
 			ipdb.innerHTML = status.ipdb ? "<b><font color=green>"+status.ipdb+"</font></b>" : "<b><font color=red>"+"<%:File Not Exist%>"+"</font></b>";
 			lhie1.innerHTML = status.lhie1 ? "<b><font color=green>"+status.lhie1+"</font></b>" : "<b><font color=red>"+"<%:File Not Exist%>"+"</font></b>";
@@ -256,10 +258,10 @@
         btn.disabled = true;
         var r = confirm("<%:Check and update all Cores and plug-ins?%>")
         if (r == true) {
-        XHR.get('<%=luci.dispatcher.build_url("admin", "services", "openclash", "one_key_update_check")%>', null, function(x, status) {
+        XHR.get('<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "one_key_update_check")%>', null, function(x, status) {
         	if ( x && x.status == 200 ) {
         		if ( status.corever != "0\n" ) {
-        			XHR.get('<%=luci.dispatcher.build_url("admin", "services", "openclash", "one_key_update")%>', null, function(x, status) {
+        			XHR.get('<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "one_key_update")%>', null, function(x, status) {
               	if ( x && x.status != 200 ) {
             			alert('<%:Check failed, Please try again later!%>')
            			}
@@ -283,7 +285,7 @@
     {
         btn.disabled = true;
         btn.value    = '<%:Checking...%>';
-        XHR.get('<%=luci.dispatcher.build_url("admin", "services", "openclash", "update_other_rules")%>', null, function(x, status) {
+        XHR.get('<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "update_other_rules")%>', null, function(x, status) {
         if ( x && x.status == 200 ) {
            btn.disabled = false;
            btn.value    = '<%:Check Third Party Rules Update%>';
@@ -299,7 +301,7 @@
     {
         btn.disabled = true;
         btn.value    = '<%:Checking...%>';
-        XHR.get('<%=luci.dispatcher.build_url("admin", "services", "openclash", "update_geoip")%>', null, function(x, status) {
+        XHR.get('<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "update_geoip")%>', null, function(x, status) {
         if ( x && x.status == 200 ) {
            btn.disabled = false;
            btn.value    = '<%:Check GEOIP Data Update%>';
@@ -315,7 +317,7 @@
     {
         btn.disabled = true;
         btn.value    = '<%:Checking...%>';
-        XHR.get('<%=luci.dispatcher.build_url("admin", "services", "openclash", "update_subscribe")%>', null, function(x, status) {
+        XHR.get('<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "update_subscribe")%>', null, function(x, status) {
         if ( x && x.status == 200 ) {
            btn.disabled = false;
            btn.value    = '<%:Check Config Update%>';
@@ -331,7 +333,7 @@
     {
         btn.disabled = true;
         btn.value    = '<%:Reloading...%>';
-        XHR.get('<%=luci.dispatcher.build_url("admin", "services", "openclash", "reload_firewall")%>', null, function(x, status) {
+        XHR.get('<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "reload_firewall")%>', null, function(x, status) {
         if ( x && x.status == 200 ) {
            btn.disabled = false;
            btn.value    = '<%:Reload Firewall Rules%>';
@@ -347,7 +349,7 @@
     {
         btn.disabled = true;
         btn.value    = '<%:Reloading...%>';
-        XHR.get('<%=luci.dispatcher.build_url("admin", "services", "openclash", "close_all_connection")%>', null, function(x, status) {
+        XHR.get('<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "close_all_connection")%>', null, function(x, status) {
         if ( x && x.status == 200 ) {
            btn.disabled = false;
            btn.value    = '<%:Close All Connections%>';
@@ -363,7 +365,7 @@
     {
         btn.disabled = true;
         btn.value    = '<%:Restoring...%>';
-        XHR.get('<%=luci.dispatcher.build_url("admin", "services", "openclash", "restore_history")%>', null, function(x, status) {
+        XHR.get('<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "restore_history")%>', null, function(x, status) {
         if ( x && x.status == 200 ) {
            btn.disabled = false;
            btn.value    = '<%:Restore Nodes Selection%>';
@@ -379,7 +381,7 @@
     {
         btn.disabled = true;
         btn.value    = '<%:Saving...%>';
-        XHR.get('<%=luci.dispatcher.build_url("admin", "services", "openclash", "get_history")%>', null, function(x, status) {
+        XHR.get('<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "get_history")%>', null, function(x, status) {
         if ( x && x.status == 200 ) {
            btn.disabled = false;
            btn.value    = '<%:Save Nodes Selection%>';
@@ -394,7 +396,7 @@
     
 	  function ycad_dashboard(btn)
     {
-        XHR.get('<%=luci.dispatcher.build_url("admin", "services", "openclash", "status")%>', status.cn_port, function(x, status) {
+        XHR.get('<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "status")%>', status.cn_port, function(x, status) {
         btn.disabled = true;
         btn.value    = '<%:Open Panel%>';
         url1='<%="http://'+window.location.hostname+status.uh_port+'/luci-static/openclash?hostname='+ status.daip + '&port=' + status.cn_port + '&secret=' + status.dase +'"%>';
@@ -404,7 +406,7 @@
     }
     function net_dashboard(btn)
     {
-        XHR.get('<%=luci.dispatcher.build_url("admin", "services", "openclash", "status")%>', status.cn_port, function(x, status) {
+        XHR.get('<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "status")%>', status.cn_port, function(x, status) {
         btn.disabled = true;
         btn.value    = '<%:Open Panel%>';
         url2='http://'+window.location.hostname+':'+status.cn_port+'/ui';
@@ -438,7 +440,7 @@
     }
     
 
-	  XHR.get('<%=luci.dispatcher.build_url("admin", "services", "openclash", "currentversion")%>', status.currentversion, function(x, status) {
+	  XHR.get('<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "currentversion")%>', status.currentversion, function(x, status) {
 	     if ( x && x.status == 200 ) {
 	        clashversion.innerHTML = '<img id="currenntver" src="'+status.currentversion+'" alt="currentversion" height="21px" onload="return clashversion_check()" onclick="return go_update()">';
 	     }
@@ -446,7 +448,7 @@
 
     function clashversion_check()
     {
-    XHR.get('<%=luci.dispatcher.build_url("admin", "services", "openclash", "lastversion")%>', status.lastversion, function(x, status) {
+    XHR.get('<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "lastversion")%>', status.lastversion, function(x, status) {
        if ( x && x.status == 200 ) {
           if ( status.lastversion != "\n" && status.lastversion != "" )
           {
@@ -458,7 +460,7 @@
 
     function clashversion_error()
     {
-       XHR.get('<%=luci.dispatcher.build_url("admin", "services", "openclash", "currentversion")%>', status.currentversion, function(x, status) {
+       XHR.get('<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "currentversion")%>', status.currentversion, function(x, status) {
 	        if ( x && x.status == 200 ) {
              clashversion.innerHTML = '<img id="currenntver" src="'+status.currentversion+'" alt="currentversion" height="21px" onclick="return go_update()">';
 	        }
@@ -478,7 +480,7 @@
     }
     
 	var startlog = document.getElementById('_clashstart');
-	XHR.poll(6, '<%=luci.dispatcher.build_url("admin", "services", "openclash", "startlog")%>', status.startlog, function(x, status) {
+	XHR.poll(6, '<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "startlog")%>', status.startlog, function(x, status) {
 	  if ( x && x.status == 200 ) {
 		   if ( status.startlog == "\n" || status.startlog == "" ) {
           var rdmdl=Math.floor(Math.random()*12)+1;
@@ -533,7 +535,7 @@
        }
 	  }
 	});
-	XHR.poll(1, '<%=luci.dispatcher.build_url("admin", "services", "openclash", "startlog")%>', status.startlog, function(x, status) {
+	XHR.poll(1, '<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "startlog")%>', status.startlog, function(x, status) {
 	  if ( x && x.status == 200 ) {
 		   if ( status.startlog != "\n" && status.startlog != "" ) {
 	     startlog.innerHTML = '<b><font color="green">'+status.startlog+'</font></b>';
