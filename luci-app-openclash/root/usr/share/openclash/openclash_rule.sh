@@ -56,7 +56,7 @@
       begin
       YAML.load_file('/tmp/rules.yaml');
       rescue Exception => e
-      puts '${LOGTIME} Error: Unable To Parse Updated ${RUlE_SOURCE} Rules File ' + e.message
+      puts '${LOGTIME} Error: Unable To Parse Updated ${rule_name} Rules File ' + e.message
       system 'rm -rf /tmp/rules.yaml 2>/dev/null'
       end
       " 2>/dev/null >> $LOG_FILE
@@ -108,7 +108,7 @@
    LOG_FILE="/tmp/openclash.log"
    RUlE_SOURCE=$(uci get openclash.config.rule_source 2>/dev/null)
    
-   if [ "$RUlE_SOURCE" = 0 ]; then
+   if [ "$RUlE_SOURCE" = "0" ]; then
       echo "未启用第三方规则，更新程序终止！" >$START_LOG
       echo "${LOGTIME} Other Rules Not Enable, Update Stop" >>$LOG_FILE
       sleep 5

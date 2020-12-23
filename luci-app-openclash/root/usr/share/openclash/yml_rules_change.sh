@@ -98,12 +98,14 @@ yml_other_set()
    puts '${LOGTIME} Set BT/P2P DIRECT Rules Error: ' + e.message
    end
    begin
-   if Value.has_key?('rules') and Value['rules'].to_a.grep(/(?=.*198.18)(?=.*REJECT)/).empty? then
-      ruby_add_index = Value['rules'].index(Value['rules'].grep(/(GEOIP|MATCH|FINAL)/).first)
-      ruby_add_index ||= -1
-      Value['rules']=Value['rules'].to_a.insert(ruby_add_index,'IP-CIDR,198.18.0.1/16,REJECT,no-resolve')
-   elsif not Value.has_key?('rules') then
-      Value['rules']='IP-CIDR,198.18.0.1/16,REJECT,no-resolve'
+   if Value.has_key?('rules') and not Value['rules'].to_a.empty? then
+      if Value['rules'].to_a.grep(/(?=.*198.18)(?=.*REJECT)/).empty? then
+         ruby_add_index = Value['rules'].index(Value['rules'].grep(/(GEOIP|MATCH|FINAL)/).first)
+         ruby_add_index ||= -1
+         Value['rules']=Value['rules'].to_a.insert(ruby_add_index,'IP-CIDR,198.18.0.1/16,REJECT,no-resolve')
+      end
+   else
+      Value['rules']=%w(IP-CIDR,198.18.0.1/16,REJECT,no-resolve)
    end;
    rescue Exception => e
    puts '${LOGTIME} Set 198.18.0.1/16 REJECT Rule Error: ' + e.message
@@ -147,7 +149,7 @@ yml_other_rules_get()
    config_get "Others" "$section" "Others" ""
 }
 
-if [ "$2" != 0 ]; then
+if [ "$2" != "0" ]; then
    config_load "openclash"
    config_foreach yml_other_rules_get "other_rules" "$6"
    if [ -z "$rule_name" ]; then

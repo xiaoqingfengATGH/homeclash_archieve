@@ -1425,8 +1425,5 @@ msgstr "获取策略组"
 msgid "Get Group Names After Select Config File"
 msgstr "选择配置文件后请点击以获取对应的策略组"
 
-msgid "Set Proxy Groups"
-msgstr "设置策略组（请注意：策略组信息必须与您选择的配置文件相匹配）"
-
 msgid "Other Rules Name"
 msgstr "第三方规则"
