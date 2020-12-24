@@ -59,7 +59,7 @@ config authentication
 config other_rules
 	option enable '1'
 	option rule_name 'lhie1'
-	option config 'config.yaml'
+	option config 'HomeClash.yaml'
 	option GlobalTV 'GlobalTV'
 	option AsianTV 'AsianTV'
 	option Proxy 'Proxy'
@@ -78,7 +78,7 @@ config other_rules
 	option enabled '1'
 
 config groups
-	option config 'config.yaml'
+	option config 'HomeClash.yaml'
 	option name 'Auto - UrlTest'
 	option old_name 'Auto - UrlTest'
 	option old_name_cfg 'Auto - UrlTest'
@@ -88,7 +88,7 @@ config groups
 	option tolerance '150'
 
 config groups
-	option config 'config.yaml'
+	option config 'HomeClash.yaml'
 	option name 'Proxy'
 	option old_name 'Proxy'
 	option old_name_cfg 'Proxy'
@@ -97,7 +97,7 @@ config groups
 	list other_group 'DIRECT'
 
 config groups
-	option config 'config.yaml'
+	option config 'HomeClash.yaml'
 	option name 'Domestic'
 	option old_name 'Domestic'
 	option old_name_cfg 'Domestic'
@@ -106,7 +106,7 @@ config groups
 	list other_group 'Proxy'
 
 config groups
-	option config 'config.yaml'
+	option config 'HomeClash.yaml'
 	option name 'Others'
 	option old_name 'Others'
 	option old_name_cfg 'Others'
@@ -116,7 +116,7 @@ config groups
 	list other_group 'Domestic'
 
 config groups
-	option config 'config.yaml'
+	option config 'HomeClash.yaml'
 	option name 'Apple'
 	option old_name 'Apple'
 	option old_name_cfg 'Apple'
@@ -125,7 +125,7 @@ config groups
 	list other_group 'Proxy'
 
 config groups
-	option config 'config.yaml'
+	option config 'HomeClash.yaml'
 	option name 'Microsoft'
 	option old_name 'Microsoft'
 	option old_name_cfg 'Microsoft'
@@ -134,7 +134,7 @@ config groups
 	list other_group 'Proxy'
 
 config groups
-	option config 'config.yaml'
+	option config 'HomeClash.yaml'
 	option name 'Netflix'
 	option old_name 'Netflix'
 	option old_name_cfg 'Netflix'
@@ -143,7 +143,7 @@ config groups
 	list other_group 'DIRECT'
 
 config groups
-	option config 'config.yaml'
+	option config 'HomeClash.yaml'
 	option name 'Youtube'
 	option old_name 'Youtube'
 	option old_name_cfg 'Youtube'
@@ -153,7 +153,7 @@ config groups
 	list other_group 'DIRECT'
 
 config groups
-	option config 'config.yaml'
+	option config 'HomeClash.yaml'
 	option name 'Spotify'
 	option old_name 'Spotify'
 	option old_name_cfg 'Spotify'
@@ -162,7 +162,7 @@ config groups
 	list other_group 'DIRECT'
 
 config groups
-	option config 'config.yaml'
+	option config 'HomeClash.yaml'
 	option name 'Steam'
 	option old_name 'Steam'
 	option old_name_cfg 'Steam'
@@ -171,7 +171,7 @@ config groups
 	list other_group 'Proxy'
 
 config groups
-	option config 'config.yaml'
+	option config 'HomeClash.yaml'
 	option name 'AdBlock'
 	option old_name 'AdBlock'
 	option old_name_cfg 'AdBlock'
@@ -181,7 +181,7 @@ config groups
 	list other_group 'Proxy'
 
 config groups
-	option config 'config.yaml'
+	option config 'HomeClash.yaml'
 	option name 'AsianTV'
 	option old_name 'AsianTV'
 	option old_name_cfg 'AsianTV'
@@ -190,7 +190,7 @@ config groups
 	list other_group 'Proxy'
 
 config groups
-	option config 'config.yaml'
+	option config 'HomeClash.yaml'
 	option name 'GlobalTV'
 	option old_name 'GlobalTV'
 	option old_name_cfg 'GlobalTV'
@@ -199,7 +199,7 @@ config groups
 	list other_group 'DIRECT'
 
 config groups
-	option config 'config.yaml'
+	option config 'HomeClash.yaml'
 	option name 'Speedtest'
 	option old_name 'Speedtest'
 	option old_name_cfg 'Speedtest'
@@ -208,7 +208,7 @@ config groups
 	list other_group 'DIRECT'
 
 config groups
-	option config 'config.yaml'
+	option config 'HomeClash.yaml'
 	option name 'Telegram'
 	option old_name 'Telegram'
 	option old_name_cfg 'Telegram'
@@ -217,7 +217,7 @@ config groups
 	list other_group 'DIRECT'
 
 config groups
-	option config 'config.yaml'
+	option config 'HomeClash.yaml'
 	option name 'PayPal'
 	option old_name 'PayPal'
 	option old_name_cfg 'PayPal'
@@ -228,7 +228,7 @@ config groups
 config servers
 	option enabled '1'
 	option manual '1'
-	option config 'config.yaml'
+	option config 'HomeClash.yaml'
 	option name 'beam'
 	option type 'socks5'
 	list groups 'Auto - UrlTest'
