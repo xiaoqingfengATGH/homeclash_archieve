@@ -181,7 +181,7 @@ local tt = {
 
 b = m:section(Table, tt)
 
-o = b:option(Button,"Delete_Unused_Servers")
+o = b:option(Button,"Delete_Unused_Servers", " ")
 o.inputtitle = translate("Delete Unused Servers")
 o.inputstyle = "reset"
 o.write = function()
@@ -191,7 +191,7 @@ o.write = function()
   luci.http.redirect(luci.dispatcher.build_url("admin", "vpn", "openclash", "servers"))
 end
 
-o = b:option(Button,"Delete_Servers")
+o = b:option(Button,"Delete_Servers", " ")
 o.inputtitle = translate("Delete Servers")
 o.inputstyle = "reset"
 o.write = function()
@@ -201,7 +201,7 @@ o.write = function()
   luci.http.redirect(luci.dispatcher.build_url("admin", "vpn", "openclash", "servers"))
 end
 
-o = b:option(Button,"Delete_Proxy_Provider")
+o = b:option(Button,"Delete_Proxy_Provider", " ")
 o.inputtitle = translate("Delete Proxy Provider")
 o.inputstyle = "reset"
 o.write = function()
@@ -211,7 +211,7 @@ o.write = function()
   luci.http.redirect(luci.dispatcher.build_url("admin", "vpn", "openclash", "servers"))
 end
 
-o = b:option(Button,"Delete_Groups")
+o = b:option(Button,"Delete_Groups", " ")
 o.inputtitle = translate("Delete Groups")
 o.inputstyle = "reset"
 o.write = function()
@@ -227,7 +227,7 @@ local t = {
 
 a = m:section(Table, t)
 
-o = a:option(Button,"Load_Config")
+o = a:option(Button,"Load_Config", " ")
 o.inputtitle = translate("Load Config")
 o.inputstyle = "apply"
 o.write = function()
@@ -237,7 +237,7 @@ o.write = function()
   luci.http.redirect(luci.dispatcher.build_url("admin", "vpn", "openclash"))
 end
 
-o = a:option(Button, "Commit") 
+o = a:option(Button, "Commit", " ") 
 o.inputtitle = translate("Commit Configurations")
 o.inputstyle = "apply"
 o.write = function()
@@ -246,7 +246,7 @@ o.write = function()
   m.uci:commit("openclash")
 end
 
-o = a:option(Button, "Apply")
+o = a:option(Button, "Apply", " ")
 o.inputtitle = translate("Apply Configurations")
 o.inputstyle = "apply"
 o.write = function()
