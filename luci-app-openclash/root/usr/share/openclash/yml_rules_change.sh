@@ -1,8 +1,8 @@
 #!/bin/sh
 . /lib/functions.sh
 . /usr/share/openclash/ruby.sh
+. /usr/share/openclash/log.sh
 
-/usr/share/openclash/yml_groups_name_get.sh
 LOGTIME=$(date "+%Y-%m-%d %H:%M:%S")
 LOG_FILE="/tmp/openclash.log"
 
@@ -145,7 +145,7 @@ yml_other_rules_get()
    fi
    
    if [ -n "$rule_name" ]; then
-      echo "${LOGTIME} Warrning: Multiple Other-Rules-Configurations Enabled, Ignore..." >> $LOG_FILE
+      LOG_OUT "Warrning: Multiple Other-Rules-Configurations Enabled, Ignore..."
       return
    fi
    
@@ -175,6 +175,11 @@ yml_other_rules_get()
 }
 
 if [ "$2" != "0" ]; then
+   /usr/share/openclash/yml_groups_name_get.sh
+   if [ $? -ne 0 ]; then
+      LOG_OUT "Error: Unable To Parse Config File, Please Check And Try Again!"
+      exit 0
+   fi
    config_load "openclash"
    config_foreach yml_other_rules_get "other_rules" "$6"
    if [ -z "$rule_name" ]; then
@@ -184,7 +189,7 @@ if [ "$2" != "0" ]; then
    elif [ "$rule_name" = "ConnersHua_return" ]; then
 	    if [ -z "$(grep -F "$Proxy" /tmp/Proxy_Group)" ]\
 	 || [ -z "$(grep -F "$Others" /tmp/Proxy_Group)" ];then
-         echo "${1} Warning: Because of The Different Porxy-Group's Name, Stop Setting The Other Rules!" >> $LOG_FILE
+         LOG_OUT "Warning: Because of The Different Porxy-Group's Name, Stop Setting The Other Rules!"
          yml_other_set "$1" "$2" "$3" "$4" "$5"
          exit 0
 	    fi
@@ -194,7 +199,7 @@ if [ "$2" != "0" ]; then
 	 || [ -z "$(grep -F "$Proxy" /tmp/Proxy_Group)" ]\
 	 || [ -z "$(grep -F "$Others" /tmp/Proxy_Group)" ]\
 	 || [ -z "$(grep -F "$Domestic" /tmp/Proxy_Group)" ]; then
-         echo "${1} Warning: Because of The Different Porxy-Group's Name, Stop Setting The Other Rules!" >> $LOG_FILE
+         LOG_OUT "Warning: Because of The Different Porxy-Group's Name, Stop Setting The Other Rules!"
          yml_other_set "$1" "$2" "$3" "$4" "$5"
          exit 0
        fi
@@ -220,13 +225,13 @@ if [ "$2" != "0" ]; then
    || [ -z "$(grep -F "$PayPal" /tmp/Proxy_Group)" ]\
 	 || [ -z "$(grep -F "$Others" /tmp/Proxy_Group)" ]\
 	 || [ -z "$(grep -F "$Domestic" /tmp/Proxy_Group)" ]; then
-         echo "${1} Warning: Because of The Different Porxy-Group's Name, Stop Setting The Other Rules!" >> $LOG_FILE
+         LOG_OUT "Warning: Because of The Different Porxy-Group's Name, Stop Setting The Other Rules!"
          yml_other_set "$1" "$2" "$3" "$4" "$5"
          exit 0
        fi
    fi
    if [ -z "$Proxy" ]; then
-      echo "${1} Error: Missing Porxy-Group's Name, Stop Setting The Other Rules!" >> $LOG_FILE
+      LOG_OUT "Error: Missing Porxy-Group's Name, Stop Setting The Other Rules!"
       yml_other_set "$1" "$2" "$3" "$4" "$5"
       exit 0
    else

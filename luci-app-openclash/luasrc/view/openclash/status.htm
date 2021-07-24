@@ -74,14 +74,15 @@
 		<tr><td width="25%"><%:Yacd Control Panel%></td><td width="25%" align="left" id="_web"><%:Collecting data...%></td><td width="25%"><%:Dashboard Control Panel%></td><td width="25%" align="left" id="_webo"><%:Collecting data...%></td></tr>
 		<tr><td width="100%" colspan="4"><p align="center"><img id="hid_btn" alt="Show More" height="20px" onclick="return hid_btn_action()"/></p></td></tr>
 		<tr id="hid_1"><td width="100%" colspan="4"><p align="center"><b><%:Quick Operation%></b></p></td></tr>
-    <tr id="hid_2"><td width="25%" align="center" id="_get_history"><%:Collecting data...%></td>
-    	<td width="25%" align="center" id="_restore_history"><%:Collecting data...%></td>
+    <tr id="hid_2">
     	<td width="25%" align="center" id="_close_all_connection"><%:Collecting data...%></td>
-			<td width="25%" align="center" id="_reload_firewall"><%:Collecting data...%></td></tr>
-		<tr id="hid_3"><td width="25%" align="center" id="_update_subscribe"><%:Collecting data...%></td>
+			<td width="25%" align="center" id="_reload_firewall"><%:Collecting data...%></td>
+			<td width="25%" align="center" id="_update_subscribe"><%:Collecting data...%></td>
 			<td width="25%" align="center" id="_one_key_update"><%:Collecting data...%></td>
-			<td width="25%" align="center" id="_update_other_rules"><%:Collecting data...%></td>
-			<td width="25%" align="center" id="_update_geoip"><%:Collecting data...%></td>
+			</tr>
+		<tr id="hid_3">
+			<td width="50%" colspan="2" align="center" id="_update_other_rules"><%:Collecting data...%></td>
+			<td width="50%" colspan="2" align="center" id="_update_geoip"><%:Collecting data...%></td>
 			</tr>
 </table>
 </fieldset>
@@ -108,8 +109,6 @@
 	var dapo = document.getElementById('_dapo');
 	var clashversion = document.getElementById('_clashversion');
 	var close_all_connection = document.getElementById('_close_all_connection');
-	var restore_history = document.getElementById('_restore_history');
-	var get_history = document.getElementById('_get_history');
 	var reload_firewall = document.getElementById('_reload_firewall');
 	var one_key_update = document.getElementById('_one_key_update');
 	var update_subscribe = document.getElementById('_update_subscribe');
@@ -181,35 +180,35 @@
 			{
 			   clash.innerHTML = status.clash ? '<b><font color=green><%:Running%> <%:<Limited State>%></font></b>' : '<b><font color=red><%:Not Running%></font></b>';
 			}
-			if ( status.mode == "fake-ip\n" )
+			if ( status.mode == "fake-ip" )
 			{
 			   mode.innerHTML = status.clash ? "<b><font color=green><%:Fake-IP (Enhance)%></font></b>" : '<b><font color=red><%:Not Running%></font></b>';
 			}
-			else if ( status.mode == "redir-host\n" )
+			else if ( status.mode == "redir-host" )
 			{
 			   mode.innerHTML = status.clash ? "<b><font color=green><%:Redir-Host (Compatible)%></font></b>" : '<b><font color=red><%:Not Running%></font></b>';
 			}
-			else if ( status.mode == "redir-host-tun\n" )
+			else if ( status.mode == "redir-host-tun" )
 			{
 			   mode.innerHTML = status.clash ? "<b><font color=green><%:Redir-Host (TUN)%></font></b>" : '<b><font color=red><%:Not Running%></font></b>';
 			}
-			else if ( status.mode == "fake-ip-tun\n" )
+			else if ( status.mode == "fake-ip-tun" )
 			{
 			   mode.innerHTML = status.clash ? "<b><font color=green><%:Fake-IP (TUN)%></font></b>" : '<b><font color=red><%:Not Running%></font></b>';
 			}
-			else if ( status.mode == "redir-host-vpn\n" )
+			else if ( status.mode == "redir-host-vpn" )
 			{
 			   mode.innerHTML = status.clash ? "<b><font color=green><%:Redir-Host (Game)%></font></b>" : '<b><font color=red><%:Not Running%></font></b>';
 			}
-			else if ( status.mode == "fake-ip-vpn\n" )
+			else if ( status.mode == "fake-ip-vpn" )
 			{
 			   mode.innerHTML = status.clash ? "<b><font color=green><%:Fake-IP (Game)%></font></b>" : '<b><font color=red><%:Not Running%></font></b>';
 			}
-			else if ( status.mode == "fake-ip-mix\n" )
+			else if ( status.mode == "fake-ip-mix" )
 			{
 			   mode.innerHTML = status.clash ? "<b><font color=green><%:Fake-IP (TUN-Mix)%></font></b>" : '<b><font color=red><%:Not Running%></font></b>';
 			}
-			else if ( status.mode == "redir-host-mix\n" )
+			else if ( status.mode == "redir-host-mix" )
 			{
 			   mode.innerHTML = status.clash ? "<b><font color=green><%:Redir-Host (TUN-Mix)%></font></b>" : '<b><font color=red><%:Not Running%></font></b>';
 			}
@@ -220,8 +219,6 @@
 			web.innerHTML = status.web ? '<input type="button" class="btn cbi-button cbi-button-reload" value="<%:Open Panel%>" onclick="return ycad_dashboard(this)"/>' : '<b><font color=red><%:Not Running%></font></b>';
 			webo.innerHTML = status.web ? '<input type="button" class="btn cbi-button cbi-button-reload" value="<%:Open Panel%>" onclick="return net_dashboard(this)"/>' : '<b><font color=red><%:Not Running%></font></b>';
 			close_all_connection.innerHTML = status.clash ? '<input type="button" class="btn cbi-button cbi-button-reload" value="<%:Close All Connections%>" onclick="return b_close_all_connection(this)"/>' : '<b><font color=red><%:Not Running%></font></b>';
-			restore_history.innerHTML = status.clash ? '<input type="button" class="btn cbi-button cbi-button-reload" value="<%:Restore Nodes Selection%>" onclick="return b_restore_history(this)"/>' : '<b><font color=red><%:Not Running%></font></b>';
-			get_history.innerHTML = status.clash ? '<input type="button" class="btn cbi-button cbi-button-reload" value="<%:Save Nodes Selection%>" onclick="return b_get_history(this)"/>' : '<b><font color=red><%:Not Running%></font></b>';
 			reload_firewall.innerHTML = status.clash ? '<input type="button" class="btn cbi-button cbi-button-reload" value="<%:Reload Firewall Rules%>" onclick="return b_reload_firewall(this)"/>' : '<b><font color=red><%:Not Running%></font></b>';
 			one_key_update.innerHTML = '<input type="button" class="btn cbi-button cbi-button-reload" value="<%:Check All Components Update%>" onclick="return all_one_key_update(this)"/>';
 			update_subscribe.innerHTML = '<input type="button" class="btn cbi-button cbi-button-reload" value="<%:Check Config Update%>" onclick="return b_update_subscribe(this)"/>';
@@ -260,7 +257,7 @@
         if (r == true) {
         XHR.get('<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "one_key_update_check")%>', null, function(x, status) {
         	if ( x && x.status == 200 ) {
-        		if ( status.corever != "0\n" ) {
+        		if ( status.corever != "0" ) {
         			XHR.get('<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "one_key_update")%>', null, function(x, status) {
               	if ( x && x.status != 200 ) {
             			alert('<%:Check failed, Please try again later!%>')
@@ -361,45 +358,18 @@
         return false;
         });
     }
-    function b_restore_history(btn)
-    {
-        btn.disabled = true;
-        btn.value    = '<%:Restoring...%>';
-        XHR.get('<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "restore_history")%>', null, function(x, status) {
-        if ( x && x.status == 200 ) {
-           btn.disabled = false;
-           btn.value    = '<%:Restore Nodes Selection%>';
-        }
-        else {
-        	btn.disabled = false;
-          btn.value    = '<%:Restore Nodes Selection Failed%>';
-        }
-        return false;
-        });
-    }
-    function b_get_history(btn)
-    {
-        btn.disabled = true;
-        btn.value    = '<%:Saving...%>';
-        XHR.get('<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "get_history")%>', null, function(x, status) {
-        if ( x && x.status == 200 ) {
-           btn.disabled = false;
-           btn.value    = '<%:Save Nodes Selection%>';
-        }
-        else {
-        	btn.disabled = false;
-          btn.value    = '<%:Save Nodes Selection Failed%>';
-        }
-        return false;
-        });
-    }
     
 	  function ycad_dashboard(btn)
     {
         XHR.get('<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "status")%>', status.cn_port, function(x, status) {
         btn.disabled = true;
         btn.value    = '<%:Open Panel%>';
-        url1='<%="http://'+window.location.hostname+status.uh_port+'/luci-static/openclash?hostname='+ window.location.hostname + '&port=' + (window.location.port || status.cn_port) + '&secret=' + status.dase +'"%>';
+        if (status.daip != "" && window.location.hostname == status.daip) {
+        	url1='<%="http://'+window.location.hostname+':'+window.location.port+'/luci-static/openclash?hostname='+ window.location.hostname + '&port=' + status.cn_port + '&secret=' + status.dase +'"%>';
+        }
+        else {
+        	url1='<%="http://'+window.location.hostname+':'+window.location.port+'/luci-static/openclash"%>';
+        }
         winOpen(url1);
         return false;
         });
@@ -409,7 +379,12 @@
         XHR.get('<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "status")%>', status.cn_port, function(x, status) {
         btn.disabled = true;
         btn.value    = '<%:Open Panel%>';
-        url2='<%="http://'+window.location.hostname+':'+status.cn_port+'/ui/?host='+ status.daip + '&port=' + (window.location.port || status.cn_port) + '&secret=' + status.dase +'"%>';
+        if (status.daip != "" && window.location.hostname == status.daip) {
+        	url2='<%="http://'+window.location.hostname+':'+status.cn_port+'/ui/?host='+ window.location.hostname + '&port=' + status.cn_port + '&secret=' + status.dase +'"%>';
+        }
+        else {
+        	url2='<%="http://'+window.location.hostname+':'+status.cn_port+'/ui/"%>';
+        }
         winOpen(url2);
         return false;
         });
@@ -450,7 +425,7 @@
     {
     XHR.get('<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "lastversion")%>', status.lastversion, function(x, status) {
        if ( x && x.status == 200 ) {
-          if ( status.lastversion != "\n" && status.lastversion != "" )
+          if ( status.lastversion != "" )
           {
              clashversion.innerHTML = '<img id="lastver" src="'+status.lastversion+'" alt="lastversion" onerror="return clashversion_error()" onclick="return go_update()">';
           }

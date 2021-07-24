@@ -17,20 +17,17 @@ function index()
 	entry({"admin", "vpn", "openclash", "refresh_log"},call("action_refresh_log"))
 	entry({"admin", "vpn", "openclash", "del_log"},call("action_del_log"))
 	entry({"admin", "vpn", "openclash", "close_all_connection"},call("action_close_all_connection"))
-	entry({"admin", "vpn", "openclash", "restore_history"},call("action_restore_history"))
-	entry({"admin", "vpn", "openclash", "get_history"},call("action_get_history"))
 	entry({"admin", "vpn", "openclash", "reload_firewall"},call("action_reload_firewall"))
 	entry({"admin", "vpn", "openclash", "update_subscribe"},call("action_update_subscribe"))
 	entry({"admin", "vpn", "openclash", "update_other_rules"},call("action_update_other_rules"))
 	entry({"admin", "vpn", "openclash", "update_geoip"},call("action_update_geoip"))
 	entry({"admin", "vpn", "openclash", "currentversion"},call("action_currentversion"))
 	entry({"admin", "vpn", "openclash", "lastversion"},call("action_lastversion"))
+	entry({"admin", "vpn", "openclash", "save_corever"},call("action_save_corever"))
 	entry({"admin", "vpn", "openclash", "update"},call("action_update"))
 	entry({"admin", "vpn", "openclash", "update_ma"},call("action_update_ma"))
 	entry({"admin", "vpn", "openclash", "opupdate"},call("action_opupdate"))
 	entry({"admin", "vpn", "openclash", "coreupdate"},call("action_coreupdate"))
-	entry({"admin", "vpn", "openclash", "coretunupdate"},call("action_core_tun_update"))
-	entry({"admin", "vpn", "openclash", "coregameupdate"},call("action_core_game_update"))
 	entry({"admin", "vpn", "openclash", "ping"}, call("act_ping"))
 	entry({"admin", "vpn", "openclash", "download_rule"}, call("action_download_rule"))
 	entry({"admin", "vpn", "openclash", "restore"}, call("action_restore_config"))
@@ -39,6 +36,11 @@ function index()
 	entry({"admin", "vpn", "openclash", "one_key_update_check"}, call("action_one_key_update_check"))
 	entry({"admin", "vpn", "openclash", "switch_mode"}, call("action_switch_mode"))
 	entry({"admin", "vpn", "openclash", "op_mode"}, call("action_op_mode"))
+	entry({"admin", "vpn", "openclash", "dler_info"}, call("action_dler_info"))
+	entry({"admin", "vpn", "openclash", "dler_checkin"}, call("action_dler_checkin"))
+	entry({"admin", "vpn", "openclash", "dler_logout"}, call("action_dler_logout"))
+	entry({"admin", "vpn", "openclash", "dler_login"}, call("action_dler_login"))
+	entry({"admin", "vpn", "openclash", "dler_login_info_save"}, call("action_dler_login_info_save"))
 	entry({"admin", "vpn", "openclash", "settings"},cbi("openclash/settings"),_("Global Settings"), 30).leaf = true
 	entry({"admin", "vpn", "openclash", "servers"},cbi("openclash/servers"),_("Servers and Groups"), 40).leaf = true
 	entry({"admin", "vpn", "openclash", "other-rules-edit"},cbi("openclash/other-rules-edit"), nil).leaf = true
@@ -58,8 +60,10 @@ function index()
 
 end
 local fs = require "luci.openclash"
+local json = require "luci.jsonc"
+local uci = require("luci.model.uci").cursor()
 
-local core_path_mode = luci.sys.exec("uci get openclash.config.small_flash_memory 2>/dev/null |tr -d '\n'")
+local core_path_mode = uci:get("openclash", "config", "small_flash_memory")
 if core_path_mode ~= "1" then
 	dev_core_path="/etc/openclash/core/clash"
 	tun_core_path="/etc/openclash/core/clash_tun"
@@ -79,7 +83,7 @@ local function is_web()
 end
 
 local function restricted_mode()
-	return luci.sys.exec("uci get openclash.config.restricted_mode 2>/dev/null |tr -d '\n'")
+	return uci:get("openclash", "config", "restricted_mode")
 end
 
 local function is_watchdog()
@@ -92,11 +96,11 @@ local function is_watchdog()
 end
 
 local function cn_port()
-	return luci.sys.exec("uci get openclash.config.cn_port 2>/dev/null |tr -d '\n'")
+	return uci:get("openclash", "config", "cn_port")
 end
 
 local function mode()
-	return luci.sys.exec("uci get openclash.config.en_mode 2>/dev/null")
+	return uci:get("openclash", "config", "en_mode")
 end
 
 local function ipdb()
@@ -120,22 +124,15 @@ local function chnroute()
 end
 
 local function daip()
-	local daip = luci.sys.exec("ifstatus lan 2>/dev/null |jsonfilter -e '@[\"ipv4-address\"][0].address' 2>/dev/null")
+	local daip = luci.sys.exec("uci -q get network.lan.ipaddr |awk -F '/' '{print $1}' 2>/dev/null |tr -d '\n'")
 	if not daip or daip == "" then
-		local daip = luci.sys.exec("uci get network.lan.ipaddr 2>/dev/null |awk -F '/' '{print $1}' 2>/dev/null |tr -d '\n'")
+		local daip = luci.sys.exec("ip addr show 2>/dev/null | grep -w 'inet' | grep 'global' | grep 'brd' | grep -Eo 'inet [0-9\.]+' | awk '{print $2}' | head -n 1 | tr -d '\n'")
 	end
 	return daip
 end
 
-local function uh_port()
-	local uh_port = luci.sys.exec("uci get uhttpd.main.listen_http |awk -F ':' '{print $NF}'")
-	if uh_port ~= "80" then
-		return ":" .. uh_port
-	end
-end
-
 local function dase()
-	return luci.sys.exec("uci get openclash.config.dashboard_password 2>/dev/null")
+	return uci:get("openclash", "config", "dashboard_password")
 end
 
 local function check_lastversion()
@@ -148,7 +145,24 @@ local function check_currentversion()
 end
 
 local function startlog()
-	return luci.sys.exec("sed -n '$p' /tmp/openclash_start.log 2>/dev/null")
+	local info = ""
+	if nixio.fs.access("/tmp/openclash_start.log") then
+		info = luci.sys.exec("sed -n '$p' /tmp/openclash_start.log 2>/dev/null")
+		if not string.find (info, "【") and not string.find (info, "】") then
+   		info = luci.i18n.translate(string.sub(info, 0, -1))
+   	else
+   		local a = string.find (info, "【")
+   		local b = string.find (info, "】")+2
+   		if a <= 1 then
+   			info = string.sub(info, 0, b)..luci.i18n.translate(string.sub(info, b+1, -1))
+   		elseif b < string.len(info) then
+   			info = luci.i18n.translate(string.sub(info, 0, a-1))..string.sub(info, a, b)..luci.i18n.translate(string.sub(info, b+1, -1))
+   		elseif b == string.len(info) then
+   			info = luci.i18n.translate(string.sub(info, 0, a-1))..string.sub(info, a, -1)
+   		end
+   	end
+	end
+	return info
 end
 
 local function coremodel()
@@ -209,22 +223,21 @@ local function opup()
 end
 
 local function coreup()
-   luci.sys.call("uci set openclash.config.enable=1 && uci commit openclash && rm -rf /tmp/*_last_version 2>/dev/null && sh /usr/share/openclash/clash_version.sh >/dev/null 2>&1")
-   return luci.sys.call("/usr/share/openclash/openclash_core.sh >/dev/null 2>&1 &")
-end
-
-local function coretunup()
-   luci.sys.call("uci set openclash.config.enable=1 && uci commit openclash && rm -rf /tmp/*_last_version 2>/dev/null && sh /usr/share/openclash/clash_version.sh >/dev/null 2>&1")
-   return luci.sys.call("/usr/share/openclash/openclash_core.sh 'TUN' >/dev/null 2>&1 &")
-end
-
-local function coregameup()
-   luci.sys.call("uci set openclash.config.enable=1 && uci commit openclash && rm -rf /tmp/*_last_version 2>/dev/null && sh /usr/share/openclash/clash_version.sh >/dev/null 2>&1")
-   return luci.sys.call("/usr/share/openclash/openclash_core.sh 'Game' >/dev/null 2>&1 &")
+	uci:set("openclash", "config", "enable", "1")
+	uci:commit("openclash")
+	local type = luci.http.formvalue("core_type")
+	luci.sys.call("rm -rf /tmp/*_last_version 2>/dev/null && sh /usr/share/openclash/clash_version.sh >/dev/null 2>&1")
+	return luci.sys.call(string.format("/usr/share/openclash/openclash_core.sh '%s' >/dev/null 2>&1 &", type))
 end
 
 local function corever()
-   return luci.sys.exec("uci get openclash.config.core_version 2>/dev/null")
+	return uci:get("openclash", "config", "core_version")
+end
+
+local function save_corever()
+	uci:set("openclash", "config", "core_version", luci.http.formvalue("core_ver"))
+	uci:commit("openclash")
+	return "success"
 end
 
 local function upchecktime()
@@ -243,9 +256,8 @@ local function upchecktime()
 end
 
 local function historychecktime()
-	local CONFIG_FILE = string.sub(luci.sys.exec("uci get openclash.config.config_path 2>/dev/null"), 1, -2)
-	local CONFIG_NAME = fs.basename(CONFIG_FILE)
-  local HISTORY_PATH = "/etc/openclash/history/" .. CONFIG_NAME
+	local CONFIG_FILE = uci:get("openclash", "config", "config_path")
+  local HISTORY_PATH = "/etc/openclash/history/" .. string.sub(luci.sys.exec(string.format("$(basename '%s' .yml) 2>/dev/null || $(basename '%s' .yaml) 2>/dev/null",CONFIG_FILE,CONFIG_FILE)), 1, -2)
 	if not nixio.fs.access(HISTORY_PATH) then
   	return "0"
 	else
@@ -277,6 +289,192 @@ function action_one_key_update()
   return luci.sys.call("sh /usr/share/openclash/openclash_update.sh 'one_key_update' >/dev/null 2>&1 &")
 end
 
+local function dler_login_info_save()
+	uci:set("openclash", "config", "dler_email", luci.http.formvalue("email"))
+	uci:set("openclash", "config", "dler_passwd", luci.http.formvalue("passwd"))
+	uci:set("openclash", "config", "dler_checkin", luci.http.formvalue("checkin"))
+	uci:set("openclash", "config", "dler_checkin_interval", luci.http.formvalue("interval"))
+	if tonumber(luci.http.formvalue("multiple")) > 50 then
+		uci:set("openclash", "config", "dler_checkin_multiple", "50")
+	elseif tonumber(luci.http.formvalue("multiple")) < 1 or not tonumber(luci.http.formvalue("multiple")) then
+		uci:set("openclash", "config", "dler_checkin_multiple", "1")
+	else
+		uci:set("openclash", "config", "dler_checkin_multiple", luci.http.formvalue("multiple"))
+	end
+	uci:commit("openclash")
+	return "success"
+end
+
+local function dler_login()
+	local info, token, get_sub
+	local sub_path = "/tmp/dler_sub"
+	local email = uci:get("openclash", "config", "dler_email")
+	local passwd = uci:get("openclash", "config", "dler_passwd")
+	if email and passwd then
+		info = luci.sys.exec(string.format("curl -sL -d 'email=%s' -d 'passwd=%s' -X POST https://dler.cloud/api/v1/login", email, passwd))
+		if info then
+			info = json.parse(info)
+		end
+		if info.ret == 200 then
+			token = info.data.token
+			uci:set("openclash", "config", "dler_token", token)
+			uci:commit("openclash")
+			get_sub = string.format("curl -sL -d 'access_token=%s' -X POST https://dler.cloud/api/v1/managed/clash -o %s", token, sub_path)
+			luci.sys.exec(get_sub)
+			return info.ret
+		else
+			uci:delete("openclash", "config", "dler_token")
+			uci:commit("openclash")
+			fs.unlink(sub_path)
+			fs.unlink("/tmp/dler_checkin")
+			fs.unlink("/tmp/dler_info")
+			return "402"
+		end
+	else
+		uci:delete("openclash", "config", "dler_token")
+		uci:commit("openclash")
+		fs.unlink(sub_path)
+		fs.unlink("/tmp/dler_checkin")
+		fs.unlink("/tmp/dler_info")
+		return "402"
+	end
+end
+
+local function dler_logout()
+	local info, token
+	local token = uci:get("openclash", "config", "dler_token")
+	if token then
+		info = luci.sys.exec(string.format("curl -sL -d 'access_token=%s' -X POST https://dler.cloud/api/v1/logout", token))
+		if info then
+			info = json.parse(info)
+		end
+		if info.ret == 200 then
+			uci:delete("openclash", "config", "dler_token")
+			uci:delete("openclash", "config", "dler_checkin")
+			uci:delete("openclash", "config", "dler_checkin_interval")
+			uci:delete("openclash", "config", "dler_checkin_multiple")
+			uci:commit("openclash")
+			fs.unlink("/tmp/dler_sub")
+			fs.unlink("/tmp/dler_checkin")
+			fs.unlink("/tmp/dler_info")
+			return info.ret
+		else
+			return "403"
+		end
+	else
+		return "403"
+	end
+end
+
+local function dler_info()
+	local info, path, get_info
+	local token = uci:get("openclash", "config", "dler_token")
+	local email = uci:get("openclash", "config", "dler_email")
+	local passwd = uci:get("openclash", "config", "dler_passwd")
+	path = "/tmp/dler_info"
+	if token and email and passwd then
+		get_info = string.format("curl -sL -d 'email=%s' -d 'passwd=%s' -X POST https://dler.cloud/api/v1/information -o %s", email, passwd, path)
+		if not nixio.fs.access(path) then
+			luci.sys.exec(get_info)
+		else
+			if fs.readfile(path) == "" or not fs.readfile(path) then
+				luci.sys.exec(get_info)
+			else
+				if (os.time() - fs.mtime(path) > 900) then
+					luci.sys.exec(get_info)
+				end
+			end
+		end
+		info = fs.readfile(path)
+		if info then
+			info = json.parse(info)
+		end
+		if info.ret == 200 then
+			return info.data
+		else
+			fs.unlink(path)
+			luci.sys.exec(string.format("echo -e %s Dler Cloud Account Login Failed! Please Check And Try Again... >> /tmp/openclash.log", os.date("%Y-%m-%d %H:%M:%S")))
+			return "errorget"
+		end
+	else
+		return "error"
+	end
+end
+
+local function dler_checkin()
+	local info
+	local path = "/tmp/dler_checkin"
+	local token = uci:get("openclash", "config", "dler_token")
+	local email = uci:get("openclash", "config", "dler_email")
+	local passwd = uci:get("openclash", "config", "dler_passwd")
+	local multiple = uci:get("openclash", "config", "dler_checkin_multiple") or 1
+	if token and email and passwd then
+		info = luci.sys.exec(string.format("curl -sL -d 'email=%s' -d 'passwd=%s' -d 'multiple=%s' -X POST https://dler.cloud/api/v1/checkin", email, passwd, multiple))
+		if info then
+			info = json.parse(info)
+		end
+		if info.ret == 200 then
+			fs.unlink("/tmp/dler_info")
+			fs.writefile(path, info)
+			luci.sys.exec(string.format("echo -e %s Dler Cloud Checkin Successful, Result:【%s】 >> /tmp/openclash.log", os.date("%Y-%m-%d %H:%M:%S"), info.data.checkin))
+			return info
+		else
+			if info.msg then
+				luci.sys.exec(string.format("echo -e %s Dler Cloud Checkin Failed, Result:【%s】 >> /tmp/openclash.log", os.date("%Y-%m-%d %H:%M:%S"), info.msg))
+			else
+				luci.sys.exec(string.format("echo -e %s Dler Cloud Checkin Failed! Please Check And Try Again... >> /tmp/openclash.log",os.date("%Y-%m-%d %H:%M:%S")))
+			end
+			return info
+		end
+	else
+		return "error"
+	end
+end
+
+
+function action_save_corever()
+	luci.http.prepare_content("application/json")
+	luci.http.write_json({
+		save_corever = save_corever();
+	})
+end
+
+function action_dler_login_info_save()
+	luci.http.prepare_content("application/json")
+	luci.http.write_json({
+		dler_login_info_save = dler_login_info_save();
+	})
+end
+
+function action_dler_info()
+	luci.http.prepare_content("application/json")
+	luci.http.write_json({
+		dler_info = dler_info();
+	})
+end
+
+function action_dler_checkin()
+	luci.http.prepare_content("application/json")
+	luci.http.write_json({
+		dler_checkin = dler_checkin();
+	})
+end
+
+function action_dler_logout()
+	luci.http.prepare_content("application/json")
+	luci.http.write_json({
+		dler_logout = dler_logout();
+	})
+end
+
+function action_dler_login()
+	luci.http.prepare_content("application/json")
+	luci.http.write_json({
+		dler_login = dler_login();
+	})
+end
+
+
 function action_one_key_update_check()
 	luci.sys.call("rm -rf /tmp/*_last_version 2>/dev/null")
 	luci.http.prepare_content("application/json")
@@ -288,7 +486,7 @@ function action_one_key_update_check()
 end
 
 function action_op_mode()
-	local op_mode = luci.sys.exec("uci get openclash.config.operation_mode 2>/dev/null |tr -d '\n'")
+	local op_mode = uci:get("openclash", "config", "operation_mode")
 	luci.http.prepare_content("application/json")
 	luci.http.write_json({
 	  op_mode = op_mode;
@@ -296,11 +494,13 @@ function action_op_mode()
 end
 
 function action_switch_mode()
-	local switch_mode = luci.sys.exec("uci get openclash.config.operation_mode 2>/dev/null |tr -d '\n'")
+	local switch_mode = uci:get("openclash", "config", "operation_mode")
 	if switch_mode == "redir-host" then
-	   luci.sys.call("uci set openclash.config.operation_mode=fake-ip >/dev/null 2>&1 && uci commit openclash")
+		uci:set("openclash", "config", "operation_mode", "fake-ip")
+		uci:commit("openclash")
 	else
-	   luci.sys.call("uci set openclash.config.operation_mode=redir-host >/dev/null 2>&1 && uci commit openclash")
+		uci:set("openclash", "config", "operation_mode", "redir-host")
+		uci:commit("openclash")
 	end
 	luci.http.prepare_content("application/json")
 	luci.http.write_json({
@@ -315,7 +515,6 @@ function action_status()
 		watchdog = is_watchdog(),
 		daip = daip(),
 		dase = dase(),
-		uh_port = uh_port(),
 		web = is_web(),
 		cn_port = cn_port(),
 		restricted_mode = restricted_mode(),
@@ -394,30 +593,8 @@ function action_coreupdate()
 	})
 end
 
-function action_core_tun_update()
-	luci.http.prepare_content("application/json")
-	luci.http.write_json({
-			coretunup = coretunup();
-	})
-end
-
-function action_core_game_update()
-	luci.http.prepare_content("application/json")
-	luci.http.write_json({
-			coregameup = coregameup();
-	})
-end
-
 function action_close_all_connection()
-	return luci.sys.call("sh /usr/share/openclash/openclash_history_set.sh close_all_conection")
-end
-
-function action_restore_history()
-	return luci.sys.call("sh /usr/share/openclash/openclash_history_set.sh")
-end
-
-function action_get_history()
-	return luci.sys.call("sh /usr/share/openclash/openclash_history_get.sh")
+	return luci.sys.call("sh /usr/share/openclash/openclash_history_get.sh 'close_all_conection'")
 end
 
 function action_reload_firewall()
@@ -459,11 +636,33 @@ function action_refresh_log()
 		return
 	end
 	luci.http.prepare_content("text/plain; charset=utf-8")
-	local f=io.open(logfile, "r+")
-	f:seek("set")
-	local a=f:read(2048000) or ""
-	f:close()
-	luci.http.write(a)
+	local file=io.open(logfile, "r+")
+	file:seek("set")
+	local info = ""
+	for line in file:lines() do
+		if not string.find (line, "level=") then
+			if not string.find (line, "【") and not string.find (line, "】") then
+   			line = string.sub(line, 0, 20)..luci.i18n.translate(string.sub(line, 21, -1))
+   		else
+   			local a = string.find (line, "【")
+   			local b = string.find (line, "】")+2
+   			if a <= 21 then
+   				line = string.sub(line, 0, b)..luci.i18n.translate(string.sub(line, b+1, -1))
+   			elseif b < string.len(line) then
+   				line = string.sub(line, 0, 20)..luci.i18n.translate(string.sub(line, 21, a-1))..string.sub(line, a, b)..luci.i18n.translate(string.sub(line, b+1, -1))
+   			elseif b == string.len(line) then
+   				line = string.sub(line, 0, 20)..luci.i18n.translate(string.sub(line, 21, a-1))..string.sub(line, a, b)
+   			end
+   		end
+		end
+		if info ~= "" then
+			info = info.."\n"..line
+		else
+			info = line
+		end
+	end
+	file:close()
+	luci.http.write(info)
 end
 
 function action_del_log()
