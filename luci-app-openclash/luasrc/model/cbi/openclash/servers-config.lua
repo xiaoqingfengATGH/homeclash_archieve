@@ -266,6 +266,22 @@ o.rmempty = true
 o:depends("obfs", "websocket")
 o:depends("obfs_vmess", "websocket")
 
+o = s:option(Value, "ws_opts_path", translate("ws-opts-path"))
+o.rmempty = true
+o:depends("obfs_vmess", "websocket")
+
+o = s:option(Value, "ws_opts_headers", translate("ws-opts-headers"))
+o.rmempty = true
+o:depends("obfs_vmess", "websocket")
+
+o = s:option(Value, "max_early_data", translate("max-early-data"))
+o.rmempty = true
+o:depends("obfs_vmess", "websocket")
+
+o = s:option(Value, "early_data_header_name", translate("early-data-header-name"))
+o.rmempty = true
+o:depends("obfs_vmess", "websocket")
+
 -- [[ skip-cert-verify ]]--
 o = s:option(ListValue, "skip_cert_verify", translate("skip-cert-verify"))
 o.rmempty = true
@@ -367,7 +383,7 @@ local t = {
 a = m:section(Table, t)
 
 o = a:option(Button,"Commit", " ")
-o.inputtitle = translate("Commit Configurations")
+o.inputtitle = translate("Commit Settings")
 o.inputstyle = "apply"
 o.write = function()
    m.uci:commit(openclash)
@@ -376,7 +392,7 @@ o.write = function()
 end
 
 o = a:option(Button,"Back", " ")
-o.inputtitle = translate("Back Configurations")
+o.inputtitle = translate("Back Settings")
 o.inputstyle = "reset"
 o.write = function()
    m.uci:revert(openclash, sid)

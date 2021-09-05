@@ -52,7 +52,7 @@ local sub_path = "/tmp/dler_sub"
 local info, token, get_sub, sub_info
 local token = uci:get("openclash", "config", "dler_token")
 if token then
-	get_sub = string.format("curl -sL --connect-timeout 2 -d 'access_token=%s' -X POST https://dler.cloud/api/v1/managed/clash -o %s", token, sub_path)
+	get_sub = string.format("curl -sL -H 'Content-Type: application/json' --connect-timeout 2 -d '{\"access_token\":\"%s\"}' -X POST https://dler.cloud/api/v1/managed/clash -o %s", token, sub_path)
 	if not nixio.fs.access(sub_path) then
 		luci.sys.exec(get_sub)
 	else
@@ -64,7 +64,7 @@ if token then
 	if sub_info then
 		sub_info = json.parse(sub_info)
 	end
-	if sub_info.ret == 200 then
+	if sub_info and sub_info.ret == 200 then
 		o:value(sub_info.smart)
 		o:value(sub_info.ss)
 		o:value(sub_info.vmess)
@@ -176,7 +176,7 @@ local t = {
 a = m:section(Table, t)
 
 o = a:option(Button,"Commit", " ")
-o.inputtitle = translate("Commit Configurations")
+o.inputtitle = translate("Commit Settings")
 o.inputstyle = "apply"
 o.write = function()
    m.uci:commit(openclash)
@@ -184,7 +184,7 @@ o.write = function()
 end
 
 o = a:option(Button,"Back", " ")
-o.inputtitle = translate("Back Configurations")
+o.inputtitle = translate("Back Settings")
 o.inputstyle = "reset"
 o.write = function()
    m.uci:revert(openclash, sid)

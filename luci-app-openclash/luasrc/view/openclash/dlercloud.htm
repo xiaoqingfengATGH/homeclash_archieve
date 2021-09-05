@@ -123,55 +123,43 @@
   color: #444;
   font-size:15px;
   display: inline-block;
-  width: 35%;
+  width: 40%;
   overflow: hidden;
   vertical-align:bottom;
-  padding-top: 6px;
   white-space: nowrap;
   text-overflow: ellipsis;
-  line-height: 20px;
-}
-        
-.card .general .dler2-title {
-  font-weight: bold;
-  color: #444;
-  font-size:15px;
-  display: inline-block;
-  width: 30%;
-  overflow: hidden;
-  vertical-align:bottom;
-  padding-top: 6px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  line-height: 20px;
+  line-height: 25px;
+  height: 25px;
 }
         
 .card .general .dler-result {
   color: #444;
   font-size:16px;
-  margin:0px 0px 0px 30px;
+  transform: translateX(35%);
   white-space: nowrap;
   display: inline-block;
   width: 40%;
   overflow: hidden;
   text-overflow: ellipsis;
   vertical-align:bottom;
-  transform: translate(10%,-8%);
   text-align: right;
+  line-height: 25px;
+  height: 25px;
 }
 
 .card .general .dler-result2 {
   color: #444;
   font-size:16px;
-  margin:0px 0px 0px 30px;
+  transform: translateX(10%);
   white-space: nowrap;
   display: inline-block;
   width: 50%;
   overflow: hidden;
   text-overflow: ellipsis;
   vertical-align:bottom;
-  transform: translate(-10%,-8%);
   text-align: right;
+  line-height: 25px;
+  height: 25px;
 }
 
 .card .general .btn {
@@ -186,9 +174,7 @@
   font-weight: bold;
   display: inline-block;
   overflow: hidden;
-  position: relative;
-  right: 5%;
-  margin-top: 10%;
+  margin-top: 20px;
   -webkit-appearance:button;
 }
 
@@ -241,19 +227,19 @@
         	</div>
         	<div style="width: 40%">
             <p>
-                <span class="dler2-title"><%:Today Used%>:</span><span class="dler-result2" id="dler-today-used"><%:Collecting data...%></span>
+                <span class="dler-title"><%:Today Used%>:</span><span class="dler-result2" id="dler-today-used"><%:Collecting data...%></span>
             </p>
             <p>
-                <span class="dler2-title"><%:Plan Used%>:</span><span class="dler-result2" id="dler-used"><%:Collecting data...%></span>
+                <span class="dler-title"><%:Plan Used%>:</span><span class="dler-result2" id="dler-used"><%:Collecting data...%></span>
             </p>
             <p>
-                <span class="dler2-title"><%:Plan Unused%>:</span><span class="dler-result2" id="dler-unused"><%:Collecting data...%></span>
+                <span class="dler-title"><%:Plan Unused%>:</span><span class="dler-result2" id="dler-unused"><%:Collecting data...%></span>
             </p>
             <p>
-                <span class="dler2-title"><%:Plan Traffic%>:</span><span class="dler-result2" id="dler-traffic"><%:Collecting data...%></span>
+                <span class="dler-title"><%:Plan Traffic%>:</span><span class="dler-result2" id="dler-traffic"><%:Collecting data...%></span>
             </p>
         	</div>
-        	<div style="width: 20%; text-align:center">
+        	<div style="width: 30%; text-align:center">
         		<p>
         			<input type="button" class="btn" value="<%:Checkin%>" onclick="return dler_checkin_btn(this)"
         		</p>
@@ -286,29 +272,9 @@
   var dler_it = document.getElementById("dler_it");
   var more_info = document.getElementById("more_info");
   var dler_logo = document.getElementById("dler_logo");
+  var showmore=1;
    
 	XHR.get('<%=luci.dispatcher.build_url("admin", "services", "openclash", "dler_info")%>', null, function(x, status) {
-		if ( x && x.status == 200 && status.dler_info != "error" ) {
-			dler_plan.innerHTML = status.dler_info.plan;
-			dler_plantime.innerHTML = status.dler_info.plan_time;
-			dler_money.innerHTML = status.dler_info.money;
-			dler_affmoney.innerHTML = status.dler_info.aff_money;
-			dler_today_used.innerHTML = status.dler_info.today_used;
-			dler_used.innerHTML = status.dler_info.used;
-			dler_unused.innerHTML = status.dler_info.unused;
-			dler_traffic.innerHTML = status.dler_info.traffic;
-			dler_integral.innerHTML = status.dler_info.integral;
-			show_info();
-		}
-		else if (x && x.status == 200 && status.dler_info == "errorget") {
-			show_less();
-		}
-		else {
-			show_ad();
-		}
-	});
-	
-	XHR.poll(5, '<%=luci.dispatcher.build_url("admin", "services", "openclash", "dler_info")%>', null, function(x, status) {
 		if (x && x.status == 200 && status.dler_info != "error") {
 			dler_plan.innerHTML = status.dler_info.plan;
 			dler_plantime.innerHTML = status.dler_info.plan_time;
@@ -321,11 +287,31 @@
 			dler_integral.innerHTML = status.dler_info.integral;
 			show_info();
 		}
-		else if (x && x.status == 200 && status.dler_info == "errorget") {
+		else {
 			show_less();
 		}
+	});
+	
+	XHR.poll(3, '<%=luci.dispatcher.build_url("admin", "services", "openclash", "dler_info")%>', null, function(x, status) {
+		if (x && x.status == 200 && status.dler_info != "error") {
+			dler_plan.innerHTML = status.dler_info.plan;
+			dler_plantime.innerHTML = status.dler_info.plan_time;
+			dler_money.innerHTML = status.dler_info.money;
+			dler_affmoney.innerHTML = status.dler_info.aff_money;
+			dler_today_used.innerHTML = status.dler_info.today_used;
+			dler_used.innerHTML = status.dler_info.used;
+			dler_unused.innerHTML = status.dler_info.unused;
+			dler_traffic.innerHTML = status.dler_info.traffic;
+			dler_integral.innerHTML = status.dler_info.integral;
+			if (showmore != 0) {
+			   show_info();
+			}
+			else {
+			   show_less();
+		  }
+		}
 		else {
-			show_ad();
+			show_less();
 		}
 	});
 	
@@ -359,25 +345,19 @@ function web_dler()
        
 function show_more()
 {
-   XHR.get('<%=luci.dispatcher.build_url("admin", "services", "openclash", "dler_info")%>', null, function(x, status) {
-      if (x && x.status == 200 && status.dler_info != "error") {
-         if (obj.style.width == "100%") {
-            obj.style.width = "150px";
-            obj.style.borderRadius = "0 0 0 0";
-            more_info.style.display = "none";
-         }
-         else {
-   	        obj.style.width = "100%";
-            obj.style.borderRadius = "0 5px 5px 0";
-            more_info.style.display = "";
-            more_info.style.transform = "translateY(11%)";
-         }
+	 if (obj.style.width == "150px") {
+	    show_less();
+	    showmore=0;
+	 }
+	 else {
+	    if (dler_plan.value != "") {
+         show_info();
+         showmore=1;
 		  }
 		  else {
 		     web_dler();
       }
-	});
-   
+	 }
 }
 
 function show_less()
@@ -385,19 +365,9 @@ function show_less()
    if (obj.style.width != "100%") {
       obj.style.width = "100%";
       obj.style.borderRadius = "0 5px 5px 0";
+      card.style.height = "250px";
       more_info.style.display = "";
       more_info.style.transform = "translateY(11%)";
-   }
-}
-
-function show_ad()
-{
-   if (obj.style.width != "100%" || card.style.height != "180px") {
-      obj.style.width = "100%";
-      obj.style.borderRadius = "0 5px 5px 0";
-      more_info.style.display = "";
-      card.style.height = "180px";
-      dler_logo.style.transform = "translateY(16%)";
    }
    var rdmdl=Math.floor(Math.random()*6)+1;
    if(rdmdl==1)
@@ -424,7 +394,6 @@ function show_ad()
    {
       dler_it.innerHTML = '<%:Perfect Technical Support%>';
    }
-   
 }
 
 function show_info()
@@ -432,6 +401,7 @@ function show_info()
    if (obj.style.width != "150px") {
       obj.style.width = "150px";
       obj.style.borderRadius = "0 0 0 0";
+      card.style.height = "250px";
       more_info.style.display = "none";
    }
 }

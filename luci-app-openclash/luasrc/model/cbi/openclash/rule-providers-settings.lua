@@ -29,7 +29,6 @@ m.description=translate("Attention:")..
 "<br/>"..
 "<br/>"..translate("Introduction to rule set usage: https://lancellc.gitbook.io/clash/clash-config-file/rule-provider")
 
-
 function IsRuleFile(e)
 e=e or""
 local e=string.lower(string.sub(e,-6,-1))
@@ -247,14 +246,14 @@ local t = {
 ss = m:section(Table, t)
 
 o = ss:option(Button, "Commit", " ")
-o.inputtitle = translate("Commit Configurations")
+o.inputtitle = translate("Commit Settings")
 o.inputstyle = "apply"
 o.write = function()
   m.uci:commit("openclash")
 end
 
 o = ss:option(Button, "Apply", " ")
-o.inputtitle = translate("Apply Configurations")
+o.inputtitle = translate("Apply Settings")
 o.inputstyle = "apply"
 o.write = function()
   m.uci:set("openclash", "config", "enable", 1)
@@ -262,5 +261,7 @@ o.write = function()
   SYS.call("/etc/init.d/openclash restart >/dev/null 2>&1 &")
   HTTP.redirect(DISP.build_url("admin", "vpn", "openclash"))
 end
+
+m:append(Template("openclash/toolbar_show"))
 
 return m

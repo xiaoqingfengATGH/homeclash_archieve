@@ -119,18 +119,18 @@ yml_proxy_provider_set()
 cat >> "$PROXY_PROVIDER_FILE" <<-EOF
   $name:
     type: $type
-    path: $path
+    path: "$path"
 EOF
    if [ ! -z "$provider_url" ]; then
 cat >> "$PROXY_PROVIDER_FILE" <<-EOF
-    url: $provider_url
+    url: "$provider_url"
     interval: $provider_interval
 EOF
    fi
 cat >> "$PROXY_PROVIDER_FILE" <<-EOF
     health-check:
       enable: $health_check
-      url: $health_check_url
+      url: "$health_check_url"
       interval: $health_check_interval
 EOF
 
@@ -142,7 +142,7 @@ set_alpn()
       return
    fi
 cat >> "$SERVER_FILE" <<-EOF
-      - $1
+      - '$1'
 EOF
 }
 
@@ -208,6 +208,10 @@ yml_servers_set()
    config_get "h2_path" "$section" "h2_path" ""
    config_get "h2_host" "$section" "h2_host" ""
    config_get "grpc_service_name" "$section" "grpc_service_name" ""
+   config_get "ws_opts_path" "$section" "ws_opts_path" ""
+   config_get "ws_opts_headers" "$section" "ws_opts_headers" ""
+   config_get "max_early_data" "$section" "max_early_data" ""
+   config_get "early_data_header_name" "$section" "early_data_header_name" ""
 
    if [ "$enabled" = "0" ]; then
       return
@@ -287,14 +291,14 @@ yml_servers_set()
    fi
    
    if [ ! -z "$custom" ] && [ "$type" = "vmess" ]; then
-      custom="Host: $custom"
+      custom="Host: \"$custom\""
    fi
    
    if [ ! -z "$path" ]; then
       if [ "$type" != "vmess" ]; then
-         path="path: '$path'"
+         path="path: \"$path\""
       elif [ "$obfs_vmess" = "network: ws" ]; then
-         path="ws-path: $path"
+         path="ws-path: \"$path\""
       fi
    fi
 
@@ -303,7 +307,7 @@ yml_servers_set()
 cat >> "$SERVER_FILE" <<-EOF
   - name: "$name"
     type: $type
-    server: $server
+    server: "$server"
     port: $port
     cipher: $cipher
     password: "$password"
@@ -321,7 +325,7 @@ cat >> "$SERVER_FILE" <<-EOF
 EOF
         if [ ! -z "$host" ]; then
 cat >> "$SERVER_FILE" <<-EOF
-      host: $host
+      host: "$host"
 EOF
         fi
         if [  "$obfss" = "plugin: v2ray-plugin" ]; then
@@ -360,7 +364,7 @@ if [ "$type" = "ssr" ]; then
 cat >> "$SERVER_FILE" <<-EOF
   - name: "$name"
     type: $type
-    server: $server
+    server: "$server"
     port: $port
     cipher: $cipher_ssr
     password: "$password"
@@ -389,7 +393,7 @@ fi
 cat >> "$SERVER_FILE" <<-EOF
   - name: "$name"
     type: $type
-    server: $server
+    server: "$server"
     port: $port
     uuid: $uuid
     alterId: $alterId
@@ -412,52 +416,66 @@ EOF
       fi
       if [ ! -z "$servername" ] && [ "$tls" = "true" ]; then
 cat >> "$SERVER_FILE" <<-EOF
-    servername: $servername
+    servername: "$servername"
 EOF
       fi
       if [ "$obfs_vmess" != "none" ]; then
 cat >> "$SERVER_FILE" <<-EOF
     $obfs_vmess
 EOF
-         if [ ! -z "$path" ] && [ "$obfs_vmess" = "network: ws" ]; then
+         if [ "$obfs_vmess" = "network: ws" ]; then
+            if [ ! -z "$path" ]; then
 cat >> "$SERVER_FILE" <<-EOF
     $path
 EOF
-         fi
-         if [ ! -z "$custom" ] && [ "$obfs_vmess" = "network: ws" ]; then
+            fi
+            if [ ! -z "$custom" ]; then
 cat >> "$SERVER_FILE" <<-EOF
     ws-headers:
       $custom
 EOF
+            fi
+            if [ -n "$ws_opts_path" ] || [ -n "$ws_opts_headers" ] || [ -n "$max_early_data" ] || [ -n "$early_data_header_name" ]; then
+cat >> "$SERVER_FILE" <<-EOF
+    ws-opts:
+      path: "$ws_opts_path"
+      headers: "$ws_opts_headers"
+      max-early-data: $max_early_data
+      early-data-header-name: "$early_data_header_name"
+EOF
+            fi
          fi
-         if [ ! -z "$http_path" ] && [ "$obfs_vmess" = "network: http" ]; then
+         if [ "$obfs_vmess" = "network: http" ]; then
+            if [ ! -z "$http_path" ]; then
 cat >> "$SERVER_FILE" <<-EOF
     http-opts:
       method: "GET"
       path:
 EOF
-            config_list_foreach "$section" "http_path" set_http_path
-         fi
-         if [ "$keep_alive" = "true" ] && [ "$obfs_vmess" = "network: http" ]; then
+               config_list_foreach "$section" "http_path" set_http_path
+            fi
+            if [ "$keep_alive" = "true" ]; then
 cat >> "$SERVER_FILE" <<-EOF
       headers:
         Connection:
           - keep-alive
 EOF
+            fi
          fi
-         
          #h2
-         if [ ! -z "$h2_host" ] && [ "$obfs_vmess" = "network: h2" ]; then
+         if [ "$obfs_vmess" = "network: h2" ]; then
+            if [ ! -z "$h2_host" ]; then
 cat >> "$SERVER_FILE" <<-EOF
     h2-opts:
       host:
 EOF
-            config_list_foreach "$section" "h2_host" set_h2_host
-         fi
-         if [ ! -z "$h2_path" ] && [ "$obfs_vmess" = "network: h2" ]; then
+               config_list_foreach "$section" "h2_host" set_h2_host
+            fi
+            if [ ! -z "$h2_path" ]; then
 cat >> "$SERVER_FILE" <<-EOF
       path: $h2_path
 EOF
+            fi
          fi
          if [ ! -z "$grpc_service_name" ] && [ "$obfs_vmess" = "network: grpc" ]; then
 cat >> "$SERVER_FILE" <<-EOF
@@ -473,17 +491,17 @@ EOF
 cat >> "$SERVER_FILE" <<-EOF
   - name: "$name"
     type: $type
-    server: $server
+    server: "$server"
     port: $port
 EOF
       if [ ! -z "$auth_name" ]; then
 cat >> "$SERVER_FILE" <<-EOF
-    username: $auth_name
+    username: "$auth_name"
 EOF
       fi
       if [ ! -z "$auth_pass" ]; then
 cat >> "$SERVER_FILE" <<-EOF
-    password: $auth_pass
+    password: "$auth_pass"
 EOF
       fi
       if [ ! -z "$udp" ]; then
@@ -508,17 +526,17 @@ EOF
 cat >> "$SERVER_FILE" <<-EOF
   - name: "$name"
     type: $type
-    server: $server
+    server: "$server"
     port: $port
 EOF
       if [ ! -z "$auth_name" ]; then
 cat >> "$SERVER_FILE" <<-EOF
-    username: $auth_name
+    username: "$auth_name"
 EOF
       fi
       if [ ! -z "$auth_pass" ]; then
 cat >> "$SERVER_FILE" <<-EOF
-    password: $auth_pass
+    password: "$auth_pass"
 EOF
       fi
       if [ ! -z "$skip_cert_verify" ]; then
@@ -533,7 +551,7 @@ EOF
       fi
       if [ ! -z "$sni" ]; then
 cat >> "$SERVER_FILE" <<-EOF
-    sni: $sni
+    sni: "$sni"
 EOF
       fi
    fi
@@ -543,7 +561,7 @@ EOF
 cat >> "$SERVER_FILE" <<-EOF
   - name: "$name"
     type: $type
-    server: $server
+    server: "$server"
     port: $port
     password: "$password"
 EOF
@@ -554,7 +572,7 @@ EOF
    fi
    if [ ! -z "$sni" ]; then
 cat >> "$SERVER_FILE" <<-EOF
-    sni: $sni
+    sni: "$sni"
 EOF
    fi
    if [ ! -z "$alpn" ]; then
@@ -581,7 +599,7 @@ EOF
 cat >> "$SERVER_FILE" <<-EOF
   - name: "$name"
     type: $type
-    server: $server
+    server: "$server"
     port: $port
     psk: $psk
 EOF
@@ -589,7 +607,7 @@ EOF
 cat >> "$SERVER_FILE" <<-EOF
     obfs-opts:
       mode: $obfs_snell
-      host: $host
+      host: "$host"
 EOF
    fi
    fi
@@ -838,8 +856,8 @@ cat >> "$SERVER_FILE" <<-EOF
   - name: Scholar
     type: select
     proxies:
-      - Proxy
       - DIRECT
+      - Proxy
 EOF
 cat /tmp/Proxy_Server >> $SERVER_FILE 2>/dev/null
 if [ -f "/tmp/Proxy_Provider" ]; then
@@ -1502,9 +1520,9 @@ elif [ -z "$if_game_proxy" ]; then
    LOG_OUT "Proxies, Proxy-providers, Groups Edited Successful, Updating Config File【$CONFIG_NAME】..."
    config_hash=$(ruby -ryaml -E UTF-8 -e "Value = YAML.load_file('$CONFIG_FILE'); puts Value" 2>/dev/null)
    if [ "$config_hash" != "false" ] && [ -n "$config_hash" ]; then
-      ruby_cover "$CONFIG_FILE" "['proxies']" "$SERVER_FILE" "['proxies']"
-      ruby_cover "$CONFIG_FILE" "['proxy-providers']" "$PROXY_PROVIDER_FILE" "['proxy-providers']"
-      ruby_cover "$CONFIG_FILE" "['proxy-groups']" "/tmp/yaml_groups.yaml" "['proxy-groups']"
+      ruby_cover "$CONFIG_FILE" "['proxies']" "$SERVER_FILE" "proxies"
+      ruby_cover "$CONFIG_FILE" "['proxy-providers']" "$PROXY_PROVIDER_FILE" "proxy-providers"
+      ruby_cover "$CONFIG_FILE" "['proxy-groups']" "/tmp/yaml_groups.yaml" "proxy-groups"
    else
       cat "$SERVER_FILE" "$PROXY_PROVIDER_FILE" "/tmp/yaml_groups.yaml" > "$CONFIG_FILE" 2>/dev/null
    fi

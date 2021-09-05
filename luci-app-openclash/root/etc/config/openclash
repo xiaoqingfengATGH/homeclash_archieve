@@ -1,6 +1,7 @@
 
 config openclash 'config'
 	option proxy_port '7892'
+	option tproxy_port '7895'
 	option mixed_port '7893'
 	option socks_port '7891'
 	option http_port '7890'
@@ -12,6 +13,7 @@ config openclash 'config'
 	option dashboard_password '123456'
 	option enable_custom_dns '0'
 	option ipv6_enable '0'
+	option ipv6_dns '0'
 	option enable_custom_clash_rules '0'
 	option other_rule_auto_update '0'
 	option en_mode 'redir-host'
@@ -32,33 +34,15 @@ config openclash 'config'
 	option log_size '1024'
 	option tolerance '0'
 	option custom_fallback_filter '0'
+	option append_wan_dns '1'
 	option geo_custom_url 'http://www.ideame.top/mmdb/Country.mmdb'
 	option chnr_custom_url 'https://ispip.clang.cn/all_cn.txt'
-	option other_rule_update_week_time '1'
-	option other_rule_update_day_time '0'
-	option geo_auto_update '0'
-	option geo_update_week_time '1'
-	option geo_update_day_time '0'
-	option chnr_auto_update '0'
-	option chnr_update_week_time '1'
-	option chnr_update_day_time '0'
-	option core_version 'linux-amd64'
-	option create_config '1'
-	option rule_sources 'lhie1'
-	option mix_proxies '0'
-	option rule_source '1'
-	option config_path '/etc/openclash/config/HomeClash.yaml'
-	option restricted_mode '0'
-	option dns_port '7874'
-	list lan_ac_black_ips '172.31.255.254'
-	option enable '0'
-	option redirect_dns '1'
-	option enable_rule_proxy '1'
-	option common_ports '1'
-	option china_ip_route '1'
-	option config_reload '1'
-
-config authentication
+	option chnr6_custom_url 'https://ispip.clang.cn/all_cn_ipv6.txt'
+	
+config dns_servers
+	option group 'nameserver'
+	option type 'udp'
+	option ip '114.114.114.114'
 	option enabled '1'
 
 config other_rules
@@ -101,14 +85,23 @@ config groups
 	list other_group 'Auto - UrlTest'
 	list other_group 'DIRECT'
 
-config groups
-	option config 'HomeClash.yaml'
-	option name 'Domestic'
-	option old_name 'Domestic'
-	option old_name_cfg 'Domestic'
-	option type 'select'
-	list other_group 'DIRECT'
-	list other_group 'Proxy'
+config dns_servers
+	option type 'https'
+	option group 'fallback'
+	option enabled '1'
+	option ip 'doh.pub/dns-query'
+
+config dns_servers
+	option type 'https'
+	option group 'fallback'
+	option enabled '1'
+	option ip 'dns.alidns.com/dns-query'
+
+config dns_servers
+	option type 'https'
+	option group 'fallback'
+	option enabled '1'
+	option ip 'cloudflare-dns.com/dns-query'
 
 config groups
 	option config 'HomeClash.yaml'
@@ -129,129 +122,11 @@ config groups
 	list other_group 'DIRECT'
 	list other_group 'Proxy'
 
-config groups
-	option config 'HomeClash.yaml'
-	option name 'Microsoft'
-	option old_name 'Microsoft'
-	option old_name_cfg 'Microsoft'
-	option type 'select'
-	list other_group 'DIRECT'
-	list other_group 'Proxy'
-
-config groups
-	option config 'HomeClash.yaml'
-	option name 'Netflix'
-	option old_name 'Netflix'
-	option old_name_cfg 'Netflix'
-	option type 'select'
-	list other_group 'GlobalTV'
-	list other_group 'DIRECT'
-
-config groups
-	option config 'HomeClash.yaml'
-	option name 'Youtube'
-	option old_name 'Youtube'
-	option old_name_cfg 'Youtube'
-	option type 'select'
-	option disable_udp 'true'
-	list other_group 'GlobalTV'
-	list other_group 'DIRECT'
-
-config groups
-	option config 'HomeClash.yaml'
-	option name 'Spotify'
-	option old_name 'Spotify'
-	option old_name_cfg 'Spotify'
-	option type 'select'
-	list other_group 'GlobalTV'
-	list other_group 'DIRECT'
-
-config groups
-	option config 'HomeClash.yaml'
-	option name 'Steam'
-	option old_name 'Steam'
-	option old_name_cfg 'Steam'
-	option type 'select'
-	list other_group 'DIRECT'
-	list other_group 'Proxy'
-
-config groups
-	option config 'HomeClash.yaml'
-	option name 'AdBlock'
-	option old_name 'AdBlock'
-	option old_name_cfg 'AdBlock'
-	option type 'select'
-	list other_group 'REJECT'
-	list other_group 'DIRECT'
-	list other_group 'Proxy'
-
-config groups
-	option config 'HomeClash.yaml'
-	option name 'AsianTV'
-	option old_name 'AsianTV'
-	option old_name_cfg 'AsianTV'
-	option type 'select'
-	list other_group 'DIRECT'
-	list other_group 'Proxy'
-
-config groups
-	option config 'HomeClash.yaml'
-	option name 'GlobalTV'
-	option old_name 'GlobalTV'
-	option old_name_cfg 'GlobalTV'
-	option type 'select'
-	list other_group 'Proxy'
-	list other_group 'DIRECT'
-
-config groups
-	option config 'HomeClash.yaml'
-	option name 'Speedtest'
-	option old_name 'Speedtest'
-	option old_name_cfg 'Speedtest'
-	option type 'select'
-	list other_group 'Proxy'
-	list other_group 'DIRECT'
-
-config groups
-	option config 'HomeClash.yaml'
-	option name 'Telegram'
-	option old_name 'Telegram'
-	option old_name_cfg 'Telegram'
-	option type 'select'
-	list other_group 'Proxy'
-	list other_group 'DIRECT'
-
-config groups
-	option config 'HomeClash.yaml'
-	option name 'PayPal'
-	option old_name 'PayPal'
-	option old_name_cfg 'PayPal'
-	option type 'select'
-	list other_group 'DIRECT'
-	list other_group 'Proxy'
-
-config servers
-	option enabled '1'
-	option manual '1'
-	option config 'HomeClash.yaml'
-	option name 'beam'
-	option type 'socks5'
-	list groups 'Auto - UrlTest'
-	list groups 'Proxy'
-	list groups 'Netflix'
-	list groups 'Youtube'
-	list groups 'Spotify'
-	list groups 'Steam'
-	list groups 'AsianTV'
-	list groups 'GlobalTV'
-	list groups 'Speedtest'
-	list groups 'Telegram'
-	list groups 'PayPal'
-	option server '172.31.255.254'
-	option port '3129'
-	option udp 'true'
-	option tls 'false'
-	option skip_cert_verify 'true'
+config dns_servers
+	option enabled '0'
+	option group 'fallback'
+	option type 'https'
+	option ip '1.1.1.1/dns-query'
 
 config dns_servers
 	option enabled '1'
@@ -261,9 +136,22 @@ config dns_servers
 	option port '6053'
 
 config dns_servers
-	option enabled '1'
+	option enabled '0'
+	option group 'fallback'
+	option ip '8.8.8.8'
+	option port '853'
+	option type 'tls'
+	
+config dns_servers
+	option enabled '0'
 	option type 'udp'
 	option group 'fallback'
-	option ip '127.0.0.1'
-	option port '7053'
+	option ip '2001:4860:4860::8888'
+	option port '53'
 
+config dns_servers
+	option enabled '0'
+	option type 'udp'
+	option group 'fallback'
+	option ip '2001:4860:4860::8844'
+	option port '53'

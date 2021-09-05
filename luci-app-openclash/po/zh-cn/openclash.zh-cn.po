@@ -92,20 +92,23 @@ msgstr "生成日志"
 msgid "Click to Generate"
 msgstr "点击生成"
 
-msgid "Enable Clash"
+msgid "Enable OpenClash"
 msgstr "启动 OpenClash"
 
-msgid "Disable Clash"
+msgid "Disable OpenClash"
 msgstr "关闭 OpenClash"
 
-msgid "Commit Configurations"
+msgid "Commit Settings"
 msgstr "保存配置"
 
-msgid "Apply Configurations"
+msgid "Apply Settings"
 msgstr "应用配置"
 
 msgid "Download Config"
 msgstr "下载配置"
+
+msgid "Update Config"
+msgstr "更新配置"
 
 msgid "Download Running Config"
 msgstr "下载运行配置"
@@ -167,6 +170,9 @@ msgstr "请自行根据运行速度为TUN模式选择合适的网络栈"
 msgid "China IP Route"
 msgstr "实验性：绕过中国大陆IP"
 
+msgid "China IPv6 Route"
+msgstr "实验性：绕过中国大陆IPv6"
+
 msgid "Bypass The China Network Flows, Improve Performance"
 msgstr "启用后中国大陆流量将不再经过内核，提升系统性能"
 
@@ -190,6 +196,9 @@ msgstr "Silent【静默】"
 
 msgid "Select Core's Log Level"
 msgstr "选择内核日志的默认输出模式"
+
+msgid "Switch Log Level"
+msgstr "切换日志等级"
 
 msgid "Only intranet allowed"
 msgstr "仅允许内网"
@@ -279,12 +288,17 @@ msgstr "服务器类型"
 msgid "(Communication protocol)"
 msgstr "(通讯协议)"
 
-msgid "Enable ipv6 Resolve"
+msgid "Proxy IPv6 Traffic"
+msgstr "IPv6 流量代理"
+
+msgid "Disable IPv6 DHCP To Avoid Abnormal Connection If You Do Not Use"
+msgstr "如果您不使用，请禁用IPv6的DHCP以避免连接异常"
+
+msgid "IPv6 DNS Resolve"
 msgstr "允许IPV6类型DNS解析"
 
 msgid "Enable Clash to Resolve ipv6 DNS Requests"
-msgstr ""
-"固件须配置好IPV6的NAT，如你不使用IPV6请关闭固件的相关服务，避免客户端连接出现异常"
+msgstr "允许解析IPV6类型的DNS请求"
 
 msgid "Rules Setting"
 msgstr "规则设置"
@@ -316,15 +330,17 @@ msgstr "文件上传失败"
 msgid "No specify upload file."
 msgstr "未指定上传文件"
 
-msgid ""
-"Only Support yaml what would be save to /etc/openclash/"
-msgstr "注意：只支持【yaml】后缀的文件，文件将被保存到 /etc/openclash/"
+msgid "Note: Please Upload File According To File Type, File Will Be Saved To The Prompt Path"
+msgstr "注意：请根据文件类型上传文件，文件将会被保存到提示路径"
 
 msgid "Proxy Provider File List"
 msgstr "代理集文件列表"
 
 msgid "Rule Providers File List"
 msgstr "规则集文件列表"
+
+msgid "Game Rules File List"
+msgstr "游戏规则文件列表"
 
 msgid "Please Make Sure Ports Available"
 msgstr "请确保端口可用"
@@ -358,6 +374,9 @@ msgstr "运行后，请等待服务器上线"
 
 msgid "Redir Port"
 msgstr "流量转发端口"
+
+msgid "TProxy Port"
+msgstr "TProxy 端口"
 
 msgid "SOCKS5 Port"
 msgstr "SOCKS5 代理端口"
@@ -539,14 +558,17 @@ msgstr "自定义规则"
 msgid "Custom Clash Rules(Access Control)"
 msgstr "自定义规则(访问控制)"
 
-msgid "Custom Rules Here, For More Go Github:https://github.com/Dreamacro/clash/blob/master/README.md, IP To CIDR: http://ip2cidr.com"
-msgstr "设置自定义规则（顶部），详细信息请前往Github( https://github.com/Dreamacro/clash/blob/master/README.md )查询，在线IP段转CIDR地址：http://ip2cidr.com"
+msgid "Custom Priority Rules Here, For More Go:"
+msgstr "设置自定义规则（优先匹配），详细信息请参阅:"
 
-msgid "Custom Rules 2 Here, For More Go Github:https://github.com/Dreamacro/clash/blob/master/README.md, IP To CIDR: http://ip2cidr.com"
-msgstr "设置自定义规则（底部），详细信息请前往Github( https://github.com/Dreamacro/clash/blob/master/README.md )查询，在线IP段转CIDR地址：http://ip2cidr.com"
+msgid "Custom Extended Rules Here, For More Go:"
+msgstr "设置自定义规则（候补匹配），详细信息请参阅:"
 
-msgid "Custom Hosts Here, For More Go Github:https://github.com/Dreamacro/clash/blob/master/README.md"
-msgstr "设置自定义Hosts，详细信息请前往Github( https://github.com/Dreamacro/clash/blob/master/README.md )查询"
+msgid "IP To CIDR:"
+msgstr "在线IP段转CIDR地址:"
+
+msgid "Custom Hosts Here, For More Go:"
+msgstr "设置自定义Hosts，详细信息请参阅:"
 
 msgid "Set Custom Rules"
 msgstr "设置自定义规则（在上方规则设置中启用本功能后生效）"
@@ -598,7 +620,7 @@ msgstr ""
 msgid "Servers and Groups"
 msgstr "服务器与策略组管理"
 
-msgid "Load Config"
+msgid "Read Config"
 msgstr "读取配置"
 
 msgid "Delete Unused Servers"
@@ -607,13 +629,13 @@ msgstr "删除未启用节点"
 msgid "Delete Servers"
 msgstr "清空服务器配置"
 
-msgid "Delete Proxy Provider"
+msgid "Delete Proxy Providers"
 msgstr "清空代理集配置"
 
 msgid "Delete Groups"
 msgstr "清空策略组配置"
 
-msgid "Back Configurations"
+msgid "Back Settings"
 msgstr "返回概览"
 
 msgid "Refresh Page"
@@ -1405,6 +1427,9 @@ msgstr ", 如发生回环死机请尝试启用"
 msgid "Custom GEOIP URL"
 msgstr "GEOIP数据库更新URL"
 
+msgid "Custom Chnroute6 Lists URL"
+msgstr "大陆IPV6段更新URL"
+
 msgid "Custom Chnroute Lists URL"
 msgstr "大陆IP段更新URL"
 
@@ -1414,8 +1439,17 @@ msgstr "自定义GEOIP数据库的更新来源，编辑后点击下方按钮生�
 msgid "Custom Chnroute Lists URL, Click Button Below To Refresh After Edit"
 msgstr "自定义大陆IP段的更新来源，编辑后点击下方按钮生效"
 
+msgid "Custom Chnroute6 Lists URL, Click Button Below To Refresh After Edit"
+msgstr "自定义大陆IPV6段的更新来源，编辑后点击下方按钮生效"
+
 msgid "(Default)"
 msgstr "(默认)"
+
+msgid "(Default mmdb)"
+msgstr "(默认，全部国家且仅写入iso_code和geoname_id)"
+
+msgid "(All Info mmdb)"
+msgstr "(全部国家且且包含官方全部信息数据)"
 
 msgid "(Only CN)"
 msgstr "(仅中国数据)"
@@ -1663,20 +1697,38 @@ msgstr "订阅失败，尝试不使用代理下载配置文件..."
 msgid "Start Downloading The Chnroute Cidr List..."
 msgstr "开始下载大陆IP白名单..."
 
+msgid "Start Downloading The Chnroute6 Cidr List..."
+msgstr "开始下载大陆IPV6白名单..."
+
 msgid "Chnroute Cidr List Download Success, Check Updated..."
 msgstr "大陆IP白名单下载成功，检查版本是否更新..."
+
+msgid "Chnroute6 Cidr List Download Success, Check Updated..."
+msgstr "大陆IPV6白名单下载成功，检查版本是否更新..."
 
 msgid "Chnroute Cidr List Has Been Updated, Starting To Replace The Old Version..."
 msgstr "大陆IP白名单有更新，开始替换旧版本..."
 
+msgid "Chnroute6 Cidr List Has Been Updated, Starting To Replace The Old Version..."
+msgstr "大陆IPV6白名单有更新，开始替换旧版本..."
+
 msgid "Chnroute Cidr List Update Successful!"
 msgstr "大陆IP白名单更新成功！"
+
+msgid "Chnroute6 Cidr List Update Successful!"
+msgstr "大陆IPV6白名单更新成功！"
 
 msgid "Updated Chnroute Cidr List No Change, Do Nothing..."
 msgstr "大陆IP白名单没有更新，停止继续操作..."
 
+msgid "Updated Chnroute6 Cidr List No Change, Do Nothing..."
+msgstr "大陆IPV6白名单没有更新，停止继续操作..."
+
 msgid "Chnroute Cidr List Update Error, Please Try Again Later..."
 msgstr "大陆IP白名单下载失败，请检查网络或稍后再试..."
+
+msgid "Chnroute6 Cidr List Update Error, Please Try Again Later..."
+msgstr "大陆IPV6白名单下载失败，请检查网络或稍后再试..."
 
 msgid "Start Downloading Geoip Database..."
 msgstr "开始下载 GEOIP 数据库..."
@@ -1739,7 +1791,7 @@ msgid "Group To Config File..."
 msgstr "策略组到配置文件..."
 
 msgid "Proxy To Config File..."
-msgstr "策略组到配置文件..."
+msgstr "节点到配置文件..."
 
 msgid "Proxy-provider To Config File..."
 msgstr "代理集到配置文件..."
@@ -2166,3 +2218,181 @@ msgstr "退出中..."
 
 msgid "Error Login Info"
 msgstr "登录信息错误"
+
+msgid "Warning: Proxy is no longer used. Auto replaced by proxies"
+msgstr "警告：【Proxy】写法已不再支持，自动替换为proxies"
+
+msgid "Warning: Proxy Group is no longer used. Auto replaced by proxy-groups"
+msgstr "警告：【Proxy Group】写法已不再支持，自动替换为proxy-groups"
+
+msgid "Warning: Rule is no longer used. Auto replaced by rules"
+msgstr "警告：【Rule】写法已不再支持，自动替换为rules"
+
+msgid "Warning: rule-provider is no longer used. Auto replaced by rule-providers"
+msgstr "警告：【rule-provider】写法已不再支持，自动替换为rule-providers"
+
+msgid "Warning: Because of No Rules Field, Stop Setting BT/P2P DIRECT Rules!"
+msgstr "警告：未找到【rules】配置，停止添加BT/P2P直连规则！"
+
+msgid "Error: Load File Error,"
+msgstr "错误：文件解析失败，"
+
+msgid "Error: Set General Error,"
+msgstr "错误：修改General配置失败，"
+
+msgid "Error: Set Hosts Rules Error,"
+msgstr "错误：修改Hosts配置失败，"
+
+msgid "Error: Set Fake-IP-Filter Error,"
+msgstr "错误：修改Fake-IP-Filter配置失败，"
+
+msgid "Error: Set Nameserver-Policy Error,"
+msgstr "错误：修改Nameserver-Policy配置失败，"
+
+msgid "Error: Set Custom Rules Error,"
+msgstr "错误：设置自定义规则失败，"
+
+msgid "Error: Set BT/P2P DIRECT Rules Error,"
+msgstr "错误：设置仅代理命中规则流量（BT/P2P直连）失败，"
+
+msgid "Error: Set 198.18.0.1/16 REJECT Rule Error,"
+msgstr "错误：设置198.18.0.1/16（REJECT）规则失败，"
+
+msgid "Error: Set lhie1 Rules Error,"
+msgstr "错误：设置第三方规则（lhie1）失败，"
+
+msgid "Error: Set ConnersHua Rules Error,"
+msgstr "错误：设置第三方规则（ConnersHua）失败，"
+
+msgid "Error: Set ConnersHua Return Rules Error,"
+msgstr "错误：设置第三方规则（ConnersHua 回国）失败，"
+
+msgid "Error: Filter Proxies Error,"
+msgstr "错误：节点筛选失败，"
+
+msgid "Error: Unable To Parse Config File,"
+msgstr "错误：配置文件解析失败，"
+
+msgid "Error: Unable To Parse Updated Rules File,"
+msgstr "错误：更新的规则文件解析失败，"
+
+msgid "Error: Edit Provider Path Error,"
+msgstr "错误：修改集路径失败，"
+
+msgid "Error: Set Url-Test Group Tolerance Error,"
+msgstr "错误：修改Url-Test策略组容忍值失败，"
+
+msgid "Error: Game Rule Merge Error,"
+msgstr "错误：游戏规则合并失败，"
+
+msgid "Error: Game Proxy Merge Error,"
+msgstr "错误：游戏规则策略组合并失败，"
+
+msgid "Error: Rule Set Add Error,"
+msgstr "错误：规则集Rule-Set规则添加失败，"
+
+msgid "Error: Custom Rule Provider Merge Error,"
+msgstr "错误：规则集Rule Provider合并失败，"
+
+msgid "Error: Restore Backup Rules Error,"
+msgstr "错误：还原默认规则失败，"
+
+msgid "Error: Restore Backup Rules Error,"
+msgstr "错误：还原默认规则失败，"
+
+msgid "Error: Resolve Proxy-provider Error,"
+msgstr "错误：解析代理集失败，"
+
+msgid "Error: Resolve Proxy Error,"
+msgstr "错误：节点解析失败，"
+
+msgid "Error: Resolve Proxy-group Error,"
+msgstr "错误：策略组解析失败，"
+
+msgid "Error: Set default-nameserver Error,"
+msgstr "错误：修改default-nameserver配置失败，"
+
+msgid "switching succeeded!"
+msgstr "切换成功！"
+
+msgid "switching failed!"
+msgstr "切换失败！"
+
+msgid "Current Config File"
+msgstr "当前配置文件"
+
+msgid "Official Website"
+msgstr "官方网站"
+
+msgid "Up"
+msgstr "上传"
+
+msgid "Up:"
+msgstr "上传:"
+
+msgid "Down:"
+msgstr "下载:"
+
+msgid "Up Total:"
+msgstr "上传总量:"
+
+msgid "Down Total:"
+msgstr "下载总量:"
+
+msgid "Connections:"
+msgstr "活动连接:"
+
+msgid "Ram:"
+msgstr "内存占用:"
+
+msgid "CPU:"
+msgstr "CPU占用:"
+
+msgid "Could not find any connection logs!"
+msgstr "找不到任何连接日志！"
+
+msgid "Some error occurred!"
+msgstr "发生了一些错误！"
+
+msgid "Click to Test"
+msgstr "点击测试"
+
+msgid "Connection Test (Current Browser)"
+msgstr "连接测试（当前浏览器）"
+
+msgid "Backup File"
+msgstr "备份文件"
+
+msgid "Backup File Restore Successful!"
+msgstr "备份文件恢复成功！"
+
+msgid "Backup OpenClash"
+msgstr "备份 OpenClash"
+
+msgid "Not Select"
+msgstr "未选择"
+
+msgid "1. It may be that the plugin is not running"
+msgstr "1. 可能是插件未在运行"
+
+msgid "2. It may be that the cache causes the browser to directly use the IP for access"
+msgstr "2. 可能是缓存导致浏览直接使用IP地址进行访问"
+
+msgid "3. It may be that DNS hijacking did not take effect, so clash unable to reverse the domain name"
+msgstr "3. 可能是DNS未劫持成功，导致Clash无法正确反推出域名连接"
+
+msgid "4. It may be that the filled address cannot be resolved and connected"
+msgstr "4. 可能是所填地址无法进行解析和连接"
+
+msgid "OpenClash Log"
+msgstr "插件日志"
+
+msgid "Core Log"
+msgstr "内核日志"
+
+msgid "Append Upstream DNS"
+msgstr "追加上游DNS"
+
+msgid "Append The Upstream Assigned DNS And Gateway IP To The Nameserver"
+msgstr "将上游分配的DNS和网关IP追加到Nameserver"
+

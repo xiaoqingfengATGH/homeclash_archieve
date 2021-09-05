@@ -14,7 +14,7 @@ del_lock() {
    rm -rf "/tmp/lock/openclash_subs.lock"
 }
 
-LOGTIME=$(date "+%Y-%m-%d %H:%M:%S")
+LOGTIME=$(echo $(date "+%Y-%m-%d %H:%M:%S"))
 LOG_FILE="/tmp/openclash.log"
 CFG_FILE="/tmp/config.yaml"
 CRON_FILE="/etc/crontabs/root"
@@ -70,7 +70,7 @@ config_cus_up()
 	fi
 	if [ -z "$subscribe_url_param" ]; then
 	   if [ -n "$key_match_param" ] || [ -n "$key_ex_match_param" ]; then
-	      LOG_OUT "Config file【$name】is Replaced Successfully, Start Picking Nodes..."	      
+	      LOG_OUT "Config File【$name】is Replaced Successfully, Start Picking Nodes..."	      
 	      ruby -ryaml -E UTF-8 -e "
 	      begin
 	         Value = YAML.load_file('$CONFIG_FILE');
@@ -110,13 +110,13 @@ config_cus_up()
 	            }
 	         end;
 	      rescue Exception => e
-	         puts '${LOGTIME} Filter Proxies Error: ' + e.message
+	         puts '${LOGTIME} Error: Filter Proxies Error,【' + e.message + '】'
 	      ensure
 	         File.open('$CONFIG_FILE','w') {|f| YAML.dump(Value, f)};
 	      end" 2>/dev/null >> $LOG_FILE
 	   fi
 	   if [ "$servers_update" -eq 1 ]; then
-	      LOG_OUT "Config file【$name】is Replaced Successfully, Start to Reserving..."
+	      LOG_OUT "Config File【$name】is Replaced Successfully, Start to Reserving..."
 	      uci -q set openclash.config.config_update_path="/etc/openclash/config/$name.yaml"
 	      uci -q set openclash.config.servers_if_update=1
 	      uci commit openclash
@@ -171,9 +171,11 @@ config_su_check()
                if Value.key?('rules') or Value.key?('script') or Value.key?('rule-providers') then
                   if Value.key?('rules') then
                      Value_1['rules'] = Value['rules']
-                  elsif Value.key?('script') then
+                  end;
+                  if Value.key?('script') then
                      Value_1['script'] = Value['script']
-                  elsif Value.key?('rule-providers') then
+                  end;
+                  if Value.key?('rule-providers') then
                      Value_1['rule-providers'] = Value['rule-providers']
                   end;
                   File.open('$CFG_FILE','w') {|f| YAML.dump(Value_1, f)};
@@ -245,19 +247,19 @@ field_name_check()
          if Value.key?('Proxy') then
             Value['proxies'] = Value['Proxy']
             Value.delete('Proxy')
-            puts '${LOGTIME} Warning: Proxy is no longer used. Auto replaced by proxies.'
+            puts '${LOGTIME} Warning: Proxy is no longer used. Auto replaced by proxies'
          elsif Value.key?('Proxy Group') then
             Value['proxy-groups'] = Value['Proxy Group']
             Value.delete('Proxy Group')
-            puts '${LOGTIME} Warning: Proxy Group is no longer used. Auto replaced by proxy-groups.'
+            puts '${LOGTIME} Warning: Proxy Group is no longer used. Auto replaced by proxy-groups'
          elsif Value.key?('Rule') then
             Value['rules'] = Value['Rule']
             Value.delete('Rule')
-            puts '${LOGTIME} Warning: Rule is no longer used. Auto replaced by rules.'
+            puts '${LOGTIME} Warning: Rule is no longer used. Auto replaced by rules'
          elsif Value.key?('rule-provider') then
             Value['rule-providers'] = Value['rule-provider']
             Value.delete('rule-provider')
-             puts '${LOGTIME} Warning: rule-provider is no longer used. Auto replaced by rule-providers.'
+             puts '${LOGTIME} Warning: rule-provider is no longer used. Auto replaced by rule-providers'
          end;
          File.open('$CFG_FILE','w') {|f| YAML.dump(Value, f)};
       end;
@@ -303,7 +305,7 @@ EOF
          begin
          YAML.load_file('$CFG_FILE');
          rescue Exception => e
-         puts '${LOGTIME} Error: Unable To Parse Config File ' + e.message
+         puts '${LOGTIME} Error: Unable To Parse Config File,【' + e.message + '】'
          system 'rm -rf ${CFG_FILE} 2>/dev/null'
          end
          " 2>/dev/null >> $LOG_FILE
@@ -467,7 +469,7 @@ sub_info_get()
       begin
       YAML.load_file('$CFG_FILE');
       rescue Exception => e
-      puts '${LOGTIME} Error: Unable To Parse Config File ' + e.message
+      puts '${LOGTIME} Error: Unable To Parse Config File,【' + e.message + '】'
       system 'rm -rf ${CFG_FILE} 2>/dev/null'
       end
       " 2>/dev/null >> $LOG_FILE

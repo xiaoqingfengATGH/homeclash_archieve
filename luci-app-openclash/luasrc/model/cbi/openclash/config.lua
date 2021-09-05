@@ -76,6 +76,7 @@ dir = "/etc/openclash/config/"
 bakck_dir="/etc/openclash/backup"
 proxy_pro_dir="/etc/openclash/proxy_provider/"
 rule_pro_dir="/etc/openclash/rule_provider/"
+backup_dir="/tmp/"
 create_bakck_dir=fs.mkdir(bakck_dir)
 create_proxy_pro_dir=fs.mkdir(proxy_pro_dir)
 create_rule_pro_dir=fs.mkdir(rule_pro_dir)
@@ -93,6 +94,8 @@ HTTP.setfilehandler(
 				if meta and chunk then fd = nixio.open(proxy_pro_dir .. meta.file, "w") end
 			elseif fp == "rule-provider" then
 				if meta and chunk then fd = nixio.open(rule_pro_dir .. meta.file, "w") end
+			elseif fp == "backup-file" then
+				if meta and chunk then fd = nixio.open(backup_dir .. meta.file, "w") end
 			end
 
 			if not fd then
@@ -126,6 +129,11 @@ HTTP.setfilehandler(
 				um.value = translate("File saved to") .. ' "/etc/openclash/proxy_provider/"'
 			elseif fp == "rule-provider" then
 				um.value = translate("File saved to") .. ' "/etc/openclash/rule_provider/"'
+			elseif fp == "backup-file" then
+				os.execute("tar -C '/etc/openclash/' -xzf %s >/dev/null 2>&1" % (backup_dir .. meta.file))
+				os.execute("mv /etc/openclash/openclash /etc/config/openclash >/dev/null 2>&1")
+				fs.unlink(backup_dir .. meta.file)
+				um.value = translate("Backup File Restore Successful!")
 			end
 			fs.unlink("/tmp/Proxy_Group")
 		end
@@ -296,7 +304,7 @@ p.reset = false
 p.submit = false
 
 local provider_manage = {
-    {proxy_mg, rule_mg}
+    {proxy_mg, rule_mg, game_mg}
 }
 
 promg = p:section(Table, provider_manage)
@@ -313,6 +321,13 @@ o.inputtitle = translate("Rule Providers File List")
 o.inputstyle = "reload"
 o.write = function()
   HTTP.redirect(DISP.build_url("admin", "vpn", "openclash", "rule-providers-file-manage"))
+end
+
+o = promg:option(Button, "game_mg", " ")
+o.inputtitle = translate("Game Rules File List")
+o.inputstyle = "reload"
+o.write = function()
+  HTTP.redirect(DISP.build_url("admin", "services", "openclash", "game-rules-file-manage"))
 end
 
 m = SimpleForm("openclash",translate("Config File Edit"))
@@ -367,10 +382,6 @@ end
 def.write = function(self, section, value)
 end
 
-o = s:option(DummyValue, "")
-o.anonymous=true
-o.template = "openclash/config_editor"
-
 local t = {
     {Commit, Apply}
 }
@@ -378,7 +389,7 @@ local t = {
 a = m:section(Table, t)
 
 o = a:option(Button, "Commit", " ")
-o.inputtitle = translate("Commit Configurations")
+o.inputtitle = translate("Commit Settings")
 o.inputstyle = "apply"
 o.write = function()
 	fs.unlink("/tmp/Proxy_Group")
@@ -386,7 +397,7 @@ o.write = function()
 end
 
 o = a:option(Button, "Apply", " ")
-o.inputtitle = translate("Apply Configurations")
+o.inputtitle = translate("Apply Settings")
 o.inputstyle = "apply"
 o.write = function()
 	fs.unlink("/tmp/Proxy_Group")
@@ -395,5 +406,8 @@ o.write = function()
   SYS.call("/etc/init.d/openclash restart >/dev/null 2>&1 &")
   HTTP.redirect(DISP.build_url("admin", "vpn", "openclash"))
 end
+
+m:append(Template("openclash/config_editor"))
+m:append(Template("openclash/toolbar_show"))
 
 return ful , form , p , m

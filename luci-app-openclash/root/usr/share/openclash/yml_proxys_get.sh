@@ -13,11 +13,23 @@ del_lock() {
    rm -rf "/tmp/lock/openclash_proxies_get.lock"
 }
 
+sub_info_get()
+{
+   local section="$1" name
+   config_get "name" "$section" "name" ""
+   
+   if [ -z "$name" ] || [ "$name" != "${CONFIG_NAME%%.*}" ]; then
+      return
+   else
+      sub_cfg=true
+   fi
+}
+
 CONFIG_FILE=$(uci get openclash.config.config_path 2>/dev/null)
 CONFIG_NAME=$(echo "$CONFIG_FILE" |awk -F '/' '{print $5}' 2>/dev/null)
 UPDATE_CONFIG_FILE=$(uci get openclash.config.config_update_path 2>/dev/null)
 UPDATE_CONFIG_NAME=$(echo "$UPDATE_CONFIG_FILE" |awk -F '/' '{print $5}' 2>/dev/null)
-LOGTIME=$(date "+%Y-%m-%d %H:%M:%S")
+LOGTIME=$(echo $(date "+%Y-%m-%d %H:%M:%S"))
 LOG_FILE="/tmp/openclash.log"
 set_lock
 
@@ -44,6 +56,10 @@ if [ ! -s "$CONFIG_FILE" ] && [ ! -s "$BACKUP_FILE" ]; then
 elif [ ! -s "$CONFIG_FILE" ] && [ -s "$BACKUP_FILE" ]; then
    mv "$BACKUP_FILE" "$CONFIG_FILE"
 fi
+
+#判断订阅配置
+config_load "openclash"
+config_foreach sub_info_get "config_subscribe"
 
 #提取节点部分
 proxy_hash=$(ruby_read "$CONFIG_FILE" ".select {|x| 'proxies' == x or 'proxy-providers' == x}")
@@ -180,7 +196,7 @@ do
       else
          ${uci_set}enabled="1"
       fi
-      if [ "$servers_if_update" = "1" ]; then
+      if [ "$servers_if_update" = "1" ] || "$sub_cfg"; then
          ${uci_set}manual="0"
       else
          ${uci_set}manual="1"
@@ -251,7 +267,7 @@ do
    }.join;
       
    rescue Exception => e
-   puts '${LOGTIME} Resolve Proxy-provider【${CONFIG_NAME} - ${provider_name}】 Error: ' + e.message
+   puts '${LOGTIME} Error: Resolve Proxy-provider Error,【${CONFIG_NAME} - ${provider_name}: ' + e.message + '】'
    end
    " 2>/dev/null >> $LOG_FILE &
       
@@ -276,7 +292,7 @@ do
             end
             }
          rescue Exception => e
-         puts '${LOGTIME} Resolve Proxy-provider【${CONFIG_NAME} - ${provider_name}】 Error: ' + e.message
+         puts '${LOGTIME} Error: Resolve Proxy-provider Error,【${CONFIG_NAME} - ${provider_name}: ' + e.message + '】'
          end
          }.join;
          " 2>/dev/null >> $LOG_FILE &
@@ -373,7 +389,7 @@ do
       else
          ${uci_set}enabled="1"
       fi
-      if [ "$servers_if_update" = "1" ]; then
+      if [ "$servers_if_update" = "1" ] || "$sub_cfg"; then
          ${uci_set}manual="0"
       else
          ${uci_set}manual="1"
@@ -574,6 +590,28 @@ do
                   system(custom)
                end
             end
+            #ws-opts-path:
+            if Value['proxies'][$count].key?('ws-opts') then
+               if Value['proxies'][$count]['ws-opts'].key?('path') then
+                  ws_opts_path = '${uci_set}ws_opts_path=\"' + Value['proxies'][$count]['ws-opts']['path'].to_s + '\"'
+                  system(ws_opts_path)
+               end
+               #ws-opts-headers:
+               if Value['proxies'][$count]['ws-opts'].key?('headers') then
+                  ws_opts_headers = '${uci_set}ws_opts_headers=\"' + Value['proxies'][$count]['ws-opts']['headers'].to_s + '\"'
+                  system(ws_opts_headers)
+               end
+               #max-early-data:
+               if Value['proxies'][$count]['ws-opts'].key?('max-early-data') then
+                  max_early_data = '${uci_set}max_early_data=\"' + Value['proxies'][$count]['ws-opts']['max-early-data'].to_s + '\"'
+                  system(max_early_data)
+               end
+               #early-data-header-name:
+               if Value['proxies'][$count]['ws-opts'].key?('early-data-header-name') then
+                  early_data_header_name = '${uci_set}early_data_header_name=\"' + Value['proxies'][$count]['ws-opts']['early-data-header-name'].to_s + '\"'
+                  system(early_data_header_name)
+               end
+            end
          elsif Value['proxies'][$count]['network'].to_s == 'http'
             system '${uci_set}obfs_vmess=http'
             if Value['proxies'][$count].key?('http-opts') then
@@ -608,7 +646,7 @@ do
                   }
                end
                if Value['proxies'][$count]['h2-opts'].key?('path') then
-                  h2_path = '${uci_set}h2_path=\"' + Value['proxies'][$count]['h2-opts']['host'].to_s + '\"'
+                  h2_path = '${uci_set}h2_path=\"' + Value['proxies'][$count]['h2-opts']['path'].to_s + '\"'
                   system(h2_path)
                end
             end
@@ -729,7 +767,7 @@ do
    end;
    
    rescue Exception => e
-   puts '${LOGTIME} Resolve Proxy【${CONFIG_NAME} - ${server_type} - ${server_name}】 Error: ' + e.message
+   puts '${LOGTIME} Error: Resolve Proxy Error,【${CONFIG_NAME} - ${server_type} - ${server_name}: ' + e.message + '】'
    end
    " 2>/dev/null >> $LOG_FILE &
    
@@ -765,7 +803,7 @@ do
             end
             }
          rescue Exception => e
-         puts '${LOGTIME} Resolve Proxy【${CONFIG_NAME} - ${server_type} - ${server_name}】 Error: ' + e.message
+         puts '${LOGTIME} Error: Resolve Proxy Error,【${CONFIG_NAME} - ${server_type} - ${server_name}: ' + e.message + '】'
          end
          }.join;
          " 2>/dev/null >> $LOG_FILE &

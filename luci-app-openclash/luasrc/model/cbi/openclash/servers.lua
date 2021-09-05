@@ -202,7 +202,7 @@ o.write = function()
 end
 
 o = b:option(Button,"Delete_Proxy_Provider", " ")
-o.inputtitle = translate("Delete Proxy Provider")
+o.inputtitle = translate("Delete Proxy Providers")
 o.inputstyle = "reset"
 o.write = function()
   m.uci:set("openclash", "config", "enable", 0)
@@ -228,7 +228,7 @@ local t = {
 a = m:section(Table, t)
 
 o = a:option(Button,"Load_Config", " ")
-o.inputtitle = translate("Load Config")
+o.inputtitle = translate("Read Config")
 o.inputstyle = "apply"
 o.write = function()
   m.uci:set("openclash", "config", "enable", 0)
@@ -238,7 +238,7 @@ o.write = function()
 end
 
 o = a:option(Button, "Commit", " ") 
-o.inputtitle = translate("Commit Configurations")
+o.inputtitle = translate("Commit Settings")
 o.inputstyle = "apply"
 o.write = function()
 	fs.unlink("/tmp/Proxy_Group")
@@ -247,7 +247,7 @@ o.write = function()
 end
 
 o = a:option(Button, "Apply", " ")
-o.inputtitle = translate("Apply Configurations")
+o.inputtitle = translate("Apply Settings")
 o.inputstyle = "apply"
 o.write = function()
 	fs.unlink("/tmp/Proxy_Group")
@@ -258,4 +258,6 @@ o.write = function()
 end
 
 m:append(Template("openclash/server_list"))
+m:append(Template("openclash/toolbar_show"))
+
 return m
