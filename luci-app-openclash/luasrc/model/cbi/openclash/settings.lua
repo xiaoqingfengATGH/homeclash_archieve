@@ -126,7 +126,7 @@ switch_mode.template = "openclash/switch_mode"
 
 ---- General Settings
 o = s:taboption("settings", ListValue, "interface_name", font_red..bold_on..translate("Bind Network Interface")..bold_off..font_off)
-local de_int = SYS.exec("ip route |grep 'default' |awk '{print $5}' 2>/dev/null")
+local de_int = SYS.exec("ip route |grep 'default' |awk '{print $5}' 2>/dev/null") or SYS.exec("/usr/share/openclash/openclash_get_network.lua 'dhcp'")
 o.description = translate("Default Interface Name:").." "..font_green..bold_on..de_int..bold_off..font_off..translate(",Try Enable If Network Loopback")
 local interfaces = SYS.exec("ls -l /sys/class/net/ 2>/dev/null |awk '{print $9}' 2>/dev/null")
 for interface in string.gmatch(interfaces, "%S+") do
@@ -157,7 +157,7 @@ o.description = translate("Set Log File Size (KB)")
 o.default=1024
 
 o = s:taboption("settings", Flag, "intranet_allowed", translate("Only intranet allowed"))
-o.description = translate("When Enabled, The Control Panel And The Connection Broker Port Will Not Be Accessible From The Public Network")
+o.description = translate("When Enabled, The Control Panel And The Connection Broker Port Will Not Be Accessible From The Public Network, Not Support IPv6 Yet")
 o.default=0
 
 o = s:taboption("settings", Value, "dns_port")
@@ -216,7 +216,7 @@ o.description = font_red..bold_on..translate("Append The Upstream Assigned DNS A
 o.default=1
 
 o = s:taboption("dns", Flag, "ipv6_dns", translate("IPv6 DNS Resolve"))
-o.description = font_red..bold_on..translate("Enable Clash to Resolve ipv6 DNS Requests")..bold_off..font_off
+o.description = font_red..bold_on..translate("Enable Clash to Resolve IPv6 DNS Requests")..bold_off..font_off
 o.default=0
 
 o = s:taboption("dns", Flag, "disable_masq_cache", translate("Disable Dnsmasq's DNS Cache"))
@@ -364,6 +364,7 @@ luci.ip.neighbors({ family = 4 }, function(n)
 	end
 end)
 
+if string.len(SYS.exec("/usr/share/openclash/openclash_get_network.lua 'gateway6'")) ~= 0 then
 luci.ip.neighbors({ family = 6 }, function(n)
 	if n.mac and n.dest then
 		ip_b:value(n.dest:string())
@@ -372,6 +373,7 @@ luci.ip.neighbors({ family = 6 }, function(n)
 		mac_w:value(n.mac, "%s (%s)" %{ n.mac, n.dest:string() })
 	end
 end)
+end
 end
 
 o = s:taboption("lan_ac", DynamicList, "wan_ac_black_ips", translate("WAN Bypassed Host List"))
@@ -394,7 +396,7 @@ o.default=0
 custom_rules = s:taboption("rules", Value, "custom_rules")
 custom_rules:depends("enable_custom_clash_rules", 1)
 custom_rules.template = "cbi/tvalue"
-custom_rules.description = translate("Custom Priority Rules Here, For More Go:").." "..'<a href="https://lancellc.gitbook.io/clash/clash-config-file/rules">https://lancellc.gitbook.io/clash/clash-config-file/rules</a>'.." ,"..translate("IP To CIDR:").." "..'<a href="http://ip2cidr.com">http://ip2cidr.com</a>'
+custom_rules.description = translate("Custom Priority Rules Here, For More Go:").." ".."<a href='javascript:void(0)' onclick='javascript:return winOpen(\"https://lancellc.gitbook.io/clash/clash-config-file/rules\")'>https://lancellc.gitbook.io/clash/clash-config-file/rules</a>".." ,"..translate("IP To CIDR:").." ".."<a href='javascript:void(0)' onclick='javascript:return winOpen(\"http://ip2cidr.com\")'>http://ip2cidr.com</a>"
 custom_rules.rows = 20
 custom_rules.wrap = "off"
 
@@ -414,7 +416,7 @@ end
 custom_rules_2 = s:taboption("rules", Value, "custom_rules_2")
 custom_rules_2:depends("enable_custom_clash_rules", 1)
 custom_rules_2.template = "cbi/tvalue"
-custom_rules_2.description = translate("Custom Extended Rules Here, For More Go:").." "..'<a href="https://lancellc.gitbook.io/clash/clash-config-file/rules">https://lancellc.gitbook.io/clash/clash-config-file/rules</a>'.." ,"..translate("IP To CIDR:").." "..'<a href="http://ip2cidr.com">http://ip2cidr.com</a>'
+custom_rules_2.description = translate("Custom Extended Rules Here, For More Go:").." ".."<a href='javascript:void(0)' onclick='javascript:return winOpen(\"https://lancellc.gitbook.io/clash/clash-config-file/rules\")'>https://lancellc.gitbook.io/clash/clash-config-file/rules</a>".." ,"..translate("IP To CIDR:").." ".."<a href='javascript:void(0)' onclick='javascript:return winOpen(\"http://ip2cidr.com\")'>http://ip2cidr.com</a>"
 custom_rules_2.rows = 20
 custom_rules_2.wrap = "off"
 
@@ -493,7 +495,6 @@ o.description = translate("Custom GEOIP Data URL, Click Button Below To Refresh 
 o:value("https://cdn.jsdelivr.net/gh/alecthw/mmdb_china_ip_list@release/lite/Country.mmdb", translate("Alecthw-lite-Version")..translate("(Default mmdb)"))
 o:value("https://cdn.jsdelivr.net/gh/alecthw/mmdb_china_ip_list@release/Country.mmdb", translate("Alecthw-Version")..translate("(All Info mmdb)"))
 o:value("https://cdn.jsdelivr.net/gh/Hackl0us/GeoIP2-CN@release/Country.mmdb", translate("Hackl0us-Version")..translate("(Only CN)"))
-o:value("https://static.clash.to/GeoIP2/GeoIP2-Country.mmdb", translate("Static.clash.to"))
 o:value("https://geolite.clash.dev/Country.mmdb", translate("Geolite.clash.dev"))
 o.default = "http://www.ideame.top/mmdb/Country.mmdb"
 
@@ -590,6 +591,19 @@ o = s:taboption("dashboard", Value, "dashboard_password")
 o.title = translate("Dashboard Secret")
 o.rmempty = true
 o.description = translate("Set Dashboard Secret")
+
+o = s:taboption("dashboard", Value, "dashboard_forward_domain")
+o.title = translate("Public Dashboard Address")
+o.datatype = "or(host, string)"
+o.placeholder = "example.com"
+o.rmempty = true
+o.description = translate("Domain Name For Dashboard Login From Public Network")
+
+o = s:taboption("dashboard", Value, "dashboard_forward_port")
+o.title = translate("Public Dashboard Port")
+o.datatype = "port"
+o.rmempty = true
+o.description = translate("Port For Dashboard Login From Public Network")
 
 ---- version update
 core_update = s:taboption("version_update", DummyValue, "", nil)
@@ -771,7 +785,7 @@ s.anonymous = true
 
 custom_hosts = s:option(Value, "custom_hosts")
 custom_hosts.template = "cbi/tvalue"
-custom_hosts.description = translate("Custom Hosts Here, For More Go:").." "..'<a href="https://lancellc.gitbook.io/clash/clash-config-file/dns/host">https://lancellc.gitbook.io/clash/clash-config-file/dns/host</a>'
+custom_hosts.description = translate("Custom Hosts Here, For More Go:").." ".."<a href='javascript:void(0)' onclick='javascript:return winOpen(\"https://lancellc.gitbook.io/clash/clash-config-file/dns/host\")'>https://lancellc.gitbook.io/clash/clash-config-file/dns/host</a>"
 custom_hosts.rows = 20
 custom_hosts.wrap = "off"
 
