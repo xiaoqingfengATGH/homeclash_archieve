@@ -114,7 +114,7 @@
 	var one_key_update  = document.getElementById('one_key_update');
 	var remove_core  = document.getElementById('remove_core');
   
-  XHR.get('<%=luci.dispatcher.build_url("admin", "services", "openclash", "update")%>', null, function(x, status) {
+  XHR.get('<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "update")%>', null, function(x, status) {
 		if ( x && x.status == 200 ) {
 		  if ( status.corever != "0" && status.corever != "" ) {
 		     core_version.value = status.corever;
@@ -125,7 +125,7 @@
 		}
 	});
 	
-	XHR.poll(3, '<%=luci.dispatcher.build_url("admin", "services", "openclash", "update")%>', null, function(x, status) {
+	XHR.poll(3, '<%=luci.dispatcher.build_url("admin", "vpn", "openclash", "update")%>', null, function(x, status) {
 		if ( x && x.status == 200 ) {
 		  var cpu_models = status.coremodel;
 			var arr_model = cpu_models.split(",");

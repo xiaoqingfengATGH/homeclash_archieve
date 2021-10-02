@@ -222,7 +222,7 @@ btncp.write=function(a,t)
 			break
 		end
 	end
-	HTTP.redirect(luci.dispatcher.build_url("admin", "services", "openclash", "config"))
+	HTTP.redirect(luci.dispatcher.build_url("admin", "vpn", "openclash", "config"))
 end
 
 btndl = tb:option(Button,"download",translate("Download Config"))
@@ -340,7 +340,7 @@ o = promg:option(Button, "game_mg", " ")
 o.inputtitle = translate("Game Rules File List")
 o.inputstyle = "reload"
 o.write = function()
-  HTTP.redirect(DISP.build_url("admin", "services", "openclash", "game-rules-file-manage"))
+  HTTP.redirect(DISP.build_url("admin", "vpn", "openclash", "game-rules-file-manage"))
 end
 
 m = SimpleForm("openclash",translate("Config File Edit"))
