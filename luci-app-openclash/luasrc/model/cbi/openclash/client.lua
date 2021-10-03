@@ -123,6 +123,7 @@ o.write = function()
   SYS.call("/etc/init.d/openclash stop >/dev/null 2>&1 &")
 end
 
+--[[
 d = Map("openclash")
 d.title = translate("Credits")
 d.pageaction = false
@@ -131,6 +132,7 @@ d:section(SimpleSection).template  = "openclash/developer"
 dler = Map("openclash")
 dler.pageaction = false
 dler:section(SimpleSection).template  = "openclash/dlercloud"
+]]
 
 if m.uci:get("openclash", "config", "dler_token") then
   return m, dler, form, s, ap, d
