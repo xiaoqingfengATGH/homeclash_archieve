@@ -33,8 +33,10 @@ config openclash 'config'
 	option interface_name '0'
 	option log_size '1024'
 	option tolerance '0'
+	option store_fakeip '1'
 	option custom_fallback_filter '0'
 	option append_wan_dns '1'
+	option netflix_domains_prefetch '0'
 	option geo_custom_url 'https://cdn.jsdelivr.net/gh/alecthw/mmdb_china_ip_list@release/lite/Country.mmdb'
 	option chnr_custom_url 'https://ispip.clang.cn/all_cn.txt'
 	option chnr6_custom_url 'https://ispip.clang.cn/all_cn_ipv6.txt'
@@ -87,21 +89,21 @@ config groups
 
 config dns_servers
 	option type 'https'
-	option group 'fallback'
-	option enabled '1'
 	option ip 'doh.pub/dns-query'
+	option group 'fallback'
+	option enabled '1'
 
 config dns_servers
 	option type 'https'
-	option group 'fallback'
-	option enabled '1'
 	option ip 'dns.alidns.com/dns-query'
+	option group 'fallback'
+	option enabled '1'
 
 config dns_servers
 	option type 'https'
 	option group 'fallback'
-	option enabled '1'
 	option ip 'cloudflare-dns.com/dns-query'
+	option enabled '1'
 
 config groups
 	option config 'HomeClash.yaml'
@@ -123,10 +125,10 @@ config groups
 	list other_group 'Proxy'
 
 config dns_servers
-	option enabled '0'
 	option group 'fallback'
 	option type 'https'
 	option ip '1.1.1.1/dns-query'
+	option enabled '0'
 
 config dns_servers
 	option enabled '1'
@@ -141,17 +143,24 @@ config dns_servers
 	option ip '8.8.8.8'
 	option port '853'
 	option type 'tls'
-	
+
 config dns_servers
-	option enabled '0'
 	option type 'udp'
 	option group 'fallback'
 	option ip '2001:4860:4860::8888'
 	option port '53'
+	option enabled '0'
 
 config dns_servers
-	option enabled '0'
 	option type 'udp'
 	option group 'fallback'
 	option ip '2001:4860:4860::8844'
 	option port '53'
+	option enabled '0'
+
+config dns_servers
+	option type 'udp'
+	option group 'fallback'
+	option ip '2001:da8::666'
+	option port '53'
+	option enabled '1'
