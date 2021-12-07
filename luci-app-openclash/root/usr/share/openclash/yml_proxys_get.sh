@@ -237,6 +237,14 @@ do
    }.join;
    
    Thread.new{
+   #filter
+   if Value['proxy-providers'].values[$provider_count].key?('filter') then
+      provider_gen_filter = '${uci_set}provider_filter=' + Value['proxy-providers'].values[$provider_count]['filter'].to_s
+      system(provider_gen_filter)
+   end
+   }.join;
+   
+   Thread.new{
    #che_enable
    if Value['proxy-providers'].values[$provider_count].key?('health-check') then
       if Value['proxy-providers'].values[$provider_count]['health-check'].key?('enable') then
@@ -366,12 +374,12 @@ do
    server_type=$(ruby_read_hash "$proxy_hash" "['proxies'][$count]['type']")
 
    LOG_OUT "Start Getting【$CONFIG_NAME - $server_type - $server_name】Proxy Setting..."
-
+   
    if [ "$servers_update" -eq 1 ] && [ ! -z "$server_num" ]; then
 #更新已有节点
       uci_set="uci -q set openclash.@servers["$server_num"]."
-      uci_add="uci -q add_list $name.$uci_name_tmp."
-      uci_del="uci -q del_list $name.$uci_name_tmp."
+      uci_add="uci -q add_list openclash.@servers["$server_num"]."
+      uci_del="uci -q del_list openclash.@servers["$server_num"]."
 
       ${uci_set}manual="0"
       ${uci_set}name="$server_name"
@@ -380,9 +388,9 @@ do
 #添加新节点
       name=openclash
       uci_name_tmp=$(uci add $name servers)
-
       uci_set="uci -q set $name.$uci_name_tmp."
       uci_add="uci -q add_list $name.$uci_name_tmp."
+      uci_del="uci -q del_list $name.$uci_name_tmp."
 
       if [ "$config_group_exist" -eq 0 ] && [ "$servers_if_update" = "1" ] && [ "$servers_update" -eq 1 ]; then
          ${uci_set}enabled="0"
@@ -423,6 +431,22 @@ do
    if Value['proxies'][$count].key?('udp') then
       udp = '${uci_set}udp=' + Value['proxies'][$count]['udp'].to_s
       system(udp)
+   end
+   }.join;
+   
+   Thread.new{
+   #interface-name
+   if Value['proxies'][$count].key?('interface-name') then
+      interface_name = '${uci_set}interface_name=' + Value['proxies'][$count]['interface-name'].to_s
+      system(interface_name)
+   end
+   }.join;
+   
+   Thread.new{
+   #routing-mark
+   if Value['proxies'][$count].key?('routing-mark') then
+      routing_mark = '${uci_set}routing_mark=' + Value['proxies'][$count]['routing-mark'].to_s
+      system(routing_mark)
    end
    }.join;
    
@@ -580,15 +604,17 @@ do
             system '${uci_set}obfs_vmess=websocket'
             #ws-path:
             if Value['proxies'][$count].key?('ws-path') then
-               path = '${uci_set}path=\"' + Value['proxies'][$count]['ws-path'].to_s + '\"'
+               path = '${uci_set}ws_opts_path=\"' + Value['proxies'][$count]['ws-path'].to_s + '\"'
                system(path)
             end
             #Host:
             if Value['proxies'][$count].key?('ws-headers') then
-               if Value['proxies'][$count]['ws-headers'].key?('Host') then
-                  custom = '${uci_set}custom=\"' + Value['proxies'][$count]['ws-headers']['Host'].to_s + '\"'
+               system '${uci_del}ws_opts_headers >/dev/null 2>&1'
+               Value['proxies'][$count]['ws-headers'].keys.each{
+               |v|
+                  custom = '${uci_add}ws_opts_headers=\"' + v.to_s + ': '+ Value['proxies'][$count]['ws-headers'][v].to_s + '\"'
                   system(custom)
-               end
+               }
             end
             #ws-opts-path:
             if Value['proxies'][$count].key?('ws-opts') then

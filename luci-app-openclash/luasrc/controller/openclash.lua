@@ -16,6 +16,7 @@ function index()
 	entry({"admin", "vpn", "openclash", "startlog"},call("action_start")).leaf=true
 	entry({"admin", "vpn", "openclash", "refresh_log"},call("action_refresh_log"))
 	entry({"admin", "vpn", "openclash", "del_log"},call("action_del_log"))
+	entry({"admin", "vpn", "openclash", "del_start_log"},call("action_del_start_log"))
 	entry({"admin", "vpn", "openclash", "close_all_connection"},call("action_close_all_connection"))
 	entry({"admin", "vpn", "openclash", "reload_firewall"},call("action_reload_firewall"))
 	entry({"admin", "vpn", "openclash", "update_subscribe"},call("action_update_subscribe"))
@@ -31,6 +32,7 @@ function index()
 	entry({"admin", "vpn", "openclash", "ping"}, call("act_ping"))
 	entry({"admin", "vpn", "openclash", "download_rule"}, call("action_download_rule"))
 	entry({"admin", "vpn", "openclash", "download_netflix_domains"}, call("action_download_netflix_domains"))
+	entry({"admin", "vpn", "openclash", "download_disney_domains"}, call("action_download_disney_domains"))
 	entry({"admin", "vpn", "openclash", "catch_netflix_domains"}, call("action_catch_netflix_domains"))
 	entry({"admin", "vpn", "openclash", "write_netflix_domains"}, call("action_write_netflix_domains"))
 	entry({"admin", "vpn", "openclash", "restore"}, call("action_restore_config"))
@@ -85,11 +87,9 @@ local core_path_mode = uci:get("openclash", "config", "small_flash_memory")
 if core_path_mode ~= "1" then
 	dev_core_path="/etc/openclash/core/clash"
 	tun_core_path="/etc/openclash/core/clash_tun"
-	game_core_path="/etc/openclash/core/clash_game"
 else
 	dev_core_path="/tmp/etc/openclash/core/clash"
 	tun_core_path="/tmp/etc/openclash/core/clash_tun"
-	game_core_path="/tmp/etc/openclash/core/clash_game"
 end
 
 local function is_running()
@@ -172,25 +172,50 @@ end
 
 local function startlog()
 	local info = ""
+	local line_trans = ""
 	if nixio.fs.access("/tmp/openclash_start.log") then
 		info = luci.sys.exec("sed -n '$p' /tmp/openclash_start.log 2>/dev/null")
+		line_trans = info
 		if string.len(info) > 0 then
 			if not string.find (info, "【") and not string.find (info, "】") then
-   			info = luci.i18n.translate(string.sub(info, 0, -1))
+   			line_trans = luci.i18n.translate(string.sub(info, 0, -1))
    		else
+   			local no_trans = {}
+   			line_trans = ""
    			local a = string.find (info, "【")
-   			local b = string.find (info, "】")+2
-   			if a <= 1 then
-   				info = string.sub(info, 0, b)..luci.i18n.translate(string.sub(info, b+1, -1))
-   			elseif b < string.len(info) then
-   				info = luci.i18n.translate(string.sub(info, 0, a-1))..string.sub(info, a, b)..luci.i18n.translate(string.sub(info, b+1, -1))
-   			elseif b == string.len(info) then
-   				info = luci.i18n.translate(string.sub(info, 0, a-1))..string.sub(info, a, -1)
+   			local b = string.find (info, "】") + 2
+   			local c = 0
+   			local v
+   			local x
+   			while true do
+   				table.insert(no_trans, a)
+   				table.insert(no_trans, b)
+   				if string.find (info, "【", b+1) and string.find (info, "】", b+1) then
+   					a = string.find (info, "【", b+1)
+   					b = string.find (info, "】", b+1) + 2
+   				else
+   					break
+   				end
+   			end
+   			for k = 1, #no_trans, 2 do
+   				x = no_trans[k]
+   				v = no_trans[k+1]
+   				if x <= 1 then
+   					line_trans = line_trans .. string.sub(info, 0, v)
+   				elseif v <= string.len(info) then
+   					line_trans = line_trans .. luci.i18n.translate(string.sub(info, c, x - 1))..string.sub(info, x, v)
+   				end
+   				c = v + 1
+   			end
+   			if c > string.len(info) then
+   				line_trans = line_trans
+   			else
+   				line_trans = line_trans .. luci.i18n.translate(string.sub(info, c, -1))
    			end
    		end
    	end
 	end
-	return info
+	return line_trans
 end
 
 local function coremodel()
@@ -219,20 +244,11 @@ else
 end
 end
 
-local function coregamecv()
-if not nixio.fs.access(game_core_path) then
-  return "0"
-else
-	return luci.sys.exec(string.format("%s -v 2>/dev/null |awk -F ' ' '{print $2}'",game_core_path))
-end
-end
-
 local function corelv()
 	luci.sys.call("sh /usr/share/openclash/clash_version.sh")
 	local core_lv = luci.sys.exec("sed -n 1p /tmp/clash_last_version 2>/dev/null")
 	local core_tun_lv = luci.sys.exec("sed -n 2p /tmp/clash_last_version 2>/dev/null")
-	local core_game_lv = luci.sys.exec("sed -n 3p /tmp/clash_last_version 2>/dev/null")
-	return core_lv .. "," .. core_tun_lv .. "," .. core_game_lv
+	return core_lv .. "," .. core_tun_lv
 end
 
 local function opcv()
@@ -298,6 +314,11 @@ end
 function download_rule()
 	local filename = luci.http.formvalue("filename")
   local state = luci.sys.call(string.format('/usr/share/openclash/openclash_download_rule_list.sh "%s" >/dev/null 2>&1',filename))
+  return state
+end
+
+function download_disney_domains()
+  local state = luci.sys.call(string.format('/usr/share/openclash/openclash_download_rule_list.sh "%s" >/dev/null 2>&1',"disney_domains"))
   return state
 end
 
@@ -649,7 +670,7 @@ function action_toolbar_show_sys()
 	local mem, cpu
 	if pid and pid ~= "" then
 		mem = tonumber(luci.sys.exec(string.format("cat /proc/%s/status 2>/dev/null |grep -w VmRSS |awk '{print $2}'", pid)))
-		cpu = luci.sys.exec(string.format("top -b -n1 |grep -E '(%s|PID)' 2>/dev/null |grep -v grep |awk '{for (i=1;i<=NF;i++) {if ($i ~ /CPU/) num=i}};{print $num}' 2>/dev/null | sed -n '2p' 2>/dev/null", pid))
+		cpu = luci.sys.exec(string.format("top -b -n1 |grep -E '%s' 2>/dev/null |grep -v grep |awk '{for (i=1;i<=NF;i++) {if ($i ~ /clash/) break; else cpu=i}}; {print $cpu}' 2>/dev/null", pid))
 		if mem and cpu then
 			mem = fs.filesize(mem*1024)
 			cpu = string.gsub(cpu, "%%\n", "")
@@ -691,7 +712,7 @@ function action_toolbar_show()
 			connection = "0"
 		end
 		mem = tonumber(luci.sys.exec(string.format("cat /proc/%s/status 2>/dev/null |grep -w VmRSS |awk '{print $2}'", pid)))
-		cpu = luci.sys.exec(string.format("top -b -n1 |grep -E '(%s|PID)' 2>/dev/null |grep -v grep |awk '{for (i=1;i<=NF;i++) {if ($i ~ /CPU/) num=i}};{print $num}' 2>/dev/null | sed -n '2p' 2>/dev/null", pid))
+		cpu = luci.sys.exec(string.format("top -b -n1 |grep -E '%s' 2>/dev/null |grep -v grep |awk '{for (i=1;i<=NF;i++) {if ($i ~ /clash/) break; else cpu=i}}; {print $cpu}' 2>/dev/null", pid))
 		if mem and cpu then
 			mem = fs.filesize(mem*1024)
 			cpu = string.gsub(cpu, "%%\n", "")
@@ -851,7 +872,6 @@ function action_update()
 			coremodel = coremodel(),
 			corecv = corecv(),
 			coretuncv = coretuncv(),
-			coregamecv = coregamecv(),
 			opcv = opcv(),
 			corever = corever(),
 			upchecktime = upchecktime(),
@@ -926,11 +946,18 @@ function action_download_netflix_domains()
 	})
 end
 
+function action_download_disney_domains()
+	luci.http.prepare_content("application/json")
+	luci.http.write_json({
+		rule_download_status = download_disney_domains();
+	})
+end
+
 function action_refresh_log()
 	luci.http.prepare_content("application/json")
 	local logfile="/tmp/openclash.log"
 	local file = io.open(logfile, "r+")
-	local info, len, line, lens, cache
+	local info, len, line, lens, cache, ex_match, line_trans
 	local data = ""
 	local limit = 1000
 	local log_tb = {}
@@ -952,28 +979,64 @@ function action_refresh_log()
 	string.gsub(info, '[^\n]+', function(w) table.insert(log_tb, w) end, lens)
 	for i=1, lens do
 		line = log_tb[i]:reverse()
-		if not string.find (line, "level=") then
-			if not string.find (line, "【") and not string.find (line, "】") then
-   			line = string.sub(line, 0, 20)..luci.i18n.translate(string.sub(line, 21, -1))
-   		else
-   			local a = string.find (line, "【")
-   			local b = string.find (line, "】")+2
-   			if a <= 21 then
-   				line = string.sub(line, 0, b)..luci.i18n.translate(string.sub(line, b+1, -1))
-   			elseif b < string.len(line) then
-   				line = string.sub(line, 0, 20)..luci.i18n.translate(string.sub(line, 21, a-1))..string.sub(line, a, b)..luci.i18n.translate(string.sub(line, b+1, -1))
-   			elseif b == string.len(line) then
-   				line = string.sub(line, 0, 20)..luci.i18n.translate(string.sub(line, 21, a-1))..string.sub(line, a, b)
+		line_trans = line
+		ex_match = false
+		while true do
+			ex_keys = {"^Sec%-Fetch%-Mode", "^User%-Agent", "^Access%-Control", "^Accept", "^Origin", "^Referer", "^Connection", "^Pragma", "^Cache-"}
+    	for key=1, #ex_keys do
+    		if string.find (line, ex_keys[key]) then
+    			ex_match = true
+    			break
+    		end
+    	end
+    	if ex_match then break end
+    	if not string.find (line, "level=") then
+				if not string.find (line, "【") and not string.find (line, "】") then
+   				line_trans = string.sub(line, 0, 20)..luci.i18n.translate(string.sub(line, 21, -1))
+   			else
+   				local no_trans = {}
+   				line_trans = ""
+   				local a = string.find (line, "【")
+   				local b = string.find (line, "】") + 2
+   				local c = 21
+   				local v
+   				local x
+   				while true do
+   					table.insert(no_trans, a)
+   					table.insert(no_trans, b)
+   					if string.find (line, "【", b+1) and string.find (line, "】", b+1) then
+   						a = string.find (line, "【", b+1)
+   						b = string.find (line, "】", b+1) + 2
+   					else
+   						break
+   					end
+   				end
+   				for k = 1, #no_trans, 2 do
+   					x = no_trans[k]
+   					v = no_trans[k+1]
+   					if x <= 21 then
+   						line_trans = line_trans .. string.sub(line, 0, v)
+   					elseif v <= string.len(line) then
+   						line_trans = line_trans .. luci.i18n.translate(string.sub(line, c, x - 1)) .. string.sub(line, x, v)
+   					end
+   					c = v + 1
+   				end
+   				if c > string.len(line) then
+   					line_trans = string.sub(line, 0, 20) .. line_trans
+   				else
+   					line_trans = string.sub(line, 0, 20) .. line_trans .. luci.i18n.translate(string.sub(line, c, -1))
+   				end
    			end
-   		end
-		end
-		if data == "" then
-    	data = line
-    elseif log_len == 0 and i == limit then
-    	data = data .."\n" .. line .. "\n..."
-    else
-    	data = data .."\n" .. line
-  	end
+			end
+			if data == "" then
+    		data = line_trans
+    	elseif log_len == 0 and i == limit then
+    		data = data .."\n" .. line_trans .. "\n..."
+    	else
+    		data = data .."\n" .. line_trans
+  		end
+    	break
+    end
 	end
 	luci.http.write_json({
 		len = len,
@@ -983,6 +1046,11 @@ end
 
 function action_del_log()
 	luci.sys.exec(": > /tmp/openclash.log")
+	return
+end
+
+function action_del_start_log()
+	luci.sys.exec(": > /tmp/openclash_start.log")
 	return
 end
 

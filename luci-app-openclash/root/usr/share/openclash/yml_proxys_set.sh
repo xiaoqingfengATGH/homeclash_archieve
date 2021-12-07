@@ -67,6 +67,7 @@ yml_proxy_provider_set()
    config_get "type" "$section" "type" ""
    config_get "name" "$section" "name" ""
    config_get "path" "$section" "path" ""
+   config_get "provider_filter" "$section" "provider_filter" ""
    config_get "provider_url" "$section" "provider_url" ""
    config_get "provider_interval" "$section" "provider_interval" ""
    config_get "health_check" "$section" "health_check" ""
@@ -121,7 +122,12 @@ cat >> "$PROXY_PROVIDER_FILE" <<-EOF
     type: $type
     path: "$path"
 EOF
-   if [ ! -z "$provider_url" ]; then
+   if [ -n "$provider_filter" ]; then
+cat >> "$PROXY_PROVIDER_FILE" <<-EOF
+    filter: "$provider_filter"
+EOF
+   fi
+   if [ -n "$provider_url" ]; then
 cat >> "$PROXY_PROVIDER_FILE" <<-EOF
     url: "$provider_url"
     interval: $provider_interval
@@ -172,7 +178,7 @@ set_ws_headers()
       return
    fi
 cat >> "$SERVER_FILE" <<-EOF
-        '$1'
+        $1
 EOF
 }
 
@@ -225,6 +231,8 @@ yml_servers_set()
    config_get "early_data_header_name" "$section" "early_data_header_name" ""
    config_get "trojan_ws_path" "$section" "trojan_ws_path" ""
    config_get "trojan_ws_headers" "$section" "trojan_ws_headers" ""
+   config_get "interface_name" "$section" "interface_name" ""
+   config_get "routing_mark" "$section" "routing_mark" ""
 
    if [ "$enabled" = "0" ]; then
       return
@@ -661,7 +669,20 @@ cat >> "$SERVER_FILE" <<-EOF
 EOF
    fi
    fi
+   
+#interface-name
+   if [ -n "$interface_name" ]; then
+cat >> "$SERVER_FILE" <<-EOF
+    interface-name: $interface_name
+EOF
+   fi
 
+#routing_mark
+   if [ -n "$routing_mark" ]; then
+cat >> "$SERVER_FILE" <<-EOF
+    routing-mark: $routing_mark
+EOF
+   fi
 }
 
 new_servers_group_set()
