@@ -7,8 +7,8 @@ local sys = require "luci.sys"
 local sid = arg[1]
 local uuid = luci.sys.exec("cat /proc/sys/kernel/random/uuid")
 
-font_red = [[<font color="red">]]
-font_off = [[</font>]]
+font_red = [[<b style=color:red>]]
+font_off = [[</b>]]
 bold_on  = [[<strong>]]
 bold_off = [[</strong>]]
 
@@ -316,11 +316,7 @@ o.default = "false"
 o:value("true")
 o:value("false")
 o:depends("obfs", "websocket")
-o:depends("obfs_vmess", "none")
-o:depends("obfs_vmess", "websocket")
-o:depends("obfs_vmess", "http")
-o:depends("obfs_vmess", "grpc")
-o:depends("obfs_vmess", "h2")
+o:depends("type", "vmess")
 o:depends("type", "socks5")
 o:depends("type", "http")
 
@@ -328,8 +324,9 @@ o = s:option(Value, "servername", translate("servername"))
 o.rmempty = true
 o.datatype = "host"
 o.placeholder = translate("example.com")
-o:depends("obfs_vmess", "websocket")
-o:depends("obfs_vmess", "grpc")
+o:depends({obfs_vmess = "websocket", tls = "true"})
+o:depends({obfs_vmess = "grpc", tls = "true"})
+o:depends({obfs_vmess = "none", tls = "true"})
 
 o = s:option(Value, "keep_alive", translate("keep-alive"))
 o.rmempty = true
