@@ -137,7 +137,6 @@ dler = SimpleForm("openclash")
 dler.reset = false
 dler.submit = false
 dler:section(SimpleSection).template  = "openclash/dlercloud"
-]]
 
 if uci:get("openclash", "config", "dler_token") then
 	return m, dler, form, s, ap, d
