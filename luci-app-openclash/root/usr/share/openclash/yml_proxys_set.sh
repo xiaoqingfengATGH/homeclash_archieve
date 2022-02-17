@@ -217,6 +217,7 @@ yml_servers_set()
    config_get "auth_pass" "$section" "auth_pass" ""
    config_get "psk" "$section" "psk" ""
    config_get "obfs_snell" "$section" "obfs_snell" ""
+   config_get "snell_version" "$section" "snell_version" ""
    config_get "sni" "$section" "sni" ""
    config_get "alpn" "$section" "alpn" ""
    config_get "http_path" "$section" "http_path" ""
@@ -661,6 +662,11 @@ cat >> "$SERVER_FILE" <<-EOF
     port: $port
     psk: $psk
 EOF
+   if [ -n "$snell_version" ]; then
+cat >> "$SERVER_FILE" <<-EOF
+    version: "$snell_version"
+EOF
+   fi
    if [ "$obfs_snell" != "none" ] && [ ! -z "$host" ]; then
 cat >> "$SERVER_FILE" <<-EOF
     obfs-opts:
@@ -850,6 +856,7 @@ ${uci_set}Others="Others"
 
 [ "$config_auto_update" -eq 1 ] && [ "$new_servers_group_set" -eq 1 ] && {
 	${UCI_SET}servers_update="1"
+	${UCI_DEL_LIST}="all" >/dev/null 2>&1
 	${UCI_DEL_LIST}="Auto - UrlTest" >/dev/null 2>&1 && ${UCI_ADD_LIST}="Auto - UrlTest" >/dev/null 2>&1
 	${UCI_DEL_LIST}="Proxy" >/dev/null 2>&1 && ${UCI_ADD_LIST}="Proxy" >/dev/null 2>&1
 	${UCI_DEL_LIST}="Asian TV" >/dev/null 2>&1 && ${UCI_ADD_LIST}="Asian TV" >/dev/null 2>&1
@@ -1202,6 +1209,7 @@ ${uci_set}Others="Others"
 
 [ "$config_auto_update" -eq 1 ] && [ "$new_servers_group_set" -eq 1 ] && {
 	${UCI_SET}servers_update="1"
+	${UCI_DEL_LIST}="all" >/dev/null 2>&1
 	${UCI_DEL_LIST}="Auto - UrlTest" >/dev/null 2>&1 && ${UCI_ADD_LIST}="Auto - UrlTest" >/dev/null 2>&1
 	${UCI_DEL_LIST}="Proxy" >/dev/null 2>&1 && ${UCI_ADD_LIST}="Proxy" >/dev/null 2>&1
 	${UCI_DEL_LIST}="Youtube" >/dev/null 2>&1 && ${UCI_ADD_LIST}="Youtube" >/dev/null 2>&1
@@ -1278,6 +1286,7 @@ ${uci_set}Proxy="Proxy"
 ${uci_set}Others="Others"
 [ "$config_auto_update" -eq 1 ] && [ "$new_servers_group_set" -eq 1 ] && {
 	${UCI_SET}servers_update="1"
+	${UCI_DEL_LIST}="all" >/dev/null 2>&1
 	${UCI_DEL_LIST}="Auto - UrlTest" >/dev/null 2>&1 && ${UCI_ADD_LIST}="Auto - UrlTest" >/dev/null 2>&1
 	${UCI_DEL_LIST}="Proxy" >/dev/null 2>&1 && ${UCI_ADD_LIST}="Proxy" >/dev/null 2>&1
 }
