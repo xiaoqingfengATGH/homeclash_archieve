@@ -273,6 +273,13 @@ iptables-save -t mangle >> "$DEBUG_LOG" 2>/dev/null
 
 cat >> "$DEBUG_LOG" <<-EOF
 
+#IPv4 Filter chain
+
+EOF
+iptables-save -t filter >> "$DEBUG_LOG" 2>/dev/null
+
+cat >> "$DEBUG_LOG" <<-EOF
+
 #IPv6 NAT chain
 
 EOF
@@ -284,6 +291,13 @@ cat >> "$DEBUG_LOG" <<-EOF
 
 EOF
 ip6tables-save -t mangle >> "$DEBUG_LOG" 2>/dev/null
+
+cat >> "$DEBUG_LOG" <<-EOF
+
+#IPv6 Filter chain
+
+EOF
+ip6tables-save -t filter >> "$DEBUG_LOG" 2>/dev/null
 
 cat >> "$DEBUG_LOG" <<-EOF
 
@@ -382,5 +396,20 @@ cat >> "$DEBUG_LOG" <<-EOF
 
 \`\`\`
 EOF
+
+wan_ip=$(/usr/share/openclash/openclash_get_network.lua "wanip")
+wan_ip6=$(/usr/share/openclash/openclash_get_network.lua "wanip6")
+
+if [ -n "$wan_ip" ]; then
+	for i in $wan_ip; do
+     sed -i "s/${wan_ip}/*WAN IP*/g" "$DEBUG_LOG" 2>/dev/null
+  done
+fi
+
+if [ -n "$wan_ip6" ]; then
+	for i in $wan_ip6; do
+     sed -i "s/${wan_ip6}/*WAN IP*/g" "$DEBUG_LOG" 2>/dev/null
+  done
+fi
 
 del_lock

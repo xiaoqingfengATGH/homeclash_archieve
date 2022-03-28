@@ -197,8 +197,8 @@ msgstr "选择内核日志的默认输出模式"
 msgid "Only intranet allowed"
 msgstr "仅允许内网"
 
-msgid "When Enabled, The Control Panel And The Connection Broker Port Will Not Be Accessible From The Public Network, Not Support IPv6 Yet"
-msgstr "启用后将禁止从公网访问控制面板和连接代理端口, 暂不支持和IPv6代理同时启用"
+msgid "When Enabled, The Control Panel And The Connection Broker Port Will Not Be Accessible From The Public Network"
+msgstr "启用后将禁止从公网访问控制面板和连接代理端口"
 
 msgid "Redirect Local DNS Setting"
 msgstr "*本地DNS劫持"
@@ -311,6 +311,9 @@ msgstr "代理集文件"
 
 msgid "Rule Provider File"
 msgstr "规则集文件"
+
+msgid "Core File"
+msgstr "内核文件"
 
 msgid "Upload"
 msgstr "上传"
@@ -582,8 +585,8 @@ msgstr "设置自定义Hosts，详细信息请参阅:"
 msgid "Set Custom Rules"
 msgstr "设置自定义规则（在上方规则设置中启用本功能后生效）"
 
-msgid "Set Custom Hosts, Only Work with Redir-Host Mode"
-msgstr "设置自定义Hosts，仅在Redir-Host模式下生效（不会覆盖配置文件设置）"
+msgid "Set Custom Hosts (Does Not Override Config Settings)"
+msgstr "设置自定义Hosts（不会覆盖配置文件设置）"
 
 msgid "Version Update"
 msgstr "版本更新"
@@ -1081,6 +1084,9 @@ msgstr "配置文件编辑"
 
 msgid "Delete All File"
 msgstr "删除所有文件"
+
+msgid "SS/SSR/Vmess or Other Link And Subscription Address is Supported When Online Subscription Conversion is Enabled, Please Separate Multiple Links With |"
+msgstr "在线订阅转换启用时支持：SS/SSR/Vmess等节点链接和订阅链接，多个链接请用 | 分隔"
 
 msgid "Template Name"
 msgstr "订阅转换模板"
@@ -2150,16 +2156,16 @@ msgstr "Dler Cloud 签到失败，结果："
 msgid "Downloading Rule..."
 msgstr "正在下载规则..."
 
-msgid "Downloading Fail"
+msgid "Download Failed"
 msgstr "下载失败"
 
-msgid "Downloading Successful"
+msgid "Download Successful"
 msgstr "下载成功"
 
 msgid "Rule No Change"
 msgstr "规则没有更新"
 
-msgid "Downloading Timeout"
+msgid "Download Timeout"
 msgstr "下载超时"
 
 msgid "Rule Project:"
@@ -2622,7 +2628,7 @@ msgid "unlock node auto selected successfully, the current selected is"
 msgstr "解锁节点自动选择成功，当前选择的是"
 
 msgid "unlock node auto selected failed, no node available, rolled back to the"
-msgstr "解锁节点自动选择失败，无可用节点，回退到"
+msgstr "解锁节点自动选择失败，无完整解锁节点，回退到"
 
 msgid ", area:"
 msgstr "，区域："
@@ -2641,6 +2647,15 @@ msgstr "完整解锁但区域不匹配！当前策略组类型非 Select，无�
 
 msgid "full support but not match the regex! start auto select unlock proxy..."
 msgstr "完整解锁但区域不匹配！开始进行解锁节点自动选择..."
+
+msgid "unlock node test finished, rolled back to the full support node"
+msgstr "解锁检测完成，回退到完整解锁的节点"
+
+msgid "unlock node test finished, no node match the regex, rolled back to other full support node"
+msgstr "解锁检测完成，未找到区域匹配的节点，回退到其他区域的解锁节点"
+
+msgid "unlock node test finished, no node available, rolled back to the"
+msgstr "解锁检测完成，无完整解锁节点，回退到"
 
 msgid "DNS Remote"
 msgstr "*远程域名解析"
@@ -2669,8 +2684,8 @@ msgstr "文件编辑"
 msgid "Create File"
 msgstr "新建文件"
 
-msgid "Paste the name of the new file (including the extension) here"
-msgstr "请在此输入要新建的文件名称（含扩展名）"
+msgid "Paste the name of the new file (including the extension) here:"
+msgstr "请在此输入要新建的文件名称（含扩展名）："
 
 msgid "Delay Start (s)"
 msgstr "延迟启动（秒）"
@@ -2683,3 +2698,60 @@ msgstr "延迟启动已启用，OpenClash 将在"
 
 msgid "Secends..."
 msgstr "秒后开始启动..."
+
+msgid "Waiting for command to complete..."
+msgstr "等待命令执行完成..."
+
+msgid "Collecting data..."
+msgstr "正在收集数据..."
+
+msgid "Flushing..."
+msgstr "清理中..."
+
+msgid "Flush Fail"
+msgstr "清理失败"
+
+msgid "Flush Successful"
+msgstr "清理成功"
+
+msgid "Flush Timeout"
+msgstr "清理超时"
+
+msgid "Flush"
+msgstr "清理"
+
+msgid "Flush Fake-IP Cache"
+msgstr "Fake-IP 持久化缓存清理"
+
+msgid "No Specify Upload File"
+msgstr "未选择上传文件"
+
+msgid "Use Rule Provider"
+msgstr "使用规则集"
+
+msgid "Note: Please Make Sure Backend Service Supports This Feature"
+msgstr "注意：请确保您选择的后端服务支持此功能，否则可能导致内核启动失败"
+
+msgid "Rename"
+msgstr "重命名"
+
+msgid "Paste the new file name (including the extension) here:"
+msgstr "请在此输入新文件名（含扩展名）："
+
+msgid "Illegal extension!"
+msgstr "不支持的扩展名！"
+
+msgid "Manual Test"
+msgstr "手动测试"
+
+msgid "Unlock Test(Select)"
+msgstr "解锁检测(选择)"
+
+msgid "All Proxies Test"
+msgstr "测试所有节点"
+
+msgid "Something Wrong While Testing..."
+msgstr "发生了一些错误，测试失败..."
+
+msgid "Network instability may occur during testing, Are you sure want to start test?"
+msgstr "测试过程中可能会造成网络不稳定,确定要开始测试吗？"
