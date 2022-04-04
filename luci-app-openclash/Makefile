@@ -1,7 +1,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=luci-app-openclash
-PKG_VERSION:=0.44.34
+PKG_VERSION:=0.44.42
 PKG_RELEASE:=beta-xiaoqingfengMod
 PKG_MAINTAINER:=vernesong <https://github.com/vernesong/OpenClash>
 
@@ -19,7 +19,7 @@ define Package/$(PKG_NAME)
 	SUBMENU:=3. Applications
 	TITLE:=Clash luci for HomeLede firmware.
 	PKGARCH:=x86_64
-	DEPENDS:=@TARGET_x86_64 +iptables +dnsmasq-full +coreutils +coreutils-nohup +bash +curl +ca-certificates +ipset +ip-full +iptables-mod-tproxy +iptables-mod-extra +libcap +libcap-bin +ruby +ruby-yaml +kmod-tun
+	DEPENDS:=+iptables +dnsmasq-full +coreutils +coreutils-nohup +bash +curl +ca-certificates +ipset +ip-full \
 	MAINTAINER:=vernesong
 endef
 
