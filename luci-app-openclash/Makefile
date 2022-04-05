@@ -20,6 +20,7 @@ define Package/$(PKG_NAME)
 	TITLE:=Clash luci for HomeLede firmware.
 	PKGARCH:=x86_64
 	DEPENDS:=+iptables +dnsmasq-full +coreutils +coreutils-nohup +bash +curl +ca-certificates +ipset +ip-full \
+	+iptables-mod-tproxy +iptables-mod-extra +libcap +libcap-bin +ruby +ruby-yaml +kmod-tun
 	MAINTAINER:=vernesong
 endef
 
