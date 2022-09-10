@@ -11,7 +11,7 @@ local dsp = require "luci.dispatcher"
 	//<![CDATA[
 	var pings = document.getElementsByClassName('pingtime');
 	for(var i = 0; i < pings.length; i++) {
-		XHR.get('<%=dsp.build_url("admin", "vpn", "openclash", "ping")%>', {
+		XHR.get('<%=dsp.build_url("admin", "services", "openclash", "ping")%>', {
 				index: i,
 				domain: pings[i].getAttribute("hint")
 			},
@@ -19,7 +19,7 @@ local dsp = require "luci.dispatcher"
 				pings[result.index].innerHTML = (result.ping ? "<b style=color:green>"+result.ping+"</b> ms" : "<b style=color:red><%:Test failed%></b>");
 			}
 		);
-		XHR.poll(10,'<%=dsp.build_url("admin", "vpn", "openclash", "ping")%>',{
+		XHR.poll(10,'<%=dsp.build_url("admin", "services", "openclash", "ping")%>',{
 				index: i,
 				domain: pings[i].getAttribute("hint")
 			},

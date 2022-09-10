@@ -94,7 +94,7 @@ o = a:option(Button, "Refresh", " ")
 o.inputtitle = translate("Refresh Page")
 o.inputstyle = "apply"
 o.write = function()
-  HTTP.redirect(DISP.build_url("admin", "vpn", "openclash", "game-rules-file-manage"))
+  HTTP.redirect(DISP.build_url("admin", "services", "openclash", "game-rules-file-manage"))
 end
 
 o = a:option(DummyValue, "Create", " ")
@@ -107,14 +107,14 @@ o.inputtitle = translate("Delete All File")
 o.inputstyle = "remove"
 o.write = function()
   luci.sys.call("rm -rf /etc/openclash/game_rules/* >/dev/null 2>&1")
-  HTTP.redirect(DISP.build_url("admin", "vpn", "openclash", "game-rules-file-manage"))
+  HTTP.redirect(DISP.build_url("admin", "services", "openclash", "game-rules-file-manage"))
 end
 
 o = a:option(Button, "Apply", " ")
 o.inputtitle = translate("Back Settings")
 o.inputstyle = "reset"
 o.write = function()
-  HTTP.redirect(DISP.build_url("admin", "vpn", "openclash", "config"))
+  HTTP.redirect(DISP.build_url("admin", "services", "openclash", "config"))
 end
 
 return rule_form

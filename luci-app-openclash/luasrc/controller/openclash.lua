@@ -7,89 +7,93 @@ function index()
 
 	local page
 	
-	page = entry({"admin", "vpn", "openclash"}, alias("admin", "vpn", "openclash", "client"), _("OpenClash"), 50)
+	page = entry({"admin", "services", "openclash"}, alias("admin", "services", "openclash", "client"), _("OpenClash"), 50)
 	page.dependent = true
 	page.acl_depends = { "luci-app-openclash" }
-	entry({"admin", "vpn", "openclash", "client"},form("openclash/client"),_("Overviews"), 20).leaf = true
-	entry({"admin", "vpn", "openclash", "status"},call("action_status")).leaf=true
-	entry({"admin", "vpn", "openclash", "state"},call("action_state")).leaf=true
-	entry({"admin", "vpn", "openclash", "startlog"},call("action_start")).leaf=true
-	entry({"admin", "vpn", "openclash", "refresh_log"},call("action_refresh_log"))
-	entry({"admin", "vpn", "openclash", "del_log"},call("action_del_log"))
-	entry({"admin", "vpn", "openclash", "del_start_log"},call("action_del_start_log"))
-	entry({"admin", "vpn", "openclash", "close_all_connection"},call("action_close_all_connection"))
-	entry({"admin", "vpn", "openclash", "reload_firewall"},call("action_reload_firewall"))
-	entry({"admin", "vpn", "openclash", "update_subscribe"},call("action_update_subscribe"))
-	entry({"admin", "vpn", "openclash", "update_other_rules"},call("action_update_other_rules"))
-	entry({"admin", "vpn", "openclash", "update_geoip"},call("action_update_geoip"))
-	entry({"admin", "vpn", "openclash", "update_geosite"},call("action_update_geosite"))
-	entry({"admin", "vpn", "openclash", "currentversion"},call("action_currentversion"))
-	entry({"admin", "vpn", "openclash", "lastversion"},call("action_lastversion"))
-	entry({"admin", "vpn", "openclash", "save_corever_branch"},call("action_save_corever_branch"))
-	entry({"admin", "vpn", "openclash", "update"},call("action_update"))
-	entry({"admin", "vpn", "openclash", "update_ma"},call("action_update_ma"))
-	entry({"admin", "vpn", "openclash", "opupdate"},call("action_opupdate"))
-	entry({"admin", "vpn", "openclash", "coreupdate"},call("action_coreupdate"))
-	entry({"admin", "vpn", "openclash", "ping"}, call("act_ping"))
-	entry({"admin", "vpn", "openclash", "flush_fakeip_cache"}, call("action_flush_fakeip_cache"))
-	entry({"admin", "vpn", "openclash", "download_rule"}, call("action_download_rule"))
-	entry({"admin", "vpn", "openclash", "download_netflix_domains"}, call("action_download_netflix_domains"))
-	entry({"admin", "vpn", "openclash", "download_disney_domains"}, call("action_download_disney_domains"))
-	entry({"admin", "vpn", "openclash", "catch_netflix_domains"}, call("action_catch_netflix_domains"))
-	entry({"admin", "vpn", "openclash", "write_netflix_domains"}, call("action_write_netflix_domains"))
-	entry({"admin", "vpn", "openclash", "restore"}, call("action_restore_config"))
-	entry({"admin", "vpn", "openclash", "backup"}, call("action_backup"))
-	entry({"admin", "vpn", "openclash", "remove_all_core"}, call("action_remove_all_core"))
-	entry({"admin", "vpn", "openclash", "one_key_update"}, call("action_one_key_update"))
-	entry({"admin", "vpn", "openclash", "one_key_update_check"}, call("action_one_key_update_check"))
-	entry({"admin", "vpn", "openclash", "switch_mode"}, call("action_switch_mode"))
-	entry({"admin", "vpn", "openclash", "op_mode"}, call("action_op_mode"))
-	entry({"admin", "vpn", "openclash", "dler_info"}, call("action_dler_info"))
-	entry({"admin", "vpn", "openclash", "dler_checkin"}, call("action_dler_checkin"))
-	entry({"admin", "vpn", "openclash", "dler_logout"}, call("action_dler_logout"))
-	entry({"admin", "vpn", "openclash", "dler_login"}, call("action_dler_login"))
-	entry({"admin", "vpn", "openclash", "dler_login_info_save"}, call("action_dler_login_info_save"))
-	entry({"admin", "vpn", "openclash", "sub_info_get"}, call("sub_info_get"))
-	entry({"admin", "vpn", "openclash", "config_name"}, call("action_config_name"))
-	entry({"admin", "vpn", "openclash", "switch_config"}, call("action_switch_config"))
-	entry({"admin", "vpn", "openclash", "toolbar_show"}, call("action_toolbar_show"))
-	entry({"admin", "vpn", "openclash", "toolbar_show_sys"}, call("action_toolbar_show_sys"))
-	entry({"admin", "vpn", "openclash", "diag_connection"}, call("action_diag_connection"))
-	entry({"admin", "vpn", "openclash", "gen_debug_logs"}, call("action_gen_debug_logs"))
-	entry({"admin", "vpn", "openclash", "log_level"}, call("action_log_level"))
-	entry({"admin", "vpn", "openclash", "switch_log"}, call("action_switch_log"))
-	entry({"admin", "vpn", "openclash", "rule_mode"}, call("action_rule_mode"))
-	entry({"admin", "vpn", "openclash", "switch_rule_mode"}, call("action_switch_rule_mode"))
-	entry({"admin", "vpn", "openclash", "switch_run_mode"}, call("action_switch_run_mode"))
-	entry({"admin", "vpn", "openclash", "get_run_mode"}, call("action_get_run_mode"))
-	entry({"admin", "vpn", "openclash", "create_file"}, call("create_file"))
-	entry({"admin", "vpn", "openclash", "rename_file"}, call("rename_file"))
-	entry({"admin", "vpn", "openclash", "manual_stream_unlock_test"}, call("manual_stream_unlock_test"))
-	entry({"admin", "vpn", "openclash", "all_proxies_stream_test"}, call("all_proxies_stream_test"))
-	entry({"admin", "vpn", "openclash", "settings"},cbi("openclash/settings"),_("Global Settings"), 30).leaf = true
-	entry({"admin", "vpn", "openclash", "servers"},cbi("openclash/servers"),_("Servers and Groups"), 40).leaf = true
-	entry({"admin", "vpn", "openclash", "other-rules-edit"},cbi("openclash/other-rules-edit"), nil).leaf = true
-	entry({"admin", "vpn", "openclash", "other-file-edit"},cbi("openclash/other-file-edit"), nil).leaf = true
-	entry({"admin", "vpn", "openclash", "rule-providers-settings"},cbi("openclash/rule-providers-settings"),_("Rule Providers and Groups"), 50).leaf = true
-	entry({"admin", "vpn", "openclash", "game-rules-manage"},form("openclash/game-rules-manage"), nil).leaf = true
-	entry({"admin", "vpn", "openclash", "rule-providers-manage"},form("openclash/rule-providers-manage"), nil).leaf = true
-	entry({"admin", "vpn", "openclash", "proxy-provider-file-manage"},form("openclash/proxy-provider-file-manage"), nil).leaf = true
-	entry({"admin", "vpn", "openclash", "rule-providers-file-manage"},form("openclash/rule-providers-file-manage"), nil).leaf = true
-	entry({"admin", "vpn", "openclash", "game-rules-file-manage"},form("openclash/game-rules-file-manage"), nil).leaf = true
-	entry({"admin", "vpn", "openclash", "config-subscribe"},cbi("openclash/config-subscribe"),_("Config Update"), 60).leaf = true
-	entry({"admin", "vpn", "openclash", "config-subscribe-edit"},cbi("openclash/config-subscribe-edit"), nil).leaf = true
-	entry({"admin", "vpn", "openclash", "servers-config"},cbi("openclash/servers-config"), nil).leaf = true
-	entry({"admin", "vpn", "openclash", "groups-config"},cbi("openclash/groups-config"), nil).leaf = true
-	entry({"admin", "vpn", "openclash", "proxy-provider-config"},cbi("openclash/proxy-provider-config"), nil).leaf = true
-	entry({"admin", "vpn", "openclash", "rule-providers-config"},cbi("openclash/rule-providers-config"), nil).leaf = true
-	entry({"admin", "vpn", "openclash", "config"},form("openclash/config"),_("Config Manage"), 70).leaf = true
-	entry({"admin", "vpn", "openclash", "log"},cbi("openclash/log"),_("Server Logs"), 80).leaf = true
+	entry({"admin", "services", "openclash", "client"},form("openclash/client"),_("Overviews"), 20).leaf = true
+	entry({"admin", "services", "openclash", "status"},call("action_status")).leaf=true
+	entry({"admin", "services", "openclash", "state"},call("action_state")).leaf=true
+	entry({"admin", "services", "openclash", "startlog"},call("action_start")).leaf=true
+	entry({"admin", "services", "openclash", "refresh_log"},call("action_refresh_log"))
+	entry({"admin", "services", "openclash", "del_log"},call("action_del_log"))
+	entry({"admin", "services", "openclash", "del_start_log"},call("action_del_start_log"))
+	entry({"admin", "services", "openclash", "close_all_connection"},call("action_close_all_connection"))
+	entry({"admin", "services", "openclash", "reload_firewall"},call("action_reload_firewall"))
+	entry({"admin", "services", "openclash", "update_subscribe"},call("action_update_subscribe"))
+	entry({"admin", "services", "openclash", "update_other_rules"},call("action_update_other_rules"))
+	entry({"admin", "services", "openclash", "update_geoip"},call("action_update_geoip"))
+	entry({"admin", "services", "openclash", "update_geosite"},call("action_update_geosite"))
+	entry({"admin", "services", "openclash", "lastversion"},call("action_lastversion"))
+	entry({"admin", "services", "openclash", "save_corever_branch"},call("action_save_corever_branch"))
+	entry({"admin", "services", "openclash", "update"},call("action_update"))
+	entry({"admin", "services", "openclash", "update_info"},call("action_update_info"))
+	entry({"admin", "services", "openclash", "update_ma"},call("action_update_ma"))
+	entry({"admin", "services", "openclash", "opupdate"},call("action_opupdate"))
+	entry({"admin", "services", "openclash", "coreupdate"},call("action_coreupdate"))
+	entry({"admin", "services", "openclash", "ping"}, call("act_ping"))
+	entry({"admin", "services", "openclash", "flush_fakeip_cache"}, call("action_flush_fakeip_cache"))
+	entry({"admin", "services", "openclash", "download_rule"}, call("action_download_rule"))
+	entry({"admin", "services", "openclash", "download_netflix_domains"}, call("action_download_netflix_domains"))
+	entry({"admin", "services", "openclash", "download_disney_domains"}, call("action_download_disney_domains"))
+	entry({"admin", "services", "openclash", "catch_netflix_domains"}, call("action_catch_netflix_domains"))
+	entry({"admin", "services", "openclash", "write_netflix_domains"}, call("action_write_netflix_domains"))
+	entry({"admin", "services", "openclash", "restore"}, call("action_restore_config"))
+	entry({"admin", "services", "openclash", "backup"}, call("action_backup"))
+	entry({"admin", "services", "openclash", "remove_all_core"}, call("action_remove_all_core"))
+	entry({"admin", "services", "openclash", "one_key_update"}, call("action_one_key_update"))
+	entry({"admin", "services", "openclash", "one_key_update_check"}, call("action_one_key_update_check"))
+	entry({"admin", "services", "openclash", "switch_mode"}, call("action_switch_mode"))
+	entry({"admin", "services", "openclash", "op_mode"}, call("action_op_mode"))
+	entry({"admin", "services", "openclash", "dler_info"}, call("action_dler_info"))
+	entry({"admin", "services", "openclash", "dler_checkin"}, call("action_dler_checkin"))
+	entry({"admin", "services", "openclash", "dler_logout"}, call("action_dler_logout"))
+	entry({"admin", "services", "openclash", "dler_login"}, call("action_dler_login"))
+	entry({"admin", "services", "openclash", "dler_login_info_save"}, call("action_dler_login_info_save"))
+	entry({"admin", "services", "openclash", "sub_info_get"}, call("sub_info_get"))
+	entry({"admin", "services", "openclash", "config_name"}, call("action_config_name"))
+	entry({"admin", "services", "openclash", "switch_config"}, call("action_switch_config"))
+	entry({"admin", "services", "openclash", "toolbar_show"}, call("action_toolbar_show"))
+	entry({"admin", "services", "openclash", "toolbar_show_sys"}, call("action_toolbar_show_sys"))
+	entry({"admin", "services", "openclash", "diag_connection"}, call("action_diag_connection"))
+	entry({"admin", "services", "openclash", "gen_debug_logs"}, call("action_gen_debug_logs"))
+	entry({"admin", "services", "openclash", "log_level"}, call("action_log_level"))
+	entry({"admin", "services", "openclash", "switch_log"}, call("action_switch_log"))
+	entry({"admin", "services", "openclash", "rule_mode"}, call("action_rule_mode"))
+	entry({"admin", "services", "openclash", "switch_rule_mode"}, call("action_switch_rule_mode"))
+	entry({"admin", "services", "openclash", "switch_run_mode"}, call("action_switch_run_mode"))
+	entry({"admin", "services", "openclash", "get_run_mode"}, call("action_get_run_mode"))
+	entry({"admin", "services", "openclash", "create_file"}, call("create_file"))
+	entry({"admin", "services", "openclash", "rename_file"}, call("rename_file"))
+	entry({"admin", "services", "openclash", "manual_stream_unlock_test"}, call("manual_stream_unlock_test"))
+	entry({"admin", "services", "openclash", "all_proxies_stream_test"}, call("all_proxies_stream_test"))
+	entry({"admin", "services", "openclash", "settings"},cbi("openclash/settings"),_("Global Settings"), 30).leaf = true
+	entry({"admin", "services", "openclash", "servers"},cbi("openclash/servers"),_("Servers and Groups"), 40).leaf = true
+	entry({"admin", "services", "openclash", "other-rules-edit"},cbi("openclash/other-rules-edit"), nil).leaf = true
+	entry({"admin", "services", "openclash", "other-file-edit"},cbi("openclash/other-file-edit"), nil).leaf = true
+	entry({"admin", "services", "openclash", "rule-providers-settings"},cbi("openclash/rule-providers-settings"),_("Rule Providers and Groups"), 50).leaf = true
+	entry({"admin", "services", "openclash", "game-rules-manage"},form("openclash/game-rules-manage"), nil).leaf = true
+	entry({"admin", "services", "openclash", "rule-providers-manage"},form("openclash/rule-providers-manage"), nil).leaf = true
+	entry({"admin", "services", "openclash", "proxy-provider-file-manage"},form("openclash/proxy-provider-file-manage"), nil).leaf = true
+	entry({"admin", "services", "openclash", "rule-providers-file-manage"},form("openclash/rule-providers-file-manage"), nil).leaf = true
+	entry({"admin", "services", "openclash", "game-rules-file-manage"},form("openclash/game-rules-file-manage"), nil).leaf = true
+	entry({"admin", "services", "openclash", "config-subscribe"},cbi("openclash/config-subscribe"),_("Config Update"), 60).leaf = true
+	entry({"admin", "services", "openclash", "config-subscribe-edit"},cbi("openclash/config-subscribe-edit"), nil).leaf = true
+	entry({"admin", "services", "openclash", "servers-config"},cbi("openclash/servers-config"), nil).leaf = true
+	entry({"admin", "services", "openclash", "groups-config"},cbi("openclash/groups-config"), nil).leaf = true
+	entry({"admin", "services", "openclash", "proxy-provider-config"},cbi("openclash/proxy-provider-config"), nil).leaf = true
+	entry({"admin", "services", "openclash", "rule-providers-config"},cbi("openclash/rule-providers-config"), nil).leaf = true
+	entry({"admin", "services", "openclash", "config"},form("openclash/config"),_("Config Manage"), 70).leaf = true
+	entry({"admin", "services", "openclash", "log"},cbi("openclash/log"),_("Server Logs"), 80).leaf = true
 
 end
 local fs = require "luci.openclash"
 local json = require "luci.jsonc"
 local uci = require("luci.model.uci").cursor()
 local datatype = require "luci.cbi.datatypes"
+local opkg
+if pcall(require, "luci.model.ipkg") then
+	opkg = require "luci.model.ipkg"
+end
 
 local core_path_mode = uci:get("openclash", "config", "small_flash_memory")
 if core_path_mode ~= "1" then
@@ -116,6 +120,10 @@ end
 
 local function is_watchdog()
 	return process_status("openclash_watchdog.sh")
+end
+
+local function is_start()
+	return process_status("/etc/init.d/openclash")
 end
 
 local function cn_port()
@@ -157,6 +165,9 @@ end
 local function daip()
 	local daip = luci.sys.exec("uci -q get network.lan.ipaddr |awk -F '/' '{print $1}' 2>/dev/null |tr -d '\n'")
 	if not daip or daip == "" then
+		local daip = luci.sys.exec("ip address show $(uci -q -p /tmp/state get network.lan.ifname) | grep -w 'inet'  2>/dev/null |grep -Eo 'inet [0-9\.]+' | awk '{print $2}' | tr -d '\n'")
+	end
+	if not daip or daip == "" then
 		local daip = luci.sys.exec("ip addr show 2>/dev/null | grep -w 'inet' | grep 'global' | grep 'brd' | grep -Eo 'inet [0-9\.]+' | awk '{print $2}' | head -n 1 | tr -d '\n'")
 	end
 	return daip
@@ -179,10 +190,6 @@ local function check_lastversion()
 	return luci.sys.exec("sed -n '/^https:/,$p' /tmp/openclash_last_version 2>/dev/null")
 end
 
-local function check_currentversion()
-	return luci.sys.exec("sed -n '/^data:image/,$p' /usr/share/openclash/res/openclash_version 2>/dev/null")
-end
-
 local function startlog()
 	local info = ""
 	local line_trans = ""
@@ -191,42 +198,45 @@ local function startlog()
 		line_trans = info
 		if string.len(info) > 0 then
 			if not string.find (info, "【") and not string.find (info, "】") then
-   			line_trans = luci.i18n.translate(string.sub(info, 0, -1))
-   		else
-   			line_trans = trans_line(info)
+   				line_trans = luci.i18n.translate(string.sub(info, 0, -1))
+   			else
+   				line_trans = trans_line(info)
+   			end
    		end
-   	end
 	end
 	return line_trans
 end
 
 local function coremodel()
-  local coremodel = luci.sys.exec("opkg status libc 2>/dev/null |grep 'Architecture' |awk -F ': ' '{print $2}' 2>/dev/null")
-  return coremodel
+	if opkg and opkg.info("libc") and opkg.info("libc")["libc"] then
+		return opkg.info("libc")["libc"]["Architecture"]
+	else
+		return luci.sys.exec("opkg status libc 2>/dev/null |grep 'Architecture' |awk -F ': ' '{print $2}' 2>/dev/null")
+	end
 end
 
 local function corecv()
-if not nixio.fs.access(dev_core_path) then
-  return "0"
-else
-	return luci.sys.exec(string.format("%s -v 2>/dev/null |awk -F ' ' '{print $2}'",dev_core_path))
-end
+	if not nixio.fs.access(dev_core_path) then
+		return "0"
+	else
+		return luci.sys.exec(string.format("%s -v 2>/dev/null |awk -F ' ' '{print $2}'",dev_core_path))
+	end
 end
 
 local function coretuncv()
-if not nixio.fs.access(tun_core_path) then
-  return "0"
-else
-	return luci.sys.exec(string.format("%s -v 2>/dev/null |awk -F ' ' '{print $2}'",tun_core_path))
-end
+	if not nixio.fs.access(tun_core_path) then
+		return "0"
+	else
+		return luci.sys.exec(string.format("%s -v 2>/dev/null |awk -F ' ' '{print $2}'",tun_core_path))
+	end
 end
 
 local function coremetacv()
-if not nixio.fs.access(meta_core_path) then
-  return "0"
-else
-	return luci.sys.exec(string.format("%s -v 2>/dev/null |awk -F ' ' '{print $3}'",meta_core_path))
-end
+	if not nixio.fs.access(meta_core_path) then
+		return "0"
+	else
+		return luci.sys.exec(string.format("%s -v 2>/dev/null |awk -F ' ' '{print $3}'",meta_core_path))
+	end
 end
 
 local function corelv()
@@ -238,18 +248,22 @@ local function corelv()
 end
 
 local function opcv()
-	return luci.sys.exec("sed -n 1p /usr/share/openclash/res/openclash_version 2>/dev/null")
+	if opkg and opkg.info("luci-app-openclash") and opkg.info("luci-app-openclash")["luci-app-openclash"] then
+		return "v" .. opkg.info("luci-app-openclash")["luci-app-openclash"]["Version"]
+	else
+		return luci.sys.exec("opkg status luci-app-openclash 2>/dev/null |grep 'Version' |awk -F 'Version: ' '{print \"v\"$2}'")
+	end
 end
 
 local function oplv()
-	 local new = luci.sys.call(string.format("sh /usr/share/openclash/openclash_version.sh"))
-	 local oplv = luci.sys.exec("sed -n 1p /tmp/openclash_last_version 2>/dev/null")
-   return oplv .. "," .. new
+	local new = luci.sys.call(string.format("sh /usr/share/openclash/openclash_version.sh"))
+	local oplv = luci.sys.exec("sed -n 1p /tmp/openclash_last_version 2>/dev/null")
+	return oplv .. "," .. new
 end
 
 local function opup()
-   luci.sys.call("rm -rf /tmp/*_last_version 2>/dev/null && sh /usr/share/openclash/openclash_version.sh >/dev/null 2>&1")
-   return luci.sys.call("sh /usr/share/openclash/openclash_update.sh >/dev/null 2>&1 &")
+	luci.sys.call("rm -rf /tmp/*_last_version 2>/dev/null && sh /usr/share/openclash/openclash_version.sh >/dev/null 2>&1")
+	return luci.sys.call("sh /usr/share/openclash/openclash_update.sh >/dev/null 2>&1 &")
 end
 
 local function coreup()
@@ -280,18 +294,18 @@ local function save_corever_branch()
 end
 
 local function upchecktime()
-   local corecheck = os.date("%Y-%m-%d %H:%M:%S",fs.mtime("/tmp/clash_last_version"))
-   local opcheck
-   if not corecheck or corecheck == "" then
-      opcheck = os.date("%Y-%m-%d %H:%M:%S",fs.mtime("/tmp/openclash_last_version"))
-      if not opcheck or opcheck == "" then
-         return "1"
-      else
-         return opcheck
-      end
-   else
-      return corecheck
-   end
+	local corecheck = os.date("%Y-%m-%d %H:%M:%S",fs.mtime("/tmp/clash_last_version"))
+	local opcheck
+	if not corecheck or corecheck == "" then
+    	opcheck = os.date("%Y-%m-%d %H:%M:%S",fs.mtime("/tmp/openclash_last_version"))
+    	if not opcheck or opcheck == "" then
+        	return "1"
+    	else
+        	return opcheck
+    	end
+	else
+    	return corecheck
+	end
 end
 
 local function historychecktime()
@@ -308,18 +322,18 @@ end
 
 function download_rule()
 	local filename = luci.http.formvalue("filename")
-  local state = luci.sys.call(string.format('/usr/share/openclash/openclash_download_rule_list.sh "%s" >/dev/null 2>&1',filename))
-  return state
+	local state = luci.sys.call(string.format('/usr/share/openclash/openclash_download_rule_list.sh "%s" >/dev/null 2>&1',filename))
+	return state
 end
 
 function download_disney_domains()
-  local state = luci.sys.call(string.format('/usr/share/openclash/openclash_download_rule_list.sh "%s" >/dev/null 2>&1',"disney_domains"))
-  return state
+	local state = luci.sys.call(string.format('/usr/share/openclash/openclash_download_rule_list.sh "%s" >/dev/null 2>&1',"disney_domains"))
+	return state
 end
 
 function download_netflix_domains()
-  local state = luci.sys.call(string.format('/usr/share/openclash/openclash_download_rule_list.sh "%s" >/dev/null 2>&1',"netflix_domains"))
-  return state
+	local state = luci.sys.call(string.format('/usr/share/openclash/openclash_download_rule_list.sh "%s" >/dev/null 2>&1',"netflix_domains"))
+	return state
 end
 
 function action_flush_fakeip_cache()
@@ -344,7 +358,7 @@ function action_restore_config()
 	luci.sys.call("cp '/usr/share/openclash/backup/openclash' '/etc/config/openclash' >/dev/null 2>&1 &")
 	luci.sys.call("cp /usr/share/openclash/backup/openclash_custom* /etc/openclash/custom/ >/dev/null 2>&1 &")
 	luci.sys.call("rm -rf /etc/openclash/history/* >/dev/null 2>&1 &")
-	luci.http.redirect(luci.dispatcher.build_url('admin/vpn/openclash/settings'))
+	luci.http.redirect(luci.dispatcher.build_url('admin/services/openclash/settings'))
 end
 
 function action_remove_all_core()
@@ -557,7 +571,7 @@ function sub_info_get()
 	local filename, sub_url, sub_info, info, upload, download, total, expire, http_code, len
 	filename = luci.http.formvalue("filename")
 	sub_info = ""
-	if filename then
+	if filename and not is_start() then
 		uci:foreach("openclash", "config_subscribe",
 			function(s)
 				if s.name == filename and s.address and string.find(s.address, "http") then
@@ -924,13 +938,6 @@ function action_lastversion()
 	})
 end
 
-function action_currentversion()
-	luci.http.prepare_content("application/json")
-	luci.http.write_json({
-			currentversion = check_currentversion();
-	})
-end
-
 function action_start()
 	luci.http.prepare_content("application/json")
 	luci.http.write_json({
@@ -941,16 +948,22 @@ end
 function action_update()
 	luci.http.prepare_content("application/json")
 	luci.http.write_json({
-			coremodel = coremodel(),
 			corecv = corecv(),
 			coretuncv = coretuncv(),
 			coremetacv = coremetacv(),
+			coremodel = coremodel(),
 			opcv = opcv(),
-			corever = corever(),
-			release_branch = release_branch(),
 			upchecktime = upchecktime(),
 			corelv = corelv(),
 			oplv = oplv();
+	})
+end
+
+function action_update_info()
+	luci.http.prepare_content("application/json")
+	luci.http.write_json({
+			corever = corever(),
+			release_branch = release_branch();
 	})
 end
 
@@ -1060,7 +1073,7 @@ function action_refresh_log()
 		line_trans = line
 		ex_match = false
 		while true do
-			ex_keys = {"^Sec%-Fetch%-Mode", "^User%-Agent", "^Access%-Control", "^Accept", "^Origin", "^Referer", "^Connection", "^Pragma", "^Cache-"}
+			ex_keys = {"UDP%-Receive%-Buffer%-Size", "^Sec%-Fetch%-Mode", "^User%-Agent", "^Access%-Control", "^Accept", "^Origin", "^Referer", "^Connection", "^Pragma", "^Cache-"}
     	for key=1, #ex_keys do
     		if string.find (line, ex_keys[key]) then
     			ex_match = true
