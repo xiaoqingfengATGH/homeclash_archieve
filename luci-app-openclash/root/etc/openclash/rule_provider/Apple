@@ -1,5 +1,7 @@
 payload:
   # > Apple API
+  - DOMAIN-KEYWORD,apple.com.akadns.net
+  - DOMAIN-KEYWORD,icloud.com.akadns.net
   - DOMAIN-SUFFIX,aaplimg.com
   - DOMAIN-SUFFIX,apple.co
   - DOMAIN-SUFFIX,apple.com
@@ -24,6 +26,7 @@ payload:
   - IP-CIDR,205.180.175.0/24,no-resolve
 
   # > Apple News
+  - DOMAIN-SUFFIX,apple.comscoreresearch.com
   - DOMAIN-SUFFIX,apple.news
 
   # > Apple Maps

@@ -23,20 +23,20 @@ msgstr "全局设置"
 msgid "Rule Providers and Groups"
 msgstr "规则集与策略组管理"
 
-msgid "Game Rules and Groups (Only TUN Core Support)"
-msgstr "游戏规则与策略组管理（仅 TUN 内核）"
+msgid "Game Rules and Groups (Only TUN & Meta Core Support)"
+msgstr "游戏规则与策略组管理（仅 TUN & Meta 内核）"
 
-msgid "Other Rule Providers and Groups (Only TUN Core Support)"
-msgstr "第三方规则集与策略组管理（仅 TUN 内核）"
+msgid "Other Rule Providers and Groups (Only TUN & Meta Core Support)"
+msgstr "第三方规则集与策略组管理（仅 TUN & Meta 内核）"
 
-msgid "Custom Rule Providers and Groups (Only TUN Core Support)"
-msgstr "自定义规则集与策略组管理（仅 TUN 内核）"
+msgid "Custom Rule Providers and Groups (Only TUN & Meta Core Support)"
+msgstr "自定义规则集与策略组管理（仅 TUN & Meta 内核）"
 
 msgid "General Settings"
 msgstr "常规设置"
 
-msgid "DNS Setting"
-msgstr "DNS 设置"
+msgid "Settings"
+msgstr "设置"
 
 msgid "Config Update"
 msgstr "配置文件订阅"
@@ -170,6 +170,9 @@ msgstr "实验性：绕过中国大陆 IPv6"
 msgid "Bypass The China Network Flows, Improve Performance"
 msgstr "启用后中国大陆流量将不再经过内核，提升系统性能"
 
+msgid "Bypass The China Network Flows, Improve Performance, Depend on Dnsmasq"
+msgstr "启用后中国大陆流量将不再经过内核，提升系统性能，此功能依赖于 Dnsmasq"
+
 msgid "Log Level"
 msgstr "日志等级"
 
@@ -240,17 +243,14 @@ msgid "Specify DNS Server For List and Server Nodes With Fake-IP Mode, Only One 
 msgstr "指定下方列表中域名和 Fake-IP 模式下非代理集内节点的DNS服务器，只支持填写一个IP地址"
 
 msgid "Domain Names In The List Do Not Return Fake-IP, One rule per line"
-msgstr "每行请只填写一个域名，列表中的域名在（Fake-IP模式）下查询DNS时将返回真实IP地址，更改后点击上方按钮生效"
+msgstr "每行请只填写一个域名，列表中的域名在（Fake-IP模式）下查询DNS时将返回真实IP地址"
 
-msgid "Domain Names In The List Use The Custom DNS Server, One rule per line"
-msgstr "每行请只填写一个域名，列表中的域名将使用上方指定的DNS进行查询"
+msgid "Domain Names In The List Use The Custom DNS Server, One rule per line, Depend on Dnsmasq"
+msgstr "每行请只填写一个域名，列表中的域名将使用上方指定的DNS进行查询，此功能依赖于 Dnsmasq"
 
 
 msgid "Domain Names In The List Use The Custom DNS Server, But Still Return Fake-IP Results, One rule per line"
 msgstr "每行请只填写一个规则，列表中的域名将使用指定的 DNS 进行查询，但 Fake-IP 模式下仍将返回保留地址"
-
-msgid "Fake-IP-Filter List Update"
-msgstr "更新 Fake-IP 域名黑名单"
 
 msgid "Set OpenClash Upstream DNS Resolve Server"
 msgstr "启用将覆盖配置文件内的设置，请先在下方配置好服务器"
@@ -258,26 +258,26 @@ msgstr "启用将覆盖配置文件内的设置，请先在下方配置好服务
 msgid "DNS Server Group"
 msgstr "服务器分组"
 
-msgid "(NameServer Group Must Be Set)"
-msgstr "(NameServer 组必须设置)"
+msgid "NameServer Group Must Be Set"
+msgstr "NameServer 组必须设置至少一个"
 
 msgid "DNS Server Address"
 msgstr "服务器地址"
 
-msgid "(Do Not Add Type Ahead)"
-msgstr "(请勿添加类型前缀)"
+msgid "Do Not Add Type Ahead"
+msgstr "请勿添加类型前缀"
 
 msgid "DNS Server Port"
 msgstr "服务器端口"
 
-msgid "(Require When Use Non-Standard Port)"
-msgstr "(使用非标准端口时必须填写)"
+msgid "Require When Use Non-Standard Port"
+msgstr "使用非标准端口时必须填写"
 
 msgid "DNS Server Type"
 msgstr "服务器类型"
 
-msgid "(Communication protocol)"
-msgstr "(通讯协议)"
+msgid "Communication protocol"
+msgstr "通讯协议"
 
 msgid "Proxy IPv6 Traffic"
 msgstr "IPv6 流量代理"
@@ -428,6 +428,12 @@ msgstr "管理页面映射端口"
 
 msgid "Port For Dashboard Login From Public Network"
 msgstr "设置映射端口，便于从公网访问时自动登录"
+
+msgid "Public Dashboard SSL enabled"
+msgstr "管理页面公网SSL访问"
+
+msgid "Is SSL enabled For Dashboard Login From Public Network"
+msgstr "设置公网协议是否开启了SSL，便于从公网访问时自动登录"
 
 msgid "GEO Update"
 msgstr "GEO 数据库订阅"
@@ -726,6 +732,9 @@ msgstr "混淆参数（可选）"
 
 msgid "UDP Enable"
 msgstr "UDP 支持"
+
+msgid "XUDP Enable"
+msgstr "XUDP 支持"
 
 msgid "obfs-mode"
 msgstr "传输协议"
@@ -1447,6 +1456,9 @@ msgstr "大陆IPv6段更新URL"
 msgid "Custom Chnroute Lists URL"
 msgstr "大陆IP段更新URL"
 
+msgid "Custom CN Doamin Lists URL"
+msgstr "大陆域名列表文件更新URL"
+
 msgid "Custom GEOIP Data URL, Click Button Below To Refresh After Edit"
 msgstr "自定义 GEOIP 数据库的更新来源，编辑后点击下方按钮生效"
 
@@ -1458,6 +1470,9 @@ msgstr "自定义大陆 IP 段的更新来源，编辑后点击下方按钮生�
 
 msgid "Custom Chnroute6 Lists URL, Click Button Below To Refresh After Edit"
 msgstr "自定义大陆 IPv6 段的更新来源，编辑后点击下方按钮生效"
+
+msgid "Custom CN Doamin Dnsmasq Conf URL, Click Button Below To Refresh After Edit"
+msgstr "自定义大陆域名列表配置文件（Dnsmasq Conf）的更新来源，编辑后点击下方按钮生效"
 
 msgid "(Default)"
 msgstr "(默认)"
@@ -1564,7 +1579,7 @@ msgstr "开始下载"
 msgid "Download Successful, Start Pre Update Test..."
 msgstr "下载成功，开始进行更新前测试..."
 
-msgid "Pre Update Test Failed, The File is Saved in /tmp/opencrash.ipk, Please Try to Update Manually!"
+msgid "Pre Update Test Failed, The File is Saved in /tmp/openclash.ipk, Please Try to Update Manually!"
 msgstr "更新前测试失败，文件保存在 /tmp/openclash.ipk，请尝试手动更新！"
 
 msgid "Pre Update Test Passed, Ready to Update and Please Do not Refresh The Page and Other Operations..."
@@ -1717,11 +1732,17 @@ msgstr "开始下载大陆 IP 白名单..."
 msgid "Start Downloading The Chnroute6 Cidr List..."
 msgstr "开始下载大陆 IPv6 白名单..."
 
+msgid "Start Downloading The CN Domains List..."
+msgstr "开始下载大陆域名白名单..."
+
 msgid "Chnroute Cidr List Download Success, Check Updated..."
 msgstr "大陆 IP 白名单下载成功，检查版本是否更新..."
 
 msgid "Chnroute6 Cidr List Download Success, Check Updated..."
 msgstr "大陆 IPv6 白名单下载成功，检查版本是否更新..."
+
+msgid "CN Domains List Download Success, Check Updated..."
+msgstr "大陆域名白名单下载成功，检查版本是否更新..."
 
 msgid "Chnroute Cidr List Has Been Updated, Starting To Replace The Old Version..."
 msgstr "大陆 IP 白名单有更新，开始替换旧版本..."
@@ -1729,11 +1750,17 @@ msgstr "大陆 IP 白名单有更新，开始替换旧版本..."
 msgid "Chnroute6 Cidr List Has Been Updated, Starting To Replace The Old Version..."
 msgstr "大陆 IPv6 白名单有更新，开始替换旧版本..."
 
+msgid "CN Domains List Has Been Updated, Starting To Replace The Old Version..."
+msgstr "大陆域名白名单有更新，开始替换旧版本..."
+
 msgid "Chnroute Cidr List Update Successful!"
 msgstr "大陆 IP 白名单更新成功！"
 
 msgid "Chnroute6 Cidr List Update Successful!"
 msgstr "大陆 IPv6 白名单更新成功！"
+
+msgid "CN Domains List Update Successful!"
+msgstr "大陆域名白名单更新成功！"
 
 msgid "Updated Chnroute Cidr List No Change, Do Nothing..."
 msgstr "大陆 IP 白名单没有更新，停止继续操作..."
@@ -1741,11 +1768,17 @@ msgstr "大陆 IP 白名单没有更新，停止继续操作..."
 msgid "Updated Chnroute6 Cidr List No Change, Do Nothing..."
 msgstr "大陆 IPv6 白名单没有更新，停止继续操作..."
 
+msgid "Updated CN Domains List No Change, Do Nothing..."
+msgstr "大陆域名白名单没有更新，停止继续操作..."
+
 msgid "Chnroute Cidr List Update Error, Please Try Again Later..."
 msgstr "大陆 IP 白名单下载失败，请检查网络或稍后再试..."
 
 msgid "Chnroute6 Cidr List Update Error, Please Try Again Later..."
 msgstr "大陆 IPv6 白名单下载失败，请检查网络或稍后再试..."
+
+msgid "CN Domains List Update Error, Please Try Again Later..."
+msgstr "大陆域名白名单下载失败，请检查网络或稍后再试..."
 
 msgid "Start Downloading GeoSite Database..."
 msgstr "开始下载 GeoSite 数据库..."
@@ -1855,9 +1888,6 @@ msgstr "的信息读取失败，无法进行修改，请选择一键创建配置
 msgid "Setting Secondary DNS Server List..."
 msgstr "正在设置第二 DNS 服务器列表..."
 
-msgid "Setting Fake IP Filter..."
-msgstr "正在设置 Fake-IP 黑名单..."
-
 msgid "Deleting"
 msgstr "删除"
 
@@ -1942,8 +1972,11 @@ msgstr "提示: 检测到 GEOIP Dat 数据库文件不存在，准备开始下�
 msgid "Tip: Detected that the Core is not Installed, Ready to Download..."
 msgstr "提示: 检测到内核文件不存在，准备开始下载..."
 
-msgid "Tip: Detected that the Chnroute Cidr List is not Installed, Ready to Download..."
+msgid "Tip: Detected that the Chnroute Cidr or CN Domains List is not Installed, Ready to Download..."
 msgstr "提示: 检测到大陆白名单列表不存在，准备开始下载..."
+
+msgid "Tip: Detected that the Chnroute Cidr List Format is wrong, Ready to Reformat..."
+msgstr "提示: 检测到大陆白名单列表格式错误，准备重新格式化..."
 
 msgid "Error: Could Not Load The Capsh Library, Please Verify The Capsh Shell Library Work Well..."
 msgstr "错误：Capsh 异常，请尝试重新安装依赖【libcap】和相应的Capsh库，终止启动..."
@@ -1993,17 +2026,14 @@ msgstr "第五步: 检查内核启动状态..."
 msgid "Step 6: Wait For The File Downloading..."
 msgstr "第六步: 等待主程序下载外部文件..."
 
-msgid "Step 7: Set Control Panel..."
-msgstr "第七步: 设置控制面板..."
+msgid "Step 7: Set Firewall Rules..."
+msgstr "第七步: 设置防火墙规则..."
 
-msgid "Step 8: Set Firewall Rules..."
-msgstr "第八步: 设置防火墙规则..."
+msgid "Step 8: Restart Dnsmasq..."
+msgstr "第八步: 重启 Dnsmasq 程序..."
 
-msgid "Step 9: Restart Dnsmasq..."
-msgstr "第九步: 重启 Dnsmasq 程序..."
-
-msgid "Step 10: Add Cron Rules, Start Daemons..."
-msgstr "第十步: 添加计划任务,启动进程守护程序..."
+msgid "Step 9: Add Cron Rules, Start Daemons..."
+msgstr "第九步: 添加计划任务,启动进程守护程序..."
 
 msgid "OpenClash Start Successful!"
 msgstr "OpenClash 启动成功，请等待服务器上线！"
@@ -2059,8 +2089,8 @@ msgstr "守护程序：已尝试自动重启三次 Clash 内核，为防止频�
 msgid "Watchdog: Log Size Limit, Clean Up All Log Records..."
 msgstr "守护程序：因日志大小限制，清理所有日志内容..."
 
-msgid "Watchdog: Reset Firewall For Enabling Redirect..."
-msgstr "守护程序：检测到转发规则顺序错误，重置插件防火墙规则..."
+msgid "Watchdog: Setting Firewall For Enabling Redirect..."
+msgstr "守护程序：检测到转发规则顺序错误，修改插件防火墙规则..."
 
 msgid "Watchdog: Force Reset DNS Hijack..."
 msgstr "守护程序：重新设置 Dnsmasq 的 DNS 转发选项..."
@@ -2113,7 +2143,7 @@ msgstr "subconverter 外部配置(订阅转换模板)说明：https://github.com
 msgid "If you need to customize the external configuration file (subscription conversion template), please write it according to the instructions, upload it to the accessible location of the external network, and fill in the address correctly when using it"
 msgstr "如需自定义外部配置文件(订阅转换模板)，请按照说明编写后上传至外部网络可访问的位置，并在使用时正确填写地址"
 
-msgid "If you have a recommended external configuration file (subscription conversion template), you can modify by following The file format of /usr/share/opencrash/res/sub_ini.list and pr"
+msgid "If you have a recommended external configuration file (subscription conversion template), you can modify by following The file format of /usr/share/openclash/res/sub_ini.list and pr"
 msgstr "如您有值得推荐的外部配置文件(订阅转换模板)，可以按照 /usr/share/openclash/res/sub_ini.list 的文件格式修改后提交PR"
 
 msgid "Note: To restore the default configuration, try accessing:"
@@ -2423,7 +2453,7 @@ msgid "Core Log"
 msgstr "内核日志"
 
 msgid "Append Upstream DNS"
-msgstr "追加上游DNS"
+msgstr "追加上游 DNS"
 
 msgid "Append The Upstream Assigned DNS And Gateway IP To The Nameserver"
 msgstr "将上游分配的 DNS 和网关 IP 追加到 Nameserver"
@@ -2572,6 +2602,12 @@ msgstr "提示：开始自动选择（检测）Paramount Plus 解锁节点..."
 msgid "Tip: Start Auto Select Proxy For Discovery Plus Unlock..."
 msgstr "提示：开始自动选择（检测）Discovery Plus 解锁节点..."
 
+msgid "Tip: Start Auto Select Proxy For Bilibili Unlock..."
+msgstr "提示：开始自动选择（检测）Bilibili 解锁节点..."
+
+msgid "Tip: Start Auto Select Proxy For Google Not CN Unlock..."
+msgstr "提示：开始自动选择（检测）Google 非送中节点..."
+
 msgid "Netflix Group:"
 msgstr "Netflix 策略组："
 
@@ -2605,8 +2641,14 @@ msgstr "Paramount Plus 策略组："
 msgid "Discovery Plus Group:"
 msgstr "Discovery Plus 策略组："
 
-msgid "full support."
-msgstr "完整解锁。"
+msgid "Bilibili Group:"
+msgstr "Bilibili 策略组："
+
+msgid "Google Group:"
+msgstr "Google 策略组："
+
+msgid "full support"
+msgstr "完整解锁"
 
 msgid "full support, area:"
 msgstr "完整解锁，区域："
@@ -2617,8 +2659,8 @@ msgstr "仅支持自制剧！"
 msgid "unlock test faild!"
 msgstr "解锁检测失败！"
 
-msgid "the type of group is not select, auto select could not work!"
-msgstr "当前策略组类型非Select，无法进行自动选择！"
+msgid ", the type of group is not select, auto select could not work!"
+msgstr "，当前策略组类型非Select，无法进行自动选择！"
 
 msgid "Start auto select unlock proxy..."
 msgstr "开始进行解锁节点自动选择..."
@@ -2668,17 +2710,35 @@ msgstr "根据关键字搜索且自动获取策略组失败，请确认关键字
 msgid "unlock node auto selected failed, no node match the regex, rolled back to other full support node"
 msgstr "解锁节点自动选择失败，未找到区域匹配的节点，回退到其他区域的解锁节点"
 
-msgid "full support but not match the regex!"
-msgstr "完整解锁但区域不匹配！"
+msgid "unlock node auto selected successfully, no node match the old region, rolled back to other full support node"
+msgstr "解锁节点自动选择成功，未找到与先前解锁区域匹配的节点，回退到其他区域且符合条件的解锁节点"
 
-msgid "but not match the regex! the type of group is not select, auto select could not work!"
-msgstr "完整解锁但区域不匹配！当前策略组类型非 Select，无法进行自动选择！"
+msgid ", but not match the regex!"
+msgstr "，但区域与设置不匹配！"
 
-msgid "full support but not match the regex! start auto select unlock proxy..."
-msgstr "完整解锁但区域不匹配！开始进行解锁节点自动选择..."
+msgid "full support but not match the old region!"
+msgstr "完整解锁但与先前解锁区域不匹配！"
+
+msgid ", but not match the old region:"
+msgstr "，但不匹配先前解锁区域："
+
+msgid "the type of group is not select, auto select could not work!"
+msgstr "当前策略组类型非 Select，无法进行自动选择！"
+
+msgid "，but not match the regex! the type of group is not select, auto select could not work!"
+msgstr "完整解锁但区域与设置不匹配！当前策略组类型非 Select，无法进行自动选择！"
+
+msgid "but not match the old region! the type of group is not select, auto select could not work!"
+msgstr "但与先前解锁区域不匹配！当前策略组类型非 Select，无法进行自动选择！"
+
+msgid ", but not match the regex! start auto select unlock proxy..."
+msgstr "，但区域与设置不匹配！开始进行解锁节点自动选择..."
 
 msgid "unlock node test finished, rolled back to the full support node"
 msgstr "解锁检测完成，回退到完整解锁的节点"
+
+msgid "unlock node test finished, no node match the old region, rolled back to other full support node"
+msgstr "解锁检测完成，未找到与先前解锁区域匹配的节点，回退到其他区域的解锁节点"
 
 msgid "unlock node test finished, no node match the regex, rolled back to other full support node"
 msgstr "解锁检测完成，未找到区域匹配的节点，回退到其他区域的解锁节点"
@@ -2698,7 +2758,7 @@ msgstr "Redir-Host 模式强制进行远程域名解析"
 msgid "Bypass Gateway Compatible"
 msgstr "旁路网关（旁路由）兼容"
 
-msgid "If The Ntwork Cannot be Connected in Bypass Gateway Mode, Please Try to Enable."
+msgid "If The Network Cannot be Connected in Bypass Gateway Mode, Please Try to Enable."
 msgstr "旁路网关（旁路由）模式下网络无法连接时请尝试启用。"
 
 msgid "Suggestion: If The Device Does Not Have WLAN, Please Disable The Lan Interface's Bridge Option"
@@ -2801,10 +2861,13 @@ msgid "Sub Info Get Error"
 msgstr "订阅信息获取失败"
 
 msgid "Router-Self Proxy"
-msgstr "路由本机代理"
+msgstr "*路由本机代理"
 
-msgid "Only Supported for Rule Mode, ALL Functions In Stream Enhance Tag Will Not Work After Disable"
-msgstr "仅支持规则（Rule）模式，其他模式默认分流，禁用后将无法使用流媒体增强标签中的所有功能"
+msgid "Only Supported for Rule Mode"
+msgstr "仅支持规则（Rule）模式，其他模式默认分流"
+
+msgid "ALL Functions In Stream Enhance Tag Will Not Work After Disable"
+msgstr "禁用后将无法使用流媒体增强标签中的所有功能"
 
 msgid "Error: Set Router Self Proxy Rule Failed,"
 msgstr "错误：修改路由自身代理规则失败，"
@@ -2893,8 +2956,17 @@ msgstr "注意: 连接异常时请按照此页步骤先进行检查"
 msgid "Click to the page"
 msgstr "点击前往"
 
+msgid "Only Meta Core"
+msgstr "仅 Meta 内核"
+
 msgid "(Only Meta Core)"
 msgstr "（仅 Meta 内核）"
+
+msgid "(Only TUN Core)"
+msgstr "（仅 TUN 内核）"
+
+msgid "(TUN&Meta Core)"
+msgstr "（TUN&Meta 内核）"
 
 msgid "Warning: Only Meta Core Support QUIC Type DNS, Skip"
 msgstr "警告：仅 Meta 内核支持 QUIC 类型的 DNS，跳过"
@@ -2934,3 +3006,213 @@ msgstr "*启用 TCP 并发"
 
 msgid "TCP Concurrent Request IPs, Choose The Lowest Latency One To Connection"
 msgstr "TCP 并发请求所有 IP 地址，然后选择延迟最低的一个进行连接"
+
+msgid "Remaining"
+msgstr "剩余"
+
+msgid "days"
+msgstr "天"
+
+msgid "Douyin"
+msgstr "抖音（Douyin）"
+
+msgid "Warning: Skip the Custom Rule that Core not Support"
+msgstr "警告：跳过核心不支持的自定义规则"
+
+msgid "Specific Interface"
+msgstr "指定接口"
+
+msgid "DNS Lookup Only Through The Specific Interface"
+msgstr "DNS 仅通过特定接口进行查询"
+
+msgid "Specific Group"
+msgstr "指定策略组"
+
+msgid "Group Use For Proxy The DNS"
+msgstr "用于代理此 DNS 的策略组"
+
+msgid "Warning: Only Meta Core Support Specific Group, Skip Setting"
+msgstr "警告：仅 Meta 内核支持指定 DNS 的策略组，跳过设置"
+
+msgid "Node Domain Resolve"
+msgstr "节点域名解析"
+
+msgid "Use For Node Domain Resolve"
+msgstr "用于解析节点域名的 IP 地址"
+
+msgid "Warning: Only Meta Core Support proxy-server-nameserver, Skip Setting"
+msgstr "警告：仅 Meta 内核支持设置解析节点域名的 DNS，跳过设置"
+
+msgid "Warning: Meta Core not Support Specific Interface, Skip Setting"
+msgstr "警告：Meta 内核不支持设置指定 DNS 的出口，跳过设置"
+
+msgid "Warning: Only Meta Core Support Force HTTP/3 to connect, Skip Setting"
+msgstr "警告：仅 Meta 内核支持 DOH 强制启用 HTTP/3，跳过设置"
+
+msgid "Lan Bypassed Port List"
+msgstr "绕过核心的来源端口"
+
+msgid "The Traffic From The Local Specified Port Will Not Pass The Core, Try To Set When The Bypass Gateway Forwarding Fails"
+msgstr "来自本地指定端口的流量不会通过核心，在旁路网关（旁路由）下转发失败时尝试设置"
+
+msgid "Local IPv4 Network Bypassed List"
+msgstr "本地 IPv4 绕过地址"
+
+msgid "Local IPv6 Network Bypassed List"
+msgstr "本地 IPv6 绕过地址"
+
+msgid "The Traffic of The Destination For The Specified Address Will Not Pass The Core"
+msgstr "目的地为指定地址的流量不会通过核心"
+
+msgid "Only Meta Core Support SS2022"
+msgstr "仅 Meta 内核支持 SS2022"
+
+msgid "Force HTTP/3"
+msgstr "强制 HTTP/3"
+
+msgid "Force HTTP/3 to connect"
+msgstr "强制使用 HTTP/3 进行连接"
+
+msgid "Control Panel"
+msgstr "控制面板"
+
+msgid "Unzip Error!"
+msgstr "解压失败！"
+
+msgid "Unzip Error"
+msgstr "解压失败"
+
+msgid "Switch To Official Version"
+msgstr "切换至官方版本"
+
+msgid "Switch To Meta Version"
+msgstr "切换至 Meta 版本"
+
+msgid "Switch(Update) Dashboard Version"
+msgstr "切换（更新） Dashboard 版本"
+
+msgid "Switch(Update) Yacd Version"
+msgstr "切换（更新） Yacd 版本"
+
+msgid "Downloading File..."
+msgstr "文件下载中..."
+
+msgid "Switch Failed"
+msgstr "切换失败"
+
+msgid "Switch Successful"
+msgstr "切换成功"
+
+msgid "Close Old Connections"
+msgstr "关闭旧链接"
+
+msgid "Automatically Close Old Connections When New Unlock Node Selected"
+msgstr "解锁节点切换时关闭对应策略组的所有旧链接"
+
+msgid "Append Default DNS"
+msgstr "追加默认 DNS"
+
+msgid "Automatically Append Compliant DNS to default-nameserver"
+msgstr "自动将符合要求的 DNS 追加到 default-nameserver"
+
+msgid "China Mainland Only"
+msgstr "大陆限定"
+
+msgid "Hongkong/Macau/Taiwan"
+msgstr "港澳台限定"
+
+msgid "Taiwan Only"
+msgstr "台湾限定"
+
+msgid "Backup Section"
+msgstr "插件备份"
+
+msgid "Backup Exclude Cores"
+msgstr "不备份内核"
+
+msgid "Backup Core"
+msgstr "仅备份内核"
+
+msgid "Backup Config"
+msgstr "仅备份配置文件"
+
+msgid "Backup Rule Provider"
+msgstr "仅备份规则集"
+
+msgid "Backup Proxy Provider"
+msgstr "仅备份代理集"
+
+msgid "Chnroute Bypassed List"
+msgstr "绕过中国大陆 IPv4 黑名单"
+
+msgid "Chnroute6 Bypassed List"
+msgstr "绕过中国大陆 IPv6 黑名单"
+
+msgid "Domains or IPs in The List Will Not be Affected by The China IP Route Option, Depend on Dnsmasq"
+msgstr "列表中的域名或 IP 将不会受到绕过中国大陆 IP 选项的影响，此功能依赖于 Dnsmasq"
+
+msgid "Warning: You May Need to Turn off The Rebinding Protection Option of Dnsmasq When Hosts Has Set a Reserved Address"
+msgstr "警告：Hosts 设置了保留地址时可能需要关闭 dnsmasq 的重绑定保护选项才能生效"
+
+msgid "LAN Block Google DNS IP List"
+msgstr "实验性：屏蔽 Google DNS 的局域网设备 IP"
+
+msgid "LAN Block Google DNS Mac List"
+msgstr "实验性：屏蔽 Google DNS 的局域网设备 Mac"
+
+msgid "Auto Select Logic"
+msgstr "自动选择逻辑"
+
+msgid "Urltest"
+msgstr "低延迟优先"
+
+msgid "Random"
+msgstr "随机选择"
+
+msgid "Tip: You have seted the authentication of SOCKS5/HTTP(S) proxy with"
+msgstr "提示：您为 SOCKS5/HTTP(S) 代理设置的账户密码为"
+
+msgid "Google Not CN"
+msgstr "Google 非送中"
+
+msgid "In Fake-ip Mode, Even If This Option is Turned Off, Domain Type Connections Still Pass Through The Core For The Availability"
+msgstr "在 Fake-IP 模式时，即使关闭此选项，域名类型的连接仍将通过核心以保证可用性"
+
+msgid "Warning: TUN Interface Start Failed, Please Check The Dependence or Try to Restart Again!"
+msgstr "警告：TUN 接口启动失败，请检查依赖情况或稍后重试！"
+
+msgid "Warning: TUN Interface Start Failed, Try to Restart Again..."
+msgstr "警告：TUN 接口启动失败，尝试重启内核..."
+
+msgid "Forced Sniff Pure IP Connections"
+msgstr "强制探测（嗅探）所有纯 IP 的连接"
+
+msgid "Forced Sniff Pure IP"
+msgstr "探测（嗅探）纯 IP 连接"
+
+msgid "Download Failed:"
+msgstr "下载失败："
+
+msgid "Tip: Waiting for TUN Interface Start..."
+msgstr "提示：正在等待 TUN 接口启动..."
+
+msgid "Tip: You Can Try to Restart With Meta Core"
+msgstr "提示：您可以尝试使用 Meta 内核启动"
+
+msgid "Warning: Dnsmasq not Support nftset, Use ipset..."
+msgstr "警告：Dnsmasq 不支持 nftset, 使用 ipset 代替..."
+
+msgid "Tip: Firewall4 was Detected, Use NFTABLE Rules..."
+msgstr "提示：检测到 Firewall4，使用 NFTABLE 规则..."
+
+msgid "Specify CN DNS Server"
+msgstr "大陆域名 DNS 服务器"
+
+msgid "Specify DNS Server For CN Domain Lists, Only One IP Server Address Support"
+msgstr "指定大陆域名的 DNS 服务器，只支持填写一个IP地址"
+
+msgid "Tip: Dnsmasq Work is Normal, Restore The Firewall DNS Hijacking Rules..."
+msgstr "提示：检测到 Dnsmasq 正常工作，还原防火墙 DNS 劫持规则..."
+
+msgid "Tip: Bypass the China IP May Cause the Dnsmasq Load For a Long Time After Restart in FAKE-IP Mode, Hijack the DNS to Core Untill the Dnsmasq Works Well..."
+msgstr "提示：在 FAKE-IP 模式下绕过中国 IP 可能会导致 Dnsmasq 加载时间过长，暂时劫持 DNS 至内核直到 Dnsmasq 正常工作..."

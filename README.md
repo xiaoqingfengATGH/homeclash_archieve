@@ -6,11 +6,11 @@ HomeClash
 	<a target="_blank" href="https://github.com/Dreamacro/clash/releases/tag/v1.10.6">
     <img src="https://img.shields.io/badge/Clash-v1.10.6-blue.svg">
   </a>
-  <a target="_blank" href="https://github.com/vernesong/OpenClash/tree/v0.45.16-beta">
-    <img src="https://img.shields.io/badge/source code-v0.45.16--beta-green.svg">
+  <a target="_blank" href="https://github.com/vernesong/OpenClash/tree/v0.45.70-beta">
+    <img src="https://img.shields.io/badge/source code-v0.45.70--beta-green.svg">
   </a>
-  <a target="_blank" href="https://github.com/vernesong/OpenClash/releases/tag/v0.45.16-beta">
-    <img src="https://img.shields.io/badge/New Release-v0.45.16--beta-orange.svg">
+  <a target="_blank" href="https://github.com/vernesong/OpenClash/releases/tag/v0.45.70-beta">
+    <img src="https://img.shields.io/badge/New Release-v0.45.70--beta-orange.svg">
   </a>
   </p>
   
@@ -44,7 +44,6 @@ HomeClash
 
 * luci
 * luci-base
-* iptables
 * dnsmasq-full
 * coreutils
 * coreutils-nohup
@@ -53,26 +52,30 @@ HomeClash
 * ca-certificates
 * ipset
 * ip-full
-* iptables-mod-tproxy
-* iptables-mod-extra
 * libcap
 * libcap-bin
 * ruby
 * ruby-yaml
+* unzip
+* iptables(iptables)
+* kmod-ipt-nat(iptables)
+* iptables-mod-tproxy(iptables)
+* iptables-mod-extra(iptables)
 * kmod-tun(TUN模式)
-* luci-compat(Luci-19.07)
-* ip6tables-mod-nat(ipv6)
+* luci-compat(Luci >= 19.07)
+* ip6tables-mod-nat(iptables-ipv6)
 * kmod-inet-diag(PROCESS-NAME)
+* kmod-nft-tproxy(Firewall4)
 
 
 编译
 ---
 
 
-从 OpenWrt 的 [SDK](http://wiki.openwrt.org/doc/howto/obtain.firmware.sdk) 编译
+从 OpenWrt 的 [SDK](https://archive.openwrt.org/snapshots/trunk/ar71xx/generic/OpenWrt-SDK-ar71xx-generic_gcc-5.3.0_musl-1.1.16.Linux-x86_64.tar.bz2) 编译
 ```bash
 # 解压下载好的 SDK
-tar xjf OpenWrt-SDK-ar71xx-for-linux-x86_64-gcc-4.8-linaro_uClibc-0.9.33.2.tar.bz2
+tar xjf OpenWrt-SDK-ar71xx-generic_gcc-5.3.0_musl-1.1.16.Linux-x86_64.tar.bz2
 cd OpenWrt-SDK-ar71xx-*
 
 # Clone 项目
@@ -135,6 +138,11 @@ make menuconfig
 * PayPal
 <p align="left">
     <a href="https://ko-fi.com/vernesong"><img width="300" src="https://www.ko-fi.com/img/githubbutton_sm.svg"> </a>
+</p>
+
+* USDT-TRC20
+<p align="left">
+    <img width="300" src="https://github.com/vernesong/OpenClash/raw/master/img/USDT-Wallet.png">
 </p>
 
 * 比特币-BTC

@@ -42,7 +42,7 @@ function IsYmlFile(e)
 end
 
 -- [[ Edit Game Rule ]] --
-s = m:section(TypedSection, "game_config", translate("Game Rules and Groups (Only TUN Core Support)"))
+s = m:section(TypedSection, "game_config", translate("Game Rules and Groups (Only TUN & Meta Core Support)"))
 s.anonymous = true
 s.addremove = true
 s.sortable = true
@@ -93,18 +93,32 @@ o.rmempty = true
 
 ---- Proxy Group
 o = s:option(ListValue, "group", translate("Select Proxy Group"))
-uci:foreach("openclash", "groups",
-		function(s)
-		  if s.name ~= "" and s.name ~= nil then
-			   o:value(s.name)
+local groupnames,filename
+filename = m.uci:get(openclash, "config", "config_path")
+if filename then
+	groupnames = SYS.exec(string.format('ruby -ryaml -rYAML -I "/usr/share/openclash" -E UTF-8 -e "YAML.load_file(\'%s\')[\'proxy-groups\'].each do |i| puts i[\'name\']+\'##\' end" 2>/dev/null',filename))
+	if groupnames then
+		for groupname in string.gmatch(groupnames, "([^'##\n']+)##") do
+			if groupname ~= nil and groupname ~= "" then
+			  o:value(groupname)
 			end
-		end)
+		end
+	end
+end
+
+uci:foreach("openclash", "groups",
+    function(s)
+      if s.name ~= "" and s.name ~= nil then
+        o:value(s.name)
+      end
+    end)
+
 o:value("DIRECT")
 o:value("REJECT")
 o.rmempty = true
 
 -- [[ Edit Other Rule Provider ]] --
-s = m:section(TypedSection, "rule_provider_config", translate("Other Rule Providers and Groups (Only TUN Core Support)"))
+s = m:section(TypedSection, "rule_provider_config", translate("Other Rule Providers and Groups (Only TUN & Meta Core Support)"))
 s.anonymous = true
 s.addremove = true
 s.sortable = true
@@ -155,12 +169,26 @@ o.rmempty = true
 
 ---- Proxy Group
 o = s:option(ListValue, "group", translate("Select Proxy Group"))
-uci:foreach("openclash", "groups",
-		function(s)
-		  if s.name ~= "" and s.name ~= nil then
-			   o:value(s.name)
+local groupnames,filename
+filename = m.uci:get(openclash, "config", "config_path")
+if filename then
+	groupnames = SYS.exec(string.format('ruby -ryaml -rYAML -I "/usr/share/openclash" -E UTF-8 -e "YAML.load_file(\'%s\')[\'proxy-groups\'].each do |i| puts i[\'name\']+\'##\' end" 2>/dev/null',filename))
+	if groupnames then
+		for groupname in string.gmatch(groupnames, "([^'##\n']+)##") do
+			if groupname ~= nil and groupname ~= "" then
+			  o:value(groupname)
 			end
-		end)
+		end
+	end
+end
+
+uci:foreach("openclash", "groups",
+    function(s)
+      if s.name ~= "" and s.name ~= nil then
+        o:value(s.name)
+      end
+    end)
+
 o:value("DIRECT")
 o:value("REJECT")
 o.rmempty = true
@@ -176,7 +204,7 @@ o:value("0", translate("Priority Match"))
 o:value("1", translate("Extended Match"))
 
 -- [[ Edit Custom Rule Provider ]] --
-s = m:section(TypedSection, "rule_providers", translate("Custom Rule Providers and Groups (Only TUN Core Support)"))
+s = m:section(TypedSection, "rule_providers", translate("Custom Rule Providers and Groups (Only TUN & Meta Core Support)"))
 s.anonymous = true
 s.addremove = true
 s.sortable = true

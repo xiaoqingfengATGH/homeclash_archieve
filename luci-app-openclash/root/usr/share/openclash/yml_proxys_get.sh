@@ -27,13 +27,13 @@ sub_info_get()
 ruby_read_hash()
 {
    RUBY_YAML_PARSE="Thread.new{Value = $1; puts Value$2}.join"
-   ruby -ryaml -E UTF-8 -e "$RUBY_YAML_PARSE" 2>/dev/null
+   ruby -ryaml -rYAML -I "/usr/share/openclash" -E UTF-8 -e "$RUBY_YAML_PARSE" 2>/dev/null
 }
 
 ruby_read()
 {
    RUBY_YAML_PARSE="Thread.new{Value = YAML.load_file('$1'); puts Value$2}.join"
-   ruby -ryaml -E UTF-8 -e "$RUBY_YAML_PARSE" 2>/dev/null
+   ruby -ryaml -rYAML -I "/usr/share/openclash" -E UTF-8 -e "$RUBY_YAML_PARSE" 2>/dev/null
 }
 
 CONFIG_FILE=$(uci get openclash.config.config_path 2>/dev/null)
@@ -232,7 +232,7 @@ do
       ${uci_set}name="$provider_name"
       ${uci_set}type="$provider_type"
    fi
-   ruby -ryaml -E UTF-8 -e "
+   ruby -ryaml -rYAML -I "/usr/share/openclash" -E UTF-8 -e "
    begin
    Value = $proxy_hash;
    Thread.new{
@@ -312,7 +312,7 @@ do
       config_load "openclash"
       config_list_foreach "config" "new_servers_group" cfg_new_provider_groups_get
    elif [ "$servers_if_update" != "1" ]; then
-      ruby -ryaml -E UTF-8 -e "
+      ruby -ryaml -rYAML -I "/usr/share/openclash" -E UTF-8 -e "
       Thread.new{
       begin
          Value = ${group_hash};
@@ -435,7 +435,7 @@ do
       ${uci_set}type="$server_type"
    fi
 
-   ruby -ryaml -E UTF-8 -e "
+   ruby -ryaml -rYAML -I "/usr/share/openclash" -E UTF-8 -e "
    begin
    Value = $proxy_hash;
    Thread.new{
@@ -606,6 +606,38 @@ do
       }.join
       
       Thread.new{
+      #xudp
+      if Value['proxies'][$count].key?('xudp') then
+         xudp = '${uci_set}xudp=' + Value['proxies'][$count]['xudp'].to_s
+         system(xudp)
+      end
+      }.join;
+
+      Thread.new{
+      #packet_encoding
+      if Value['proxies'][$count].key?('packet-encoding') then
+         packet_encoding = '${uci_set}packet_encoding=' + Value['proxies'][$count]['packet-encoding'].to_s
+         system(packet_encoding)
+      end
+      }.join;
+
+      Thread.new{
+      #GlobalPadding
+      if Value['proxies'][$count].key?('global-padding') then
+         global_padding = '${uci_set}global_padding=' + Value['proxies'][$count]['global-padding'].to_s
+         system(global_padding)
+      end
+      }.join;
+
+      Thread.new{
+      #authenticated_length
+      if Value['proxies'][$count].key?('authenticated-length') then
+         authenticated_length = '${uci_set}authenticated_length=' + Value['proxies'][$count]['authenticated-length'].to_s
+         system(authenticated_length)
+      end
+      }.join;
+      
+      Thread.new{
       #tls
       if Value['proxies'][$count].key?('tls') then
          tls = '${uci_set}tls=' + Value['proxies'][$count]['tls'].to_s
@@ -727,6 +759,147 @@ do
       end
       }.join
    end;
+
+   if '$server_type' == 'hysteria' then
+      Thread.new{
+      #hysteria_protocol
+      if Value['proxies'][$count].key?('protocol') then
+         hysteria_protocol = '${uci_set}hysteria_protocol=' + Value['proxies'][$count]['protocol'].to_s
+         system(hysteria_protocol)
+      end
+      }.join
+
+      Thread.new{
+      #up_mbps
+      if Value['proxies'][$count].key?('up_mbps') then
+         up_mbps = '${uci_set}up_mbps=' + Value['proxies'][$count]['up_mbps'].to_s
+         system(up_mbps)
+      end
+      }.join
+
+      Thread.new{
+      #down_mbps
+      if Value['proxies'][$count].key?('down_mbps') then
+         down_mbps = '${uci_set}down_mbps=' + Value['proxies'][$count]['down_mbps'].to_s
+         system(down_mbps)
+      end
+      }.join
+
+      Thread.new{
+      #hysteria_up
+      if Value['proxies'][$count].key?('up') then
+         hysteria_up = '${uci_set}hysteria_up=' + Value['proxies'][$count]['up'].to_s
+         system(hysteria_up)
+      end
+      }.join
+
+      Thread.new{
+      #hysteria_down
+      if Value['proxies'][$count].key?('down') then
+         hysteria_down = '${uci_set}hysteria_down=' + Value['proxies'][$count]['down'].to_s
+         system(hysteria_down)
+      end
+      }.join
+
+      Thread.new{
+      #skip-cert-verify
+      if Value['proxies'][$count].key?('skip-cert-verify') then
+         skip_cert_verify = '${uci_set}skip_cert_verify=' + Value['proxies'][$count]['skip-cert-verify'].to_s
+         system(skip_cert_verify)
+      end
+      }.join
+
+      Thread.new{
+      #sni
+      if Value['proxies'][$count].key?('sni') then
+         sni = '${uci_set}sni=\"' + Value['proxies'][$count]['sni'].to_s + '\"'
+         system(sni)
+      end
+      }.join
+
+      Thread.new{
+      #alpn
+      if Value['proxies'][$count].key?('alpn') then
+         system '${uci_del}hysteria_alpn >/dev/null 2>&1'
+         if Value['proxies'][$count].key?('alpn').class.to_s != 'Array' then
+            alpn = '${uci_add}hysteria_alpn=\"' + Value['proxies'][$count]['alpn'].to_s + '\"'
+            system(alpn)
+         else
+            Value['proxies'][$count]['alpn'].each{
+            |x|
+               alpn = '${uci_add}hysteria_alpn=\"' + x.to_s + '\"'
+               system(alpn)
+            }
+         end
+      end;
+      }.join
+
+      Thread.new{
+      #recv_window_conn
+      if Value['proxies'][$count].key?('recv_window_conn') then
+         recv_window_conn = '${uci_set}recv_window_conn=' + Value['proxies'][$count]['recv_window_conn'].to_s
+         system(recv_window_conn)
+      end
+      }.join
+
+      Thread.new{
+      #recv_window
+      if Value['proxies'][$count].key?('recv_window') then
+         recv_window = '${uci_set}recv_window=' + Value['proxies'][$count]['recv_window'].to_s
+         system(recv_window)
+      end
+      }.join
+
+      Thread.new{
+      #hysteria_obfs
+      if Value['proxies'][$count].key?('obfs') then
+         hysteria_obfs = '${uci_set}hysteria_obfs=' + Value['proxies'][$count]['obfs'].to_s
+         system(hysteria_obfs)
+      end
+      }.join
+
+      Thread.new{
+      #hysteria_auth
+      if Value['proxies'][$count].key?('auth') then
+         hysteria_auth = '${uci_set}hysteria_auth=' + Value['proxies'][$count]['auth'].to_s
+         system(hysteria_auth)
+      end
+      }.join
+
+      Thread.new{
+      #hysteria_auth_str
+      if Value['proxies'][$count].key?('auth_str') then
+         hysteria_auth_str = '${uci_set}hysteria_auth_str=' + Value['proxies'][$count]['auth_str'].to_s
+         system(hysteria_auth_str)
+      end
+      }.join
+
+      Thread.new{
+      #hysteria_ca
+      if Value['proxies'][$count].key?('ca') then
+         hysteria_ca = '${uci_set}hysteria_ca=' + Value['proxies'][$count]['ca'].to_s
+         system(hysteria_ca)
+      end
+      }.join
+
+      Thread.new{
+      #hysteria_ca_str
+      if Value['proxies'][$count].key?('ca_str') then
+         hysteria_ca_str = '${uci_set}hysteria_ca_str=' + Value['proxies'][$count]['ca_str'].to_s
+         system(hysteria_ca_str)
+      end
+      }.join
+
+      Thread.new{
+      #disable_mtu_discovery
+      if Value['proxies'][$count].key?('disable_mtu_discovery') then
+         disable_mtu_discovery = '${uci_set}disable_mtu_discovery=' + Value['proxies'][$count]['disable_mtu_discovery'].to_s
+         system(disable_mtu_discovery)
+      end
+      }.join
+
+   end;
+
    if '$server_type' == 'vless' then
       Thread.new{
       #uuid
@@ -804,6 +977,7 @@ do
       end
       }.join
    end;
+
    if '$server_type' == 'snell' then
       Thread.new{
       if Value['proxies'][$count].key?('obfs-opts') then
@@ -864,6 +1038,18 @@ do
          system(skip_cert_verify)
       end
       }.join
+
+      Thread.new{
+      #http-headers:
+      if Value['proxies'][$count].key?('headers') then
+         system '${uci_del}http_headers >/dev/null 2>&1'
+         Value['proxies'][$count]['headers'].keys.each{
+         |v|
+            http_headers = '${uci_add}http_headers=\"' + v.to_s + ': '+ Value['proxies'][$count]['headers'][v].to_s + '\"'
+            system(http_headers)
+         }
+      end
+      }.join
    else
       Thread.new{
       if Value['proxies'][$count].key?('password') then
@@ -871,7 +1057,7 @@ do
          system(password)
       end
       }.join
-	 end;
+	end;
    if '$server_type' == 'http' or '$server_type' == 'trojan' then
       Thread.new{
       if Value['proxies'][$count].key?('sni') then
@@ -945,7 +1131,7 @@ do
       config_load "openclash"
       config_list_foreach "config" "new_servers_group" cfg_new_servers_groups_get
    elif [ "$servers_if_update" != "1" ]; then
-      ruby -ryaml -E UTF-8 -e "
+      ruby -ryaml -rYAML -I "/usr/share/openclash" -E UTF-8 -e "
       Thread.new{
       begin
          Value = ${group_hash};
